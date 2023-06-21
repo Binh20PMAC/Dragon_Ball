@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     private float player_energy = 15f;
     private float enemy_energy = 15f;
     private float health = 0;
+    private float health_enemy = 0;
 
 
     public TMP_Text countdownText;
@@ -33,13 +34,24 @@ public class UIManager : MonoBehaviour
     }
     public void DisplayHealth(float value, bool isPlayer)
     {
-        if (health == 0)
-            health = value;
+        if (isPlayer)
+        {
+            if (health == 0)
+                health = value;
 
-        value /= health;
-        if (value < 0f)
-            value = 0f;
+            value /= health;
+            if (value < 0f)
+                value = 0f;
+        }
+        if (!isPlayer)
+        {
+            if (health_enemy == 0)
+                health_enemy = value;
 
+            value /= health_enemy;
+            if (value < 0f)
+                value = 0f;
+        }
         if (isPlayer && player_health_UI != null)
         {
             player_health_UI.fillAmount = value;
@@ -51,7 +63,7 @@ public class UIManager : MonoBehaviour
     }
     public void DisplayEnergy(float value, bool isPlayer)
     {
-        value /= 100f; // Chia giá tr? n?ng l??ng cho 100 ?? n?m trong kho?ng t? 0 -> 1
+        value /= 100f; 
         if (value < 0f)
             value = 0f;
 
@@ -81,9 +93,8 @@ public class UIManager : MonoBehaviour
         countdownText.text = "Fight!";
         yield return new WaitForSeconds(1f);
 
-        // G?i ph??ng th?c b?t ??u tr?n ??u t?i ?ây
-
-        countdownText.gameObject.SetActive(false); // T?t hi?n th? màn hình ??m ng??c
+       
+        countdownText.gameObject.SetActive(false); 
     }
 }
 

@@ -1202,10 +1202,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 16.776491
-  m_Height: 70
+  m_Radius: 9.186542
+  m_Height: 72.46819
   m_Direction: 1
-  m_Center: {x: -3.2235062, y: 36.025204, z: 1.1199199e-15}
+  m_Center: {x: 4.366449, y: 34.79114, z: 2.141344e-14}
 --- !u!95 &3053752519215069711
 Animator:
   serializedVersion: 5
@@ -1216,7 +1216,7 @@ Animator:
   m_GameObject: {fileID: 2783350383891498415}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f356c692b190d3144a2d597e776ceb4f, type: 2}
+  m_Controller: {fileID: 9100000, guid: 60c07e9f2f526a74491da02aa6567e41, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1258,6 +1258,7 @@ MonoBehaviour:
   jumpForce: 1000
   isOnGround: 1
   isFlipped: 0
+  isKnockDown: 0
   collisionLayer:
     serializedVersion: 2
     m_Bits: 0

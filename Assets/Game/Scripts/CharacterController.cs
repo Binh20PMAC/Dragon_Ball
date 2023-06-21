@@ -27,6 +27,7 @@ public class CharacterController : MonoBehaviour
     public bool isOnGround = true;
     private bool isJump = false;
     public bool isFlipped = false;
+    public bool isKnockDown = false;
 
     // Collider
     public LayerMask collisionLayer;
@@ -50,7 +51,7 @@ public class CharacterController : MonoBehaviour
 
     void Awake()
     {
-        
+
         if (LayerMask.LayerToName(gameObject.layer) == "Player")
         {
             health_UI = GameObject.Find("UICode").GetComponent<UIManager>();
@@ -110,88 +111,186 @@ public class CharacterController : MonoBehaviour
     }
     void Movement()
     {
-        if (Input.GetKey(KeyCode.D) && !isJump)
-        {
-            transform.Translate(w_speed * Time.deltaTime, 0, 0, 0);
-
-            if (isFlipped)
-            {
-                playerAnim.SetTrigger("walkback");
-                isWalking = false;
-            }
-            else
-            {
-                playerAnim.SetTrigger("walk");
-                isWalking = true;
-            }
-            playerAnim.ResetTrigger("idle");
-        }
-        else if (Input.GetKey(KeyCode.A) && !isJump)
-        {
-            transform.Translate(-w_speed * Time.deltaTime, 0, 0, 0);
-
-            if (isFlipped)
-            {
-                playerAnim.SetTrigger("walk");
-            }
-            else
-            {
-                playerAnim.SetTrigger("walkback");
-            }
-            playerAnim.ResetTrigger("idle");
-        }
-        else if (!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A) && !isJump)
-        {
-            if (isFlipped)
-            {
-                playerAnim.ResetTrigger("walkback");
-                isWalking = true;
-            }
-            else
-            {
-                playerAnim.ResetTrigger("walk");
-                isWalking = false;
-            }
-            playerAnim.SetTrigger("idle");
-        }
-
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (LayerMask.LayerToName(gameObject.layer) == "Player"&& !isKnockDown)
         {
             if (Input.GetKey(KeyCode.D) && !isJump)
             {
-                isRunning = true;
-                w_speed = w_speed + rn_speed;
-                playerAnim.SetTrigger("run");
-                playerAnim.ResetTrigger("walk");
+                transform.Translate(w_speed * Time.deltaTime, 0, 0, 0);
+
+                if (isFlipped)
+                {
+                    playerAnim.SetTrigger("walkback");
+                    isWalking = false;
+                }
+                else
+                {
+                    playerAnim.SetTrigger("walk");
+                    isWalking = true;
+                }
+                playerAnim.ResetTrigger("idle");
+            }
+            else if (Input.GetKey(KeyCode.A) && !isJump)
+            {
+                transform.Translate(-w_speed * Time.deltaTime, 0, 0, 0);
+
+                if (isFlipped)
+                {
+                    playerAnim.SetTrigger("walk");
+                }
+                else
+                {
+                    playerAnim.SetTrigger("walkback");
+                }
+                playerAnim.ResetTrigger("idle");
+            }
+            else if (!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A) && !isJump)
+            {
+                if (isFlipped)
+                {
+                    playerAnim.ResetTrigger("walkback");
+                    isWalking = true;
+                }
+                else
+                {
+                    playerAnim.ResetTrigger("walk");
+                    isWalking = false;
+                }
+                playerAnim.SetTrigger("idle");
+            }
+
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                if (Input.GetKey(KeyCode.D) && !isJump)
+                {
+                    isRunning = true;
+                    w_speed = w_speed + rn_speed;
+                    playerAnim.SetTrigger("run");
+                    playerAnim.ResetTrigger("walk");
+                }
+                else
+                {
+                    isRunning = false;
+                }
             }
             else
             {
                 isRunning = false;
             }
-        }
-        else
-        {
-            isRunning = false;
-        }
 
-        if (!isRunning)
-        {
-            w_speed = 3f;
-        }
+            if (!isRunning)
+            {
+                w_speed = 3f;
+            }
 
-        if (isJump)
-        {
-            isWalking = false;
-        }
+            if (isJump)
+            {
+                isWalking = false;
+            }
 
-        if (Input.GetKeyDown(KeyCode.W) && isOnGround)
+            if (Input.GetKeyDown(KeyCode.W) && isOnGround)
+            {
+                playerAnim.SetTrigger("jumping");
+                playerAnim.SetTrigger("falling");
+                playerAnim.ResetTrigger("idle");
+                isOnGround = false;
+                isJump = true;
+                //playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); 
+                playerRb.AddForce(transform.up * jumpForce);
+            }
+        }
+        if (LayerMask.LayerToName(gameObject.layer) == "Enemy"&&!isKnockDown)
         {
-            StartCoroutine(WaitForSecondReadyJump());
+            if (Input.GetKey(KeyCode.RightArrow) && !isJump)
+            {
+                transform.Translate(w_speed * Time.deltaTime, 0, 0, 0);
+
+                if (isFlipped)
+                {
+                    playerAnim.SetTrigger("walkback");
+                    isWalking = false;
+                }
+                else
+                {
+                    playerAnim.SetTrigger("walk");
+                    isWalking = true;
+                }
+                playerAnim.ResetTrigger("idle");
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow) && !isJump)
+            {
+                transform.Translate(-w_speed * Time.deltaTime, 0, 0, 0);
+
+                if (isFlipped)
+                {
+                    playerAnim.SetTrigger("walk");
+                }
+                else
+                {
+                    playerAnim.SetTrigger("walkback");
+                }
+                playerAnim.ResetTrigger("idle");
+            }
+            else if (!Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow) && !isJump)
+            {
+                if (isFlipped)
+                {
+                    playerAnim.ResetTrigger("walkback");
+                    isWalking = true;
+                }
+                else
+                {
+                    playerAnim.ResetTrigger("walk");
+                    isWalking = false;
+                }
+                playerAnim.SetTrigger("idle");
+            }
+
+            if (Input.GetKey(KeyCode.RightShift))
+            {
+                if (Input.GetKey(KeyCode.RightArrow) && !isJump)
+                {
+                    isRunning = true;
+                    w_speed = w_speed + rn_speed;
+                    playerAnim.SetTrigger("run");
+                    playerAnim.ResetTrigger("walk");
+                }
+                else
+                {
+                    isRunning = false;
+                }
+            }
+            else
+            {
+                isRunning = false;
+            }
+
+            if (!isRunning)
+            {
+                w_speed = 3f;
+            }
+
+            if (isJump)
+            {
+                isWalking = false;
+            }
+
+            if (Input.GetKeyDown(KeyCode.UpArrow) && isOnGround)
+            {
+                playerAnim.SetTrigger("jumping");
+                playerAnim.SetTrigger("falling");
+                playerAnim.ResetTrigger("idle");
+                isOnGround = false;
+                isJump = true;
+                //playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); 
+                playerRb.AddForce(transform.up * jumpForce);
+            }
         }
     }
     protected void Ki()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (LayerMask.LayerToName(gameObject.layer) == "Player" && !isKnockDown) 
+        { 
+            if (Input.GetKeyDown(KeyCode.R))
         {
             playerAnim.SetTrigger("chargeki");
             playerAnim.SetTrigger("chargekimidle");
@@ -218,43 +317,113 @@ public class CharacterController : MonoBehaviour
         {
             ApplyEnergy(5f);
         }
-        if (kiFull.activeInHierarchy || ki.activeInHierarchy)
-        {
-            if (GetComponent<Rigidbody>().velocity.y > 0)
+            if (kiFull.activeInHierarchy || ki.activeInHierarchy)
             {
-                foreach (ParticleSystem ki in kiGround)
+                if (GetComponent<Rigidbody>().velocity.y > 0)
                 {
-                    ki.gameObject.SetActive(false);
-                }
-            }
-            else if (!isJump)
-            {
-                foreach (ParticleSystem ki in kiGround)
-                {
-                    ki.gameObject.SetActive(true);
-                }
-            }
-            // Ki opacity up and down
-            ParticleSystem[] kiStartColor = kiFull.GetComponentsInChildren<ParticleSystem>();
-            foreach (ParticleSystem kiColor in kiStartColor)
-            {
-                Color StartColor = kiColor.startColor;
-                float h, s, v;
-                Color.RGBToHSV(StartColor, out h, out s, out v);
-                if (v > (energy / 100f))
-                {
-                    v -= 0.1f * Time.deltaTime;
-                    if (v < 0.15)
+                    foreach (ParticleSystem ki in kiGround)
                     {
-                        kiFull.SetActive(false);
+                        ki.gameObject.SetActive(false);
                     }
                 }
-                else if (v < (energy / 100f) && v < 0.7f)
+                else if (!isJump)
                 {
-                    v += 0.1f * Time.deltaTime;
+                    foreach (ParticleSystem ki in kiGround)
+                    {
+                        ki.gameObject.SetActive(true);
+                    }
                 }
-                Color newColor = Color.HSVToRGB(h, s, v);
-                kiColor.startColor = newColor;
+                // Ki opacity up and down
+                ParticleSystem[] kiStartColor = kiFull.GetComponentsInChildren<ParticleSystem>();
+                foreach (ParticleSystem kiColor in kiStartColor)
+                {
+                    Color StartColor = kiColor.startColor;
+                    float h, s, v;
+                    Color.RGBToHSV(StartColor, out h, out s, out v);
+                    if (v > (energy / 100f))
+                    {
+                        v -= 0.1f * Time.deltaTime;
+                        if (v < 0.15)
+                        {
+                            kiFull.SetActive(false);
+                        }
+                    }
+                    else if (v < (energy / 100f) && v < 0.7f)
+                    {
+                        v += 0.1f * Time.deltaTime;
+                    }
+                    Color newColor = Color.HSVToRGB(h, s, v);
+                    kiColor.startColor = newColor;
+                }
+            }
+        }
+        if (LayerMask.LayerToName(gameObject.layer) == "Enemy" && !isKnockDown)
+        {
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                playerAnim.SetTrigger("chargeki");
+                playerAnim.SetTrigger("chargekimidle");
+            }
+            if (Input.GetKeyUp(KeyCode.P))
+            {
+                playerAnim.SetTrigger("chargekilast");
+            }
+            if (stateInfo.IsName("chargekilast") || stateInfo.IsName("chargekimidle") || stateInfo.IsName("chargeki"))
+            {
+                ki.SetActive(true);
+            }
+            if (!stateInfo.IsName("chargekilast") && !stateInfo.IsName("chargekimidle") && !stateInfo.IsName("chargeki"))
+            {
+                ki.SetActive(false);
+                playerAnim.ResetTrigger("chargekilast");
+            }
+            if (!ki.activeInHierarchy)
+            {
+                Movement();
+                ComboAttacks();
+            }
+            else if (ki.activeInHierarchy)
+            {
+                ApplyEnergy(5f);
+            }
+            if (kiFull.activeInHierarchy || ki.activeInHierarchy)
+            {
+                if (GetComponent<Rigidbody>().velocity.y > 0)
+                {
+                    foreach (ParticleSystem ki in kiGround)
+                    {
+                        ki.gameObject.SetActive(false);
+                    }
+                }
+                else if (!isJump)
+                {
+                    foreach (ParticleSystem ki in kiGround)
+                    {
+                        ki.gameObject.SetActive(true);
+                    }
+                }
+                // Ki opacity up and down
+                ParticleSystem[] kiStartColor = kiFull.GetComponentsInChildren<ParticleSystem>();
+                foreach (ParticleSystem kiColor in kiStartColor)
+                {
+                    Color StartColor = kiColor.startColor;
+                    float h, s, v;
+                    Color.RGBToHSV(StartColor, out h, out s, out v);
+                    if (v > (energy / 100f))
+                    {
+                        v -= 0.1f * Time.deltaTime;
+                        if (v < 0.15)
+                        {
+                            kiFull.SetActive(false);
+                        }
+                    }
+                    else if (v < (energy / 100f) && v < 0.7f)
+                    {
+                        v += 0.1f * Time.deltaTime;
+                    }
+                    Color newColor = Color.HSVToRGB(h, s, v);
+                    kiColor.startColor = newColor;
+                }
             }
         }
     }
@@ -265,53 +434,108 @@ public class CharacterController : MonoBehaviour
     //}
     void ComboAttacks()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (LayerMask.LayerToName(gameObject.layer) == "Player" && !isKnockDown)
         {
-            if (current_combo_state == ComboState.attack3 ||
-                current_combo_state == ComboState.attack4 ||
-                current_combo_state == ComboState.attack5)
-                return;
-            current_combo_state++;
-            activateTimerToReset = true;
-            current_combo_timer = default_combo_timer;
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if (current_combo_state == ComboState.attack3 ||
+                    current_combo_state == ComboState.attack4 ||
+                    current_combo_state == ComboState.attack5)
+                    return;
+                current_combo_state++;
+                activateTimerToReset = true;
+                current_combo_timer = default_combo_timer;
 
-            if (current_combo_state == ComboState.attack1)
-            {
-                playerAnim.SetTrigger("attack1");
+                if (current_combo_state == ComboState.attack1)
+                {
+                    playerAnim.SetTrigger("attack1");
+                }
+                if (current_combo_state == ComboState.attack2)
+                {
+                    playerAnim.SetTrigger("attack2");
+                }
+                if (current_combo_state == ComboState.attack3)
+                {
+                    playerAnim.SetTrigger("attack3");
+                }
             }
-            if (current_combo_state == ComboState.attack2)
+            if (Input.GetKeyDown(KeyCode.Q))
             {
-                playerAnim.SetTrigger("attack2");
-            }
-            if (current_combo_state == ComboState.attack3)
-            {
-                playerAnim.SetTrigger("attack3");
+                if (current_combo_state == ComboState.attack5 ||
+                    current_combo_state == ComboState.attack3)
+                    return;
+                if (current_combo_state == ComboState.none ||
+                    current_combo_state == ComboState.attack1 ||
+                    current_combo_state == ComboState.attack2)
+                {
+                    current_combo_state = ComboState.attack4;
+                }
+                else if (current_combo_state == ComboState.attack4)
+                {
+                    current_combo_state++;
+                }
+                activateTimerToReset = true;
+                current_combo_timer = default_combo_timer;
+                if (current_combo_state == ComboState.attack4)
+                {
+                    playerAnim.SetTrigger("attack4");
+                }
+                if (current_combo_state == ComboState.attack5)
+                {
+                    playerAnim.SetTrigger("attack5");
+                }
             }
         }
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (LayerMask.LayerToName(gameObject.layer) == "Enemy" && !isKnockDown)
         {
-            if (current_combo_state == ComboState.attack5 ||
-                current_combo_state == ComboState.attack3)
-                return;
-            if (current_combo_state == ComboState.none ||
-                current_combo_state == ComboState.attack1 ||
-                current_combo_state == ComboState.attack2)
+            if (Input.GetKeyDown(KeyCode.O))
             {
-                current_combo_state = ComboState.attack4;
-            }
-            else if (current_combo_state == ComboState.attack4)
-            {
+                if (current_combo_state == ComboState.attack3 ||
+                    current_combo_state == ComboState.attack4 ||
+                    current_combo_state == ComboState.attack5)
+                    return;
                 current_combo_state++;
+                activateTimerToReset = true;
+                current_combo_timer = default_combo_timer;
+
+                if (current_combo_state == ComboState.attack1)
+                {
+                    playerAnim.SetTrigger("attack1");
+                }
+                if (current_combo_state == ComboState.attack2)
+                {
+                    playerAnim.SetTrigger("attack2");
+                }
+                if (current_combo_state == ComboState.attack3)
+                {
+                    playerAnim.SetTrigger("attack3");
+                }
             }
-            activateTimerToReset = true;
-            current_combo_timer = default_combo_timer;
-            if (current_combo_state == ComboState.attack4)
+            if (Input.GetKeyDown(KeyCode.I))
             {
-                playerAnim.SetTrigger("attack4");
-            }
-            if (current_combo_state == ComboState.attack5)
-            {
-                playerAnim.SetTrigger("attack5");
+                if (current_combo_state == ComboState.attack5 ||
+                    current_combo_state == ComboState.attack3)
+                    return;
+                if (current_combo_state == ComboState.none ||
+                    current_combo_state == ComboState.attack1 ||
+                    current_combo_state == ComboState.attack2)
+                {
+                    current_combo_state = ComboState.attack4;
+                }
+                else if (current_combo_state == ComboState.attack4)
+                {
+                    current_combo_state++;
+                }
+                activateTimerToReset = true;
+                current_combo_timer = default_combo_timer;
+                if (current_combo_state == ComboState.attack4)
+                {
+                    playerAnim.SetTrigger("attack4");
+                }
+                if (current_combo_state == ComboState.attack5)
+                {
+                    playerAnim.SetTrigger("attack5");
+                }
             }
         }
     }
@@ -332,63 +556,57 @@ public class CharacterController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground") && isJump)
         {
-            StartCoroutine(WaitForSecondTouchGround());
+            playerAnim.SetTrigger("grouding");
+            playerAnim.SetTrigger("idle");
+            playerAnim.ResetTrigger("jumping");
+            playerAnim.ResetTrigger("falling");
+            isOnGround = true;
+            isJump = false;
         }
     }
 
     void DetectCollisionRightArm()
     {
         Collider[] hit = Physics.OverlapSphere(RightArmAttackPoint.transform.position, radius, collisionLayer);
-        if (hit.Length > 0)
+        for (int i = 0; i < hit.Length; i++)
         {
-            print("Hit the" + hit[0].gameObject.name);
+            //print("Hit the " + hit[0].gameObject.name);
             //cho player
             if (LayerMask.LayerToName(gameObject.layer) == "Player")
             {
-                Vector3 hitFX_Pos = hit[0].transform.position;
-                hitFX_Pos.y += 1.3f;
-                if (hit[0].transform.forward.x > 0)
+                Instantiate(hit_FX, RightArmAttackPoint.transform.position, Quaternion.identity);
+
+                if (gameObject.tag == "RightArm" || gameObject.tag == "RightLeg")
                 {
-                    hitFX_Pos.x += 0.3f;
+                    hit[0].GetComponent<CharacterController>().ApplyDamage(damage, true);
                 }
-                else if (hit[0].transform.forward.x < 0)
+                else
                 {
-                    hitFX_Pos.x -= 0.3f;
+                    hit[0].GetComponent<CharacterController>().ApplyDamage(damage, false);
                 }
-                Instantiate(hit_FX, hitFX_Pos, Quaternion.identity);
-                hit[0].GetComponent<CharacterController>().ApplyDamage(damage, false);
-                //if (gameObject.tag == "RightArm" || gameObject.tag == "RightLeg")
-                //{
-                //    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, true);
-                //}
-                //else
-                //{
-                //    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, false);
-                //}
             }
             //cho enemy
             else if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
             {
-                Vector3 hitFX_Pos = hit[0].transform.position;
-                hitFX_Pos.y += 1.3f;
-                if (hit[0].transform.forward.x > 0)
-                {
-                    hitFX_Pos.x += 0.3f;
-                }
-                else if (hit[0].transform.forward.x < 0)
-                {
-                    hitFX_Pos.x -= 0.3f;
-                }
-                Instantiate(hit_FX, hitFX_Pos, Quaternion.identity);
-                hit[0].GetComponent<CharacterController>().ApplyDamage(damage, false);
-                //if (gameObject.tag == "RightArm" || gameObject.tag == "RightLeg")
+                //Vector3 hitFX_Pos = hit[0].transform.position;
+                //hitFX_Pos.y += 1.3f;
+                //if (hit[0].transform.forward.x > 0)
                 //{
-                //    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, true);
+                //    hitFX_Pos.x += 0.3f;
                 //}
-                //else
+                //else if (hit[0].transform.forward.x < 0)
                 //{
-                //    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, false);
+                //    hitFX_Pos.x -= 0.3f;
                 //}
+                Instantiate(hit_FX, RightArmAttackPoint.transform.position, Quaternion.identity);
+                if (gameObject.tag == "RightArm" || gameObject.tag == "RightLeg")
+                {
+                    hit[0].GetComponent<CharacterController>().ApplyDamage(damage, true);
+                }
+                else
+                {
+                    hit[0].GetComponent<CharacterController>().ApplyDamage(damage, false);
+                }
             }
             RightArmAttackPoint.gameObject.SetActive(false);
         }
@@ -397,56 +615,54 @@ public class CharacterController : MonoBehaviour
     void DetectCollisionLeftArm()
     {
         Collider[] hit = Physics.OverlapSphere(LeftArmAttackPoint.transform.position, radius, collisionLayer);
-        if (hit.Length > 0)
+        for (int i = 0; i < hit.Length; i++)
         {
-            //print("Hit the" + hit[0].gameObject.name);
+            //print("Hit the " + hit[0].gameObject.name);
             //cho player
             if (LayerMask.LayerToName(gameObject.layer) == "Player")
             {
-                Vector3 hitFX_Pos = hit[0].transform.position;
-                hitFX_Pos.y += 1.3f;
-                if (hit[0].transform.forward.x > 0)
-                {
-                    hitFX_Pos.x += 0.3f;
-                }
-                else if (hit[0].transform.forward.x < 0)
-                {
-                    hitFX_Pos.x -= 0.3f;
-                }
-                Instantiate(hit_FX, hitFX_Pos, Quaternion.identity);
-                hit[0].GetComponent<CharacterController>().ApplyDamage(damage, false);
-                //if (gameObject.tag == "RightArm" || gameObject.tag == "RightLeg")
+                //Vector3 hitFX_Pos = hit[0].transform.position;
+                //hitFX_Pos.y += 1.3f;
+                //if (hit[0].transform.forward.x > 0)
                 //{
-                //    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, true);
+                //    hitFX_Pos.x += 0.3f;
                 //}
-                //else
+                //else if (hit[0].transform.forward.x < 0)
                 //{
-                //    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, false);
+                //    hitFX_Pos.x -= 0.3f;
                 //}
+                Instantiate(hit_FX, LeftArmAttackPoint.transform.position, Quaternion.identity);
+                if (gameObject.tag == "RightArm" || gameObject.tag == "RightLeg")
+                {
+                    hit[0].GetComponent<CharacterController>().ApplyDamage(damage, true);
+                }
+                else
+                {
+                    hit[0].GetComponent<CharacterController>().ApplyDamage(damage, false);
+                }
             }
             //cho enemy
             else if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
             {
-                Vector3 hitFX_Pos = hit[0].transform.position;
-                hitFX_Pos.y += 1.3f;
-                if (hit[0].transform.forward.x > 0)
-                {
-                    hitFX_Pos.x += 0.3f;
-                }
-                else if (hit[0].transform.forward.x < 0)
-                {
-                    hitFX_Pos.x -= 0.3f;
-                }
-                Instantiate(hit_FX, hitFX_Pos, Quaternion.identity);
-                hit[0].GetComponent<CharacterController>().ApplyDamage(damage, false);
-                //if (gameObject.tag == "RightArm" || gameObject.tag == "RightLeg")
+                //Vector3 hitFX_Pos = hit[0].transform.position;
+                //hitFX_Pos.y += 1.3f;
+                //if (hit[0].transform.forward.x > 0)
                 //{
-                //    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, true);
+                //    hitFX_Pos.x += 0.3f;
                 //}
-                //else
+                //else if (hit[0].transform.forward.x < 0)
                 //{
-                //    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, false);
+                //    hitFX_Pos.x -= 0.3f;
                 //}
+                Instantiate(hit_FX, LeftArmAttackPoint.transform.position, Quaternion.identity);
+                if (gameObject.tag == "RightArm" || gameObject.tag == "RightLeg")
+                {
+                    hit[0].GetComponent<CharacterController>().ApplyDamage(damage, true);
+                }
+                else
+                {
+                    hit[0].GetComponent<CharacterController>().ApplyDamage(damage, false);
+                }
             }
             LeftArmAttackPoint.gameObject.SetActive(false);
         }
@@ -455,56 +671,54 @@ public class CharacterController : MonoBehaviour
     void DetectCollisionRightLeg()
     {
         Collider[] hit = Physics.OverlapSphere(RightLegAttackPoint.transform.position, radius, collisionLayer);
-        if (hit.Length > 0)
+        for (int i = 0; i < hit.Length; i++)
         {
-            //print("Hit the" + hit[0].gameObject.name);
+            //print("Hit the " + hit[0].gameObject.name);
             //cho player
             if (LayerMask.LayerToName(gameObject.layer) == "Player")
             {
-                Vector3 hitFX_Pos = hit[0].transform.position;
-                hitFX_Pos.y += 1.3f;
-                if (hit[0].transform.forward.x > 0)
-                {
-                    hitFX_Pos.x += 0.3f;
-                }
-                else if (hit[0].transform.forward.x < 0)
-                {
-                    hitFX_Pos.x -= 0.3f;
-                }
-                Instantiate(hit_FX, hitFX_Pos, Quaternion.identity);
-                hit[0].GetComponent<CharacterController>().ApplyDamage(damage, false);
-                //if (gameObject.tag == "RightArm" || gameObject.tag == "RightLeg")
+                //Vector3 hitFX_Pos = hit[0].transform.position;
+                //hitFX_Pos.y += 1.3f;
+                //if (hit[0].transform.forward.x > 0)
                 //{
-                //    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, true);
+                //    hitFX_Pos.x += 0.3f;
                 //}
-                //else
+                //else if (hit[0].transform.forward.x < 0)
                 //{
-                //    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, false);
+                //    hitFX_Pos.x -= 0.3f;
                 //}
+                Instantiate(hit_FX, RightLegAttackPoint.transform.position, Quaternion.identity);
+                if (RightLegAttackPoint.gameObject.tag == "RightArm" || RightLegAttackPoint.gameObject.tag == "RightLeg")
+                {
+                    hit[0].GetComponent<CharacterController>().ApplyDamage(damage, true);
+                }
+                else
+                {
+                    hit[0].GetComponent<CharacterController>().ApplyDamage(damage, false);
+                }
             }
             //cho enemy
             else if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
             {
-                Vector3 hitFX_Pos = hit[0].transform.position;
-                hitFX_Pos.y += 1.3f;
-                if (hit[0].transform.forward.x > 0)
-                {
-                    hitFX_Pos.x += 0.3f;
-                }
-                else if (hit[0].transform.forward.x < 0)
-                {
-                    hitFX_Pos.x -= 0.3f;
-                }
-                Instantiate(hit_FX, hitFX_Pos, Quaternion.identity);
-                hit[0].GetComponent<CharacterController>().ApplyDamage(damage, false);
-                //if (gameObject.tag == "RightArm" || gameObject.tag == "RightLeg")
+                //Vector3 hitFX_Pos = hit[0].transform.position;
+                //hitFX_Pos.y += 1.3f;
+                //if (hit[0].transform.forward.x > 0)
                 //{
-                //    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, true);
+                //    hitFX_Pos.x += 0.3f;
                 //}
-                //else
+                //else if (hit[0].transform.forward.x < 0)
                 //{
-                //    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, false);
+                //    hitFX_Pos.x -= 0.3f;
                 //}
+                Instantiate(hit_FX, RightLegAttackPoint.transform.position, Quaternion.identity);
+                if (RightLegAttackPoint.gameObject.tag == "RightArm" || RightLegAttackPoint.gameObject.tag == "RightLeg")
+                {
+                    hit[0].GetComponent<CharacterController>().ApplyDamage(damage, true);
+                }
+                else
+                {
+                    hit[0].GetComponent<CharacterController>().ApplyDamage(damage, false);
+                }
             }
             RightLegAttackPoint.gameObject.SetActive(false);
         }
@@ -513,56 +727,54 @@ public class CharacterController : MonoBehaviour
     void DetectCollisionLeftLeg()
     {
         Collider[] hit = Physics.OverlapSphere(LeftLegAttackPoint.transform.position, radius, collisionLayer);
-        if (hit.Length > 0)
+        for (int i = 0; i < hit.Length; i++)
         {
-            //print("Hit the" + hit[0].gameObject.name);
+            //print("Hit the " + hit[0].gameObject.name);
             //cho player
             if (LayerMask.LayerToName(gameObject.layer) == "Player")
             {
-                Vector3 hitFX_Pos = hit[0].transform.position;
-                hitFX_Pos.y += 1.3f;
-                if (hit[0].transform.forward.x > 0)
-                {
-                    hitFX_Pos.x += 0.3f;
-                }
-                else if (hit[0].transform.forward.x < 0)
-                {
-                    hitFX_Pos.x -= 0.3f;
-                }
-                Instantiate(hit_FX, hitFX_Pos, Quaternion.identity);
-                hit[0].GetComponent<CharacterController>().ApplyDamage(damage, false);
-                //if (gameObject.tag == "RightArm" || gameObject.tag == "RightLeg")
+                //Vector3 hitFX_Pos = hit[0].transform.position;
+                //hitFX_Pos.y += 1.3f;
+                //if (hit[0].transform.forward.x > 0)
                 //{
-                //    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, true);
+                //    hitFX_Pos.x += 0.3f;
                 //}
-                //else
+                //else if (hit[0].transform.forward.x < 0)
                 //{
-                //    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, false);
+                //    hitFX_Pos.x -= 0.3f;
                 //}
+                Instantiate(hit_FX, LeftLegAttackPoint.transform.position, Quaternion.identity);
+                if (gameObject.tag == "RightArm" || gameObject.tag == "RightLeg")
+                {
+                    hit[0].GetComponent<CharacterController>().ApplyDamage(damage, true);
+                }
+                else
+                {
+                    hit[0].GetComponent<CharacterController>().ApplyDamage(damage, false);
+                }
             }
             //cho enemy
             else if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
             {
-                Vector3 hitFX_Pos = hit[0].transform.position;
-                hitFX_Pos.y += 1.3f;
-                if (hit[0].transform.forward.x > 0)
-                {
-                    hitFX_Pos.x += 0.3f;
-                }
-                else if (hit[0].transform.forward.x < 0)
-                {
-                    hitFX_Pos.x -= 0.3f;
-                }
-                Instantiate(hit_FX, hitFX_Pos, Quaternion.identity);
-                hit[0].GetComponent<CharacterController>().ApplyDamage(damage, false);
-                //if (gameObject.tag == "RightArm" || gameObject.tag == "RightLeg")
+                //Vector3 hitFX_Pos = hit[0].transform.position;
+                //hitFX_Pos.y += 1.3f;
+                //if (hit[0].transform.forward.x > 0)
                 //{
-                //    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, true);
+                //    hitFX_Pos.x += 0.3f;
                 //}
-                //else
+                //else if (hit[0].transform.forward.x < 0)
                 //{
-                //    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, false);
+                //    hitFX_Pos.x -= 0.3f;
                 //}
+                Instantiate(hit_FX, LeftLegAttackPoint.transform.position, Quaternion.identity);
+                if (gameObject.tag == "RightArm" || gameObject.tag == "RightLeg")
+                {
+                    hit[0].GetComponent<CharacterController>().ApplyDamage(damage, true);
+                }
+                else
+                {
+                    hit[0].GetComponent<CharacterController>().ApplyDamage(damage, false);
+                }
             }
             LeftLegAttackPoint.gameObject.SetActive(false);
         }
@@ -571,56 +783,54 @@ public class CharacterController : MonoBehaviour
     void DetectCollisionRightForeArm()
     {
         Collider[] hit = Physics.OverlapSphere(RightForeArmAttackPoint.transform.position, radius, collisionLayer);
-        if (hit.Length > 0)
+        for (int i = 0; i < hit.Length; i++)
         {
-            //print("Hit the" + hit[0].gameObject.name);
+            //print("Hit the " + hit[0].gameObject.name);
             //cho player
             if (LayerMask.LayerToName(gameObject.layer) == "Player")
             {
-                Vector3 hitFX_Pos = hit[0].transform.position;
-                hitFX_Pos.y += 1.3f;
-                if (hit[0].transform.forward.x > 0)
-                {
-                    hitFX_Pos.x += 0.3f;
-                }
-                else if (hit[0].transform.forward.x < 0)
-                {
-                    hitFX_Pos.x -= 0.3f;
-                }
-                Instantiate(hit_FX, hitFX_Pos, Quaternion.identity);
-                hit[0].GetComponent<CharacterController>().ApplyDamage(damage, false);
-                //if (gameObject.tag == "RightArm" || gameObject.tag == "RightLeg")
+                //Vector3 hitFX_Pos = hit[0].transform.position;
+                //hitFX_Pos.y += 1.3f;
+                //if (hit[0].transform.forward.x > 0)
                 //{
-                //    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, true);
+                //    hitFX_Pos.x += 0.3f;
                 //}
-                //else
+                //else if (hit[0].transform.forward.x < 0)
                 //{
-                //    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, false);
+                //    hitFX_Pos.x -= 0.3f;
                 //}
+                Instantiate(hit_FX, RightForeArmAttackPoint.transform.position, Quaternion.identity);
+                if (gameObject.tag == "RightArm" || gameObject.tag == "RightLeg")
+                {
+                    hit[0].GetComponent<CharacterController>().ApplyDamage(damage, true);
+                }
+                else
+                {
+                    hit[0].GetComponent<CharacterController>().ApplyDamage(damage, false);
+                }
             }
             //cho enemy
             else if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
             {
-                Vector3 hitFX_Pos = hit[0].transform.position;
-                hitFX_Pos.y += 1.3f;
-                if (hit[0].transform.forward.x > 0)
-                {
-                    hitFX_Pos.x += 0.3f;
-                }
-                else if (hit[0].transform.forward.x < 0)
-                {
-                    hitFX_Pos.x -= 0.3f;
-                }
-                Instantiate(hit_FX, hitFX_Pos, Quaternion.identity);
-                hit[0].GetComponent<CharacterController>().ApplyDamage(damage, false);
-                //if (gameObject.tag == "RightArm" || gameObject.tag == "RightLeg")
+                //Vector3 hitFX_Pos = hit[0].transform.position;
+                //hitFX_Pos.y += 1.3f;
+                //if (hit[0].transform.forward.x > 0)
                 //{
-                //    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, true);
+                //    hitFX_Pos.x += 0.3f;
                 //}
-                //else
+                //else if (hit[0].transform.forward.x < 0)
                 //{
-                //    hit[0].GetComponent<HealthScript>().ApplyDamage(damage, false);
+                //    hitFX_Pos.x -= 0.3f;
                 //}
+                Instantiate(hit_FX, RightForeArmAttackPoint.transform.position, Quaternion.identity);
+                if (gameObject.tag == "RightArm" || gameObject.tag == "RightLeg")
+                {
+                    hit[0].GetComponent<CharacterController>().ApplyDamage(damage, true);
+                }
+                else
+                {
+                    hit[0].GetComponent<CharacterController>().ApplyDamage(damage, false);
+                }
             }
             RightForeArmAttackPoint.gameObject.SetActive(false);
         }
@@ -680,7 +890,6 @@ public class CharacterController : MonoBehaviour
             RightForeArmAttackPoint.SetActive(false);
         }
     }
-    //!!!!!!////////
     void TagRightArm()
     {
         RightArmAttackPoint.tag = "RightArm";
@@ -688,6 +897,25 @@ public class CharacterController : MonoBehaviour
     void UnTagRightArm()
     {
         RightArmAttackPoint.tag = "Untagged";
+    }
+    void TagRightLeg()
+    {
+        RightLegAttackPoint.tag = "RightLeg";
+    }
+    void UnTagRightLeg()
+    {
+        RightLegAttackPoint.tag = "Untagged";
+    }
+    void StandUp()
+    {    
+        isKnockDown = false;
+        StartCoroutine(StandUpAfterTime()); 
+       
+    }
+    IEnumerator StandUpAfterTime()
+    {   
+        playerAnim.SetTrigger("standup");
+        yield return new WaitForSeconds(2f);
     }
 
     public void ApplyDamage(float damage, bool knockDown)
@@ -712,8 +940,27 @@ public class CharacterController : MonoBehaviour
             characterDied = true;
             if (LayerMask.LayerToName(gameObject.layer) == "Player")
             {
+
             }
             return;
+        }
+        if (LayerMask.LayerToName(gameObject.layer) == "Player")
+        {
+            if (knockDown)
+            {
+                if (Random.Range(0, 2) > 0)
+                {   
+                    playerAnim.SetTrigger("knockdown");
+                    isKnockDown = true;
+                }
+            }
+            else
+            {
+                if (Random.Range(0, 3) > 1)
+                {
+                    playerAnim.SetTrigger("hit");
+                }
+            }
         }
         if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
         {
@@ -721,12 +968,13 @@ public class CharacterController : MonoBehaviour
             {
                 if (Random.Range(0, 2) > 0)
                 {
-                    playerAnim.SetTrigger("died");
+                    playerAnim.SetTrigger("knockdown");
+                    isKnockDown = true;
                 }
             }
             else
             {
-                if (Random.Range(0, 3) >= 1)
+                if (Random.Range(0, 3) > 1)
                 {
                     playerAnim.SetTrigger("hit");
                 }
@@ -752,24 +1000,22 @@ public class CharacterController : MonoBehaviour
             kiFull.SetActive(true);
         }
     }
-    IEnumerator WaitForSecondTouchGround()
-    {
-        yield return new WaitForSeconds(0f);
-        playerAnim.SetTrigger("idle");
-        playerAnim.ResetTrigger("jump");
-        isOnGround = true;
-        isJump = false;
-    }
-    IEnumerator WaitForSecondReadyJump()
-    {
-        playerAnim.SetTrigger("jump");
-        playerAnim.ResetTrigger("idle");
-        isOnGround = false;
-        isJump = true;
-        yield return new WaitForSeconds(0.5f);
-        //playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); 
-        playerRb.AddForce(transform.up * jumpForce);
-    }
+    //IEnumerator WaitForSecondTouchGround()
+    //{
+    //    yield return new WaitForSeconds(0f);
+
+    //}
+    //IEnumerator WaitForSecondReadyJump()
+    //{
+    //    //playerAnim.SetTrigger("jumping");
+    //    //playerAnim.SetTrigger("falling");
+    //    //playerAnim.ResetTrigger("idle");
+    //    //isOnGround = false;
+    //    //isJump = true;
+    //    yield return new WaitForSeconds(0.5f);
+    //    ////playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); 
+    //    //playerRb.AddForce(transform.up * jumpForce);
+    //}
     protected void AttackPoint()
     {
         if (RightArmAttackPoint.activeInHierarchy)
