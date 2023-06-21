@@ -2611,7 +2611,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8591428219067918392}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -2654,9 +2654,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.18145409
-  m_Height: 1.1583154
+  m_Height: 1.0227735
   m_Direction: 1
-  m_Center: {x: 0.06853727, y: 0.51529413, z: 0.030332912}
+  m_Center: {x: 0.06853727, y: 0.58306557, z: 0.030332912}
 --- !u!95 &8933887821895200235
 Animator:
   serializedVersion: 5
@@ -2721,7 +2721,7 @@ MonoBehaviour:
   RightLegAttackPoint: {fileID: 8933887821679375627}
   LeftLegAttackPoint: {fileID: 8933887820667922910}
   RightForeArmAttackPoint: {fileID: 8933887821731019065}
-  health: 100
+  health: 500
   energy: 15
   health_UI: {fileID: 0}
   enemyHealthUI: {fileID: 0}
@@ -27219,7 +27219,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8933887821182749864
 Transform:
   m_ObjectHideFlags: 0
