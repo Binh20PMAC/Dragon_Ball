@@ -1274,6 +1274,8 @@ MonoBehaviour:
   energy: 15
   health_UI: {fileID: 0}
   enemyHealthUI: {fileID: 0}
+  skillOne: {fileID: 5060414078489493075, guid: e6b75b88617b129468d40f70f04615bd, type: 3}
+  speedFireball: 15
 --- !u!1 &2917833136011786936
 GameObject:
   m_ObjectHideFlags: 0

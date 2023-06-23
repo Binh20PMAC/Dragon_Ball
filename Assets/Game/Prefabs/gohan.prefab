@@ -15635,7 +15635,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2826137598557150234
 Transform:
   m_ObjectHideFlags: 0
@@ -74125,7 +74125,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2826137600012567207
 Transform:
   m_ObjectHideFlags: 0
@@ -74378,6 +74378,8 @@ MonoBehaviour:
   energy: 15
   health_UI: {fileID: 0}
   enemyHealthUI: {fileID: 0}
+  skillOne: {fileID: 5060414078489493075, guid: e6b75b88617b129468d40f70f04615bd, type: 3}
+  speedFireball: 15
 --- !u!1 &3528581058995769769
 GameObject:
   m_ObjectHideFlags: 0

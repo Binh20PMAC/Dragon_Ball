@@ -11,6 +11,7 @@ TagManager:
   - EnergyUI
   - EnemyEnergyUI
   - RightLeg
+  - FireBall
   layers:
   - Default
   - TransparentFX

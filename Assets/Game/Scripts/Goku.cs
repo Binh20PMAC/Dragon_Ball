@@ -9,7 +9,7 @@ public class Goku : CharacterController
     public void Start()
     {
         //enemy = GameObject.Find("");
-        //player = GameObject.Find("");    
+        //player = GameObject.Find("");
     }
 
     // Update is called once per frame
@@ -29,6 +29,8 @@ public class Goku : CharacterController
         Ki();
         ResetComboState();
         AttackPoint();
+        Skill();
+        MoveFireball();
     }
 
 }

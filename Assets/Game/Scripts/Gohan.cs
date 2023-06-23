@@ -29,6 +29,8 @@ public class Gohan : CharacterController
         Ki();
         ResetComboState();
         AttackPoint();
+        Skill();
+        MoveFireball();
     }
 
 }

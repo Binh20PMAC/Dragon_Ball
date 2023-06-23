@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -48,6 +48,13 @@ public class CharacterController : MonoBehaviour
     private bool characterDied;
     public UIManager health_UI;
     public UIManager enemyHealthUI;
+
+    //Skill
+    public GameObject skillOne;
+    private bool isPooling = true;
+    public List<GameObject> listSkillOne = new List<GameObject>();
+    public int speedFireball = 15;
+
 
     void Awake()
     {
@@ -111,7 +118,7 @@ public class CharacterController : MonoBehaviour
     }
     void Movement()
     {
-        if (LayerMask.LayerToName(gameObject.layer) == "Player"&& !isKnockDown)
+        if (LayerMask.LayerToName(gameObject.layer) == "Player" && !isKnockDown)
         {
             if (Input.GetKey(KeyCode.D) && !isJump)
             {
@@ -198,7 +205,7 @@ public class CharacterController : MonoBehaviour
                 playerRb.AddForce(transform.up * jumpForce);
             }
         }
-        if (LayerMask.LayerToName(gameObject.layer) == "Enemy"&&!isKnockDown)
+        if (LayerMask.LayerToName(gameObject.layer) == "Enemy" && !isKnockDown)
         {
             if (Input.GetKey(KeyCode.RightArrow) && !isJump)
             {
@@ -288,35 +295,35 @@ public class CharacterController : MonoBehaviour
     }
     protected void Ki()
     {
-        if (LayerMask.LayerToName(gameObject.layer) == "Player" && !isKnockDown) 
-        { 
+        if (LayerMask.LayerToName(gameObject.layer) == "Player" && !isKnockDown)
+        {
             if (Input.GetKeyDown(KeyCode.R))
-        {
-            playerAnim.SetTrigger("chargeki");
-            playerAnim.SetTrigger("chargekimidle");
-        }
-        if (Input.GetKeyUp(KeyCode.R))
-        {
-            playerAnim.SetTrigger("chargekilast");
-        }
-        if (stateInfo.IsName("chargekilast") || stateInfo.IsName("chargekimidle") || stateInfo.IsName("chargeki"))
-        {
-            ki.SetActive(true);
-        }
-        if (!stateInfo.IsName("chargekilast") && !stateInfo.IsName("chargekimidle") && !stateInfo.IsName("chargeki"))
-        {
-            ki.SetActive(false);
-            playerAnim.ResetTrigger("chargekilast");
-        }
-        if (!ki.activeInHierarchy)
-        {
-            Movement();
-            ComboAttacks();
-        }
-        else if (ki.activeInHierarchy)
-        {
-            ApplyEnergy(5f);
-        }
+            {
+                playerAnim.SetTrigger("chargeki");
+                playerAnim.SetTrigger("chargekimidle");
+            }
+            if (Input.GetKeyUp(KeyCode.R))
+            {
+                playerAnim.SetTrigger("chargekilast");
+            }
+            if (stateInfo.IsName("chargekilast") || stateInfo.IsName("chargekimidle") || stateInfo.IsName("chargeki"))
+            {
+                ki.SetActive(true);
+            }
+            if (!stateInfo.IsName("chargekilast") && !stateInfo.IsName("chargekimidle") && !stateInfo.IsName("chargeki"))
+            {
+                ki.SetActive(false);
+                playerAnim.ResetTrigger("chargekilast");
+            }
+            if (!ki.activeInHierarchy)
+            {
+                Movement();
+                ComboAttacks();
+            }
+            else if (ki.activeInHierarchy)
+            {
+                ApplyEnergy(5f);
+            }
             if (kiFull.activeInHierarchy || ki.activeInHierarchy)
             {
                 if (GetComponent<Rigidbody>().velocity.y > 0)
@@ -425,6 +432,78 @@ public class CharacterController : MonoBehaviour
                     kiColor.startColor = newColor;
                 }
             }
+        }
+    }
+
+    protected void Skill()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            if (isPooling)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    GameObject fireball = Instantiate(skillOne, transform.position, Quaternion.identity);
+                    fireball.layer = LayerMask.NameToLayer(LayerMask.LayerToName(gameObject.layer));
+                    SetLayerRecursively(fireball, fireball.layer);
+                    fireball.SetActive(false);
+                    listSkillOne.Add(fireball);
+                }
+                isPooling = false;
+            }
+            ActivateFireball();
+        }
+    }
+
+
+    void SetLayerRecursively(GameObject obj, int layer)
+    {
+        obj.layer = layer;
+        foreach (Transform child in obj.transform)
+        {
+            SetLayerRecursively(child.gameObject, layer);
+        }
+    }
+    private void ActivateFireball()
+    {
+        foreach (GameObject fireball in listSkillOne)
+        {
+            if (!fireball.activeSelf)
+            {
+                fireball.transform.position = RightArmAttackPoint.transform.position;
+                if (transform.rotation.eulerAngles.y > 90f)
+                {
+                    fireball.transform.rotation = new Quaternion(0, 180, 0, 0);
+                }
+                else
+                {
+                    fireball.transform.rotation = new Quaternion(0, 0, 0, 0);
+                }
+                fireball.SetActive(true);
+                break;
+            }
+        }
+    }
+    public void MoveFireball()
+    {
+        if (!isPooling)
+        {
+            foreach (GameObject fireball in listSkillOne)
+            {
+                if (fireball.activeInHierarchy)
+                {
+                    fireball.transform.Translate(Vector3.right * speedFireball * Time.deltaTime);
+                    CheckOffscreen(fireball);
+                }
+            }
+        }
+    }
+    private void CheckOffscreen(GameObject fireball)
+    {
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(fireball.transform.position);
+        if (screenPos.x < 0 || screenPos.x > Screen.width)
+        {
+            fireball.SetActive(false);
         }
     }
 
@@ -562,6 +641,14 @@ public class CharacterController : MonoBehaviour
             playerAnim.ResetTrigger("falling");
             isOnGround = true;
             isJump = false;
+        }
+    }
+
+    private void OnParticleCollision(GameObject collision)
+    {
+        if (collision.gameObject.layer != gameObject.layer)
+        {
+            collision.transform.parent.gameObject.SetActive(false);
         }
     }
 
@@ -907,13 +994,13 @@ public class CharacterController : MonoBehaviour
         RightLegAttackPoint.tag = "Untagged";
     }
     void StandUp()
-    {    
+    {
         isKnockDown = false;
-        StartCoroutine(StandUpAfterTime()); 
-       
+        StartCoroutine(StandUpAfterTime());
+
     }
     IEnumerator StandUpAfterTime()
-    {   
+    {
         playerAnim.SetTrigger("standup");
         yield return new WaitForSeconds(2f);
     }
@@ -949,7 +1036,7 @@ public class CharacterController : MonoBehaviour
             if (knockDown)
             {
                 if (Random.Range(0, 2) > 0)
-                {   
+                {
                     playerAnim.SetTrigger("knockdown");
                     isKnockDown = true;
                 }
