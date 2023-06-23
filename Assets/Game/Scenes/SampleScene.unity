@@ -2932,6 +2932,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7205140812684522863, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 3.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813221741760, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 3.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813452151325, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 3.2
+      objectReference: {fileID: 0}
     - target: {fileID: 7205140813531305370, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
       propertyPath: m_RootOrder
       value: 16
@@ -2979,6 +2991,18 @@ PrefabInstance:
     - target: {fileID: 7205140813531305371, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
       propertyPath: m_Name
       value: vfx_Kamehameha_tut
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813833908561, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140814465077125, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 3.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140814603460995, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 4.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
