@@ -23,7 +23,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7560967497362301106}
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: -1.099999, z: 0}
   m_LocalScale: {x: 20, y: 20, z: 20}
   m_ConstrainProportionsScale: 0
@@ -38,7 +38,7 @@ Transform:
   - {fileID: 7560967497771922340}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &7560967497363048155
 GameObject:
   m_ObjectHideFlags: 0
@@ -4900,7 +4900,7 @@ ParticleSystemRenderer:
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
   m_VertexStreams: 000103040522
-  m_Mesh: {fileID: 4711208715938537054, guid: 13dc18e0207eba64684520a48577322e, type: 3}
+  m_Mesh: {fileID: 4711208715938537054, guid: baa6d99a786a02e4aa00ce1f8b7c8af3, type: 3}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
@@ -14640,7 +14640,7 @@ ParticleSystemRenderer:
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
   m_VertexStreams: 000103040522
-  m_Mesh: {fileID: -2124705421725058983, guid: 13dc18e0207eba64684520a48577322e, type: 3}
+  m_Mesh: {fileID: -2124705421725058983, guid: baa6d99a786a02e4aa00ce1f8b7c8af3, type: 3}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
@@ -38993,7 +38993,7 @@ ParticleSystemRenderer:
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
   m_VertexStreams: 000103040522
-  m_Mesh: {fileID: 4711208715938537054, guid: 13dc18e0207eba64684520a48577322e, type: 3}
+  m_Mesh: {fileID: 4711208715938537054, guid: baa6d99a786a02e4aa00ce1f8b7c8af3, type: 3}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
@@ -48675,7 +48675,7 @@ ParticleSystemRenderer:
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
   m_VertexStreams: 000103040522
-  m_Mesh: {fileID: -2124705421725058983, guid: 13dc18e0207eba64684520a48577322e, type: 3}
+  m_Mesh: {fileID: -2124705421725058983, guid: baa6d99a786a02e4aa00ce1f8b7c8af3, type: 3}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
