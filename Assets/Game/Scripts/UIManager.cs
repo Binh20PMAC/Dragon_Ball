@@ -17,7 +17,7 @@ public class UIManager : MonoBehaviour
 
 
     public TMP_Text countdownText;
-    
+
     private void Start()
     {
 
@@ -40,18 +40,16 @@ public class UIManager : MonoBehaviour
                 health = value;
 
             value /= health;
-            if (value < 0f)
-                value = 0f;
         }
-        if (!isPlayer)
+        else
         {
             if (health_enemy == 0)
                 health_enemy = value;
 
             value /= health_enemy;
-            if (value < 0f)
-                value = 0f;
         }
+        if (value < 0f)
+            value = 0f;
         if (isPlayer && player_health_UI != null)
         {
             player_health_UI.fillAmount = value;
@@ -59,11 +57,13 @@ public class UIManager : MonoBehaviour
         else if (!isPlayer && enemy_health_UI != null)
         {
             enemy_health_UI.fillAmount = value;
+            Debug.Log(value);
+            Debug.Log(enemy_health_UI.fillAmount);
         }
     }
     public void DisplayEnergy(float value, bool isPlayer)
     {
-        value /= 100f; 
+        value /= 100f;
         if (value < 0f)
             value = 0f;
 
@@ -93,8 +93,8 @@ public class UIManager : MonoBehaviour
         countdownText.text = "Fight!";
         yield return new WaitForSeconds(1f);
 
-       
-        countdownText.gameObject.SetActive(false); 
+
+        countdownText.gameObject.SetActive(false);
     }
 }
 

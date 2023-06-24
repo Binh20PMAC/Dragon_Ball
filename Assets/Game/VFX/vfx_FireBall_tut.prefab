@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5060414078424256962}
   m_Layer: 0
   m_Name: Particles
-  m_TagString: Untagged
+  m_TagString: FireBall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4833,7 +4833,7 @@ GameObject:
   - component: {fileID: 5060414078489493074}
   m_Layer: 0
   m_Name: vfx_FireBall_tut
-  m_TagString: Untagged
+  m_TagString: FireBall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4868,7 +4868,7 @@ GameObject:
   - component: {fileID: 5060414079112943215}
   m_Layer: 0
   m_Name: Particle System
-  m_TagString: Untagged
+  m_TagString: FireBall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9684,7 +9684,7 @@ GameObject:
   - component: {fileID: 5060414080074916093}
   m_Layer: 0
   m_Name: Point Light
-  m_TagString: Untagged
+  m_TagString: FireBall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9799,7 +9799,7 @@ GameObject:
   - component: {fileID: 5060414080231815172}
   m_Layer: 0
   m_Name: Particles (1)
-  m_TagString: Untagged
+  m_TagString: FireBall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

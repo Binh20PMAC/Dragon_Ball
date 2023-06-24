@@ -56,45 +56,6 @@ public class CharacterController : MonoBehaviour
     public int speedFireball = 15;
 
 
-    void Awake()
-    {
-
-        if (LayerMask.LayerToName(gameObject.layer) == "Player")
-        {
-            health_UI = GameObject.Find("UICode").GetComponent<UIManager>();
-            collisionLayer = LayerMask.GetMask("Enemy");
-        }
-        else if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
-        {
-            enemyHealthUI = GameObject.Find("UICode").GetComponent<UIManager>();
-            collisionLayer = LayerMask.GetMask("Player");
-        }
-        hit_FX = Resources.Load("HitEffect", typeof(GameObject)) as GameObject;
-    }
-
-    // Start is called before the first frame update
-    public void Start()
-    {
-        //playerRb = GetComponent<Rigidbody>();
-        //current_combo_timer = default_combo_timer;
-        //current_combo_state = ComboState.none;
-        //Debug.Log("start");
-    }
-
-
-    // Update is called once per frame
-    //void FixedUpdate()
-    //{
-    //    if (Input.GetKey(KeyCode.D))
-    //    {
-    //        playerRb.velocity = transform.forward * w_speed * Time.deltaTime;
-
-    //    }
-    //    if (Input.GetKey(KeyCode.A))
-    //    {
-    //        playerRb.velocity = -transform.forward * wb_speed * Time.deltaTime;
-    //    }
-    //}
     void Update()
     {
         //xoay nhan vat
@@ -319,10 +280,11 @@ public class CharacterController : MonoBehaviour
             {
                 Movement();
                 ComboAttacks();
+                Skill();
             }
             else if (ki.activeInHierarchy)
             {
-                ApplyEnergy(5f);
+                ApplyIncreaseEnergy(5f);
             }
             if (kiFull.activeInHierarchy || ki.activeInHierarchy)
             {
@@ -386,12 +348,13 @@ public class CharacterController : MonoBehaviour
             }
             if (!ki.activeInHierarchy)
             {
+                Skill();
                 Movement();
                 ComboAttacks();
             }
             else if (ki.activeInHierarchy)
             {
-                ApplyEnergy(5f);
+                ApplyIncreaseEnergy(5f);
             }
             if (kiFull.activeInHierarchy || ki.activeInHierarchy)
             {
@@ -437,7 +400,7 @@ public class CharacterController : MonoBehaviour
 
     protected void Skill()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1) && LayerMask.LayerToName(gameObject.layer) == "Player")
         {
             if (isPooling)
             {
@@ -451,7 +414,23 @@ public class CharacterController : MonoBehaviour
                 }
                 isPooling = false;
             }
-            ActivateFireball();
+            ActivateFireball(10f);
+        }
+        else if (Input.GetKeyDown(KeyCode.N) && LayerMask.LayerToName(gameObject.layer) == "Enemy")
+        {
+            if (isPooling)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    GameObject fireball = Instantiate(skillOne, transform.position, Quaternion.identity);
+                    fireball.layer = LayerMask.NameToLayer(LayerMask.LayerToName(gameObject.layer));
+                    SetLayerRecursively(fireball, fireball.layer);
+                    fireball.SetActive(false);
+                    listSkillOne.Add(fireball);
+                }
+                isPooling = false;
+            }
+            ActivateFireball(10f);
         }
     }
 
@@ -464,8 +443,10 @@ public class CharacterController : MonoBehaviour
             SetLayerRecursively(child.gameObject, layer);
         }
     }
-    private void ActivateFireball()
+    private void ActivateFireball(float fireballEnergy)
     {
+        if (fireballEnergy > energy) return;
+        ApplyReduceEnergy(fireballEnergy);
         foreach (GameObject fireball in listSkillOne)
         {
             if (!fireball.activeSelf)
@@ -646,12 +627,24 @@ public class CharacterController : MonoBehaviour
 
     private void OnParticleCollision(GameObject collision)
     {
-        if (collision.gameObject.layer != gameObject.layer)
+        if (collision.gameObject.layer != gameObject.layer && collision.gameObject.CompareTag("FireBall"))
         {
-            collision.transform.parent.gameObject.SetActive(false);
+            DeactivateTopmostParent(collision);
+            ApplyDamage(10f, false);
         }
     }
+    void DeactivateTopmostParent(GameObject childObject)
+    {
+        Transform parent = childObject.transform.parent;
 
+        while (parent != null)
+        {
+            childObject = parent.gameObject;
+            parent = childObject.transform.parent;
+        }
+
+        childObject.SetActive(false);
+    }
     void DetectCollisionRightArm()
     {
         Collider[] hit = Physics.OverlapSphere(RightArmAttackPoint.transform.position, radius, collisionLayer);
@@ -1068,7 +1061,7 @@ public class CharacterController : MonoBehaviour
             }
         }
     }
-    public void ApplyEnergy(float charge)
+    public void ApplyIncreaseEnergy(float charge)
     {
         energy += charge * Time.deltaTime;
 
@@ -1087,6 +1080,20 @@ public class CharacterController : MonoBehaviour
             kiFull.SetActive(true);
         }
     }
+
+    public void ApplyReduceEnergy(float charge)
+    {
+        energy -= charge;
+        if (LayerMask.LayerToName(gameObject.layer) == "Player")
+        {
+            health_UI.DisplayEnergy(energy, true);
+        }
+        else if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
+        {
+            enemyHealthUI.DisplayEnergy(energy, false);
+        }
+    }
+
     //IEnumerator WaitForSecondTouchGround()
     //{
     //    yield return new WaitForSeconds(0f);
