@@ -15,12 +15,10 @@ public class UIManager : MonoBehaviour
     private float health = 0;
     private float health_enemy = 0;
 
-
     public TMP_Text countdownText;
 
     private void Start()
     {
-
         StartCoroutine(CountdownCoroutine());
     }
     void Awake()

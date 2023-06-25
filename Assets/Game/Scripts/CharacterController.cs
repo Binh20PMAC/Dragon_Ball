@@ -10,7 +10,6 @@ public class CharacterController : MonoBehaviour
     public List<ParticleSystem> kiGround;
     public Animator playerAnim;
     public Rigidbody playerRb;
-    public Transform playerTrans;
     public Transform targetEnemy;
     private bool activateTimerToReset;
     private float default_combo_timer = 2f;
@@ -56,23 +55,22 @@ public class CharacterController : MonoBehaviour
     public int speedFireball = 15;
 
 
-    void Update()
+    protected void Rotation()
     {
-        //xoay nhan vat
         if (targetEnemy != null)
         {
-            Vector3 targetDirection = targetEnemy.position - playerTrans.transform.position;
+            Vector3 targetDirection = targetEnemy.position - transform.position;
             float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
 
             // Xoay "CharacterContainer"
             if (angle > 90 || angle < -90)
             {
-                playerTrans.transform.rotation = Quaternion.Euler(0f, 270f, 0f);
+                transform.rotation = Quaternion.Euler(0f, 270f, 0f);
                 isFlipped = true;
             }
             else
             {
-                playerTrans.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+                transform.rotation = Quaternion.Euler(0f, 90f, 0f);
                 isFlipped = false;
             }
         }
@@ -284,7 +282,7 @@ public class CharacterController : MonoBehaviour
             }
             else if (ki.activeInHierarchy)
             {
-                ApplyIncreaseEnergy(5f);
+                ApplyIncreaseEnergy(10f);
             }
             if (kiFull.activeInHierarchy || ki.activeInHierarchy)
             {
@@ -354,7 +352,7 @@ public class CharacterController : MonoBehaviour
             }
             else if (ki.activeInHierarchy)
             {
-                ApplyIncreaseEnergy(5f);
+                ApplyIncreaseEnergy(10f);
             }
             if (kiFull.activeInHierarchy || ki.activeInHierarchy)
             {
@@ -474,6 +472,7 @@ public class CharacterController : MonoBehaviour
                 if (fireball.activeInHierarchy)
                 {
                     fireball.transform.Translate(Vector3.right * speedFireball * Time.deltaTime);
+                    fireball.transform.position = new Vector3(fireball.transform.position.x, fireball.transform.position.y, -10);
                     CheckOffscreen(fireball);
                 }
             }
@@ -1061,9 +1060,9 @@ public class CharacterController : MonoBehaviour
             }
         }
     }
-    public void ApplyIncreaseEnergy(float charge)
+    public void ApplyIncreaseEnergy(float speed)
     {
-        energy += charge * Time.deltaTime;
+        energy += speed * Time.deltaTime;
 
         if (LayerMask.LayerToName(gameObject.layer) == "Player")
         {

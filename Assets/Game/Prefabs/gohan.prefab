@@ -74306,10 +74306,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.21752045
-  m_Height: 1.4999652
+  m_Radius: 0.272056
+  m_Height: 1.5249327
   m_Direction: 1
-  m_Center: {x: 0.023659915, y: 0.7400174, z: 0.09469299}
+  m_Center: {x: -0.01139912, y: 0.7525012, z: 0.094692945}
 --- !u!95 &2826137599960408041
 Animator:
   serializedVersion: 5
@@ -74352,7 +74352,6 @@ MonoBehaviour:
   - {fileID: 2826137599857212409}
   playerAnim: {fileID: 2826137599960408041}
   playerRb: {fileID: 2826137599960408047}
-  playerTrans: {fileID: 0}
   targetEnemy: {fileID: 0}
   w_speed: 3
   wb_speed: 2
@@ -74368,7 +74367,7 @@ MonoBehaviour:
     m_Bits: 0
   radius: 1
   damage: 11
-  hit_FX: {fileID: 0}
+  hit_FX: {fileID: 115594, guid: efd3011863918584d94591e177fa8d29, type: 3}
   RightArmAttackPoint: {fileID: 2826137600087086653}
   LeftArmAttackPoint: {fileID: 2826137599994325863}
   RightLegAttackPoint: {fileID: 2826137599327633221}
@@ -74379,6 +74378,7 @@ MonoBehaviour:
   health_UI: {fileID: 0}
   enemyHealthUI: {fileID: 0}
   skillOne: {fileID: 5060414078489493075, guid: e6b75b88617b129468d40f70f04615bd, type: 3}
+  listSkillOne: []
   speedFireball: 15
 --- !u!1 &3528581058995769769
 GameObject:

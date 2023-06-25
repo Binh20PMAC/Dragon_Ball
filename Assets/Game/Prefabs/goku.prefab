@@ -1248,7 +1248,6 @@ MonoBehaviour:
   - {fileID: 3053752519265420388}
   playerAnim: {fileID: 3053752519215069711}
   playerRb: {fileID: 3053752519215069707}
-  playerTrans: {fileID: 0}
   targetEnemy: {fileID: 0}
   w_speed: 3
   wb_speed: 2
@@ -1264,7 +1263,7 @@ MonoBehaviour:
     m_Bits: 0
   radius: 1
   damage: 10
-  hit_FX: {fileID: 0}
+  hit_FX: {fileID: 115594, guid: efd3011863918584d94591e177fa8d29, type: 3}
   RightArmAttackPoint: {fileID: 3053752519115427816}
   LeftArmAttackPoint: {fileID: 3053752519101075490}
   RightLegAttackPoint: {fileID: 3053752519001056144}
@@ -1275,6 +1274,7 @@ MonoBehaviour:
   health_UI: {fileID: 0}
   enemyHealthUI: {fileID: 0}
   skillOne: {fileID: 5060414078489493075, guid: e6b75b88617b129468d40f70f04615bd, type: 3}
+  listSkillOne: []
   speedFireball: 15
 --- !u!1 &2917833136011786936
 GameObject:
