@@ -1146,7 +1146,7 @@ GameObject:
   - component: {fileID: 3053752519215069704}
   - component: {fileID: 3053752519215069711}
   - component: {fileID: 3053752519215069705}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: goku
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1173,6 +1173,7 @@ Transform:
   - {fileID: 4658792262027012652}
   - {fileID: 3053752518958716316}
   - {fileID: 3053752519590371403}
+  - {fileID: 5304350690874169900}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -1274,8 +1275,10 @@ MonoBehaviour:
   health_UI: {fileID: 0}
   enemyHealthUI: {fileID: 0}
   skillOne: {fileID: 5060414078489493075, guid: e6b75b88617b129468d40f70f04615bd, type: 3}
+  skillTwo: {fileID: 5304350690874169901}
   listSkillOne: []
   speedFireball: 15
+  colliderWith: {fileID: 5304350691946360373}
 --- !u!1 &2917833136011786936
 GameObject:
   m_ObjectHideFlags: 0
@@ -75895,3 +75898,271 @@ Transform:
   m_Father: {fileID: 7042486382093336449}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -45.30654, y: 39.668743, z: -165.33441}
+--- !u!1001 &3053752519799132086
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3308917305340894997}
+    m_Modifications:
+    - target: {fileID: 480394032, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_TagString
+      value: Kame
+      objectReference: {fileID: 0}
+    - target: {fileID: 480394035, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 2.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 482222809, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_TagString
+      value: Kame
+      objectReference: {fileID: 0}
+    - target: {fileID: 488481975, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_TagString
+      value: Kame
+      objectReference: {fileID: 0}
+    - target: {fileID: 1328114101, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_TagString
+      value: Kame
+      objectReference: {fileID: 0}
+    - target: {fileID: 1328114104, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: CollisionModule.radiusScale
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1328114104, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: CollisionModule.m_Bounce.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1328114104, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: CollisionModule.collisionMessages
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1328114104, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1379308710, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_TagString
+      value: Kame
+      objectReference: {fileID: 0}
+    - target: {fileID: 1379308713, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1618523455, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_TagString
+      value: Kame
+      objectReference: {fileID: 0}
+    - target: {fileID: 1618523458, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 2.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072618943, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_TagString
+      value: Kame
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140812684522858, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_TagString
+      value: Kame
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140812684522863, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 2.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140812849362196, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_TagString
+      value: Kame
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813027216480, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_TagString
+      value: Kame
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813027216485, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: CollisionModule.type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813027216485, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813221741760, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813221741763, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_TagString
+      value: Kame
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813452151320, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_TagString
+      value: Kame
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813452151325, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: CollisionModule.radiusScale
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813452151325, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: CollisionModule.m_Bounce.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813452151325, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: CollisionModule.collisionMessages
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813452151325, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813524351558, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_TagString
+      value: Kame
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813531305370, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813531305370, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813531305370, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813531305370, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813531305370, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813531305370, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813531305370, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.2550001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813531305370, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813531305370, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813531305370, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813531305370, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813531305370, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813531305370, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813531305370, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813531305370, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813531305371, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_Name
+      value: vfx_Kamehameha_tut
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813531305371, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813531305371, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_TagString
+      value: Kame
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813825394892, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_TagString
+      value: Kame
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813831026119, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_TagString
+      value: Kame
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813833908561, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 2.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140813833908572, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_TagString
+      value: Kame
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140814465077120, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_TagString
+      value: Kame
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140814465077125, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140814603460995, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140814603460995, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: TriggerModule.radiusScale
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140814603460995, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: CollisionModule.radiusScale
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140814603460995, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: CollisionModule.m_Bounce.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140814603460995, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: CollisionModule.collisionMessages
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140814603460995, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 2.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140814603460995, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: CollisionModule.collidesWith.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140814603460995, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: CollisionModule.m_EnergyLossOnCollision.scalar
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205140814603461006, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+      propertyPath: m_TagString
+      value: Kame
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+--- !u!4 &5304350690874169900 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7205140813531305370, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+  m_PrefabInstance: {fileID: 3053752519799132086}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5304350690874169901 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7205140813531305371, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+  m_PrefabInstance: {fileID: 3053752519799132086}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &5304350691946360373 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7205140814603460995, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
+  m_PrefabInstance: {fileID: 3053752519799132086}
+  m_PrefabAsset: {fileID: 0}

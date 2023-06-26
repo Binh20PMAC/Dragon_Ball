@@ -55,8 +55,6 @@ public class UIManager : MonoBehaviour
         else if (!isPlayer && enemy_health_UI != null)
         {
             enemy_health_UI.fillAmount = value;
-            Debug.Log(value);
-            Debug.Log(enemy_health_UI.fillAmount);
         }
     }
     public void DisplayEnergy(float value, bool isPlayer)

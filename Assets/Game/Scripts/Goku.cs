@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class Goku : CharacterController
 {
-    GameObject enemy;
-    GameObject player;
+    public ParticleSystem colliderWith;
     public void Start()
     {
+        ParticleSystem.CollisionModule collisionModule = colliderWith.collision;
+
         if (LayerMask.LayerToName(gameObject.layer) == "Player")
         {
             health_UI = GameObject.Find("UICode").GetComponent<UIManager>();
             collisionLayer = LayerMask.GetMask("Enemy");
             health_UI.DisplayHealth(health, true);
             targetEnemy = GameObject.Find("Enemy").transform;
+            skillTwo.layer = gameObject.layer;
+            SetLayerRecursively(skillTwo, skillTwo.layer);
+            collisionModule.collidesWith = LayerMask.GetMask("Enemy");
         }
         else if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
         {
@@ -21,7 +25,10 @@ public class Goku : CharacterController
             collisionLayer = LayerMask.GetMask("Player");
             enemyHealthUI.DisplayHealth(health, false);
             targetEnemy = GameObject.Find("Player").transform;
-        } 
+            skillTwo.layer = gameObject.layer;
+            SetLayerRecursively(skillTwo, skillTwo.layer);
+            collisionModule.collidesWith = LayerMask.GetMask("Player");
+        }
     }
 
     // Update is called once per frame
@@ -33,6 +40,9 @@ public class Goku : CharacterController
         ResetComboState();
         AttackPoint();
         MoveFireball();
+        if (skillTwo.activeInHierarchy)
+        {
+            transform.position = new Vector3(transform.position.x, 2.2f, transform.position.z);
+        }
     }
-
 }

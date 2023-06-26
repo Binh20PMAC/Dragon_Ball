@@ -50,9 +50,11 @@ public class CharacterController : MonoBehaviour
 
     //Skill
     public GameObject skillOne;
+    public GameObject skillTwo;
     private bool isPooling = true;
     public List<GameObject> listSkillOne = new List<GameObject>();
     public int speedFireball = 15;
+    private Vector3 betweenHands;
 
 
     protected void Rotation()
@@ -252,19 +254,11 @@ public class CharacterController : MonoBehaviour
             }
         }
     }
+
     protected void Ki()
     {
         if (LayerMask.LayerToName(gameObject.layer) == "Player" && !isKnockDown)
         {
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                playerAnim.SetTrigger("chargeki");
-                playerAnim.SetTrigger("chargekimidle");
-            }
-            if (Input.GetKeyUp(KeyCode.R))
-            {
-                playerAnim.SetTrigger("chargekilast");
-            }
             if (stateInfo.IsName("chargekilast") || stateInfo.IsName("chargekimidle") || stateInfo.IsName("chargeki"))
             {
                 ki.SetActive(true);
@@ -274,16 +268,32 @@ public class CharacterController : MonoBehaviour
                 ki.SetActive(false);
                 playerAnim.ResetTrigger("chargekilast");
             }
-            if (!ki.activeInHierarchy)
+            if (!ki.activeInHierarchy && !skillTwo.activeInHierarchy)
             {
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    playerAnim.SetTrigger("chargeki");
+                    playerAnim.SetTrigger("chargekimidle");
+                }
                 Movement();
                 ComboAttacks();
                 Skill();
             }
-            else if (ki.activeInHierarchy)
+            if (Input.GetKeyUp(KeyCode.R))
+            {
+                playerAnim.SetTrigger("chargekilast");
+            }
+            if (ki.activeInHierarchy)
             {
                 ApplyIncreaseEnergy(10f);
             }
+            if (skillTwo.activeInHierarchy)
+            {
+                betweenHands = (RightArmAttackPoint.transform.position + LeftArmAttackPoint.transform.position) / 2;
+                CheckChildParticleLifetimes(skillTwo.transform);
+                skillTwo.transform.position = betweenHands;
+            }
+
             if (kiFull.activeInHierarchy || ki.activeInHierarchy)
             {
                 if (GetComponent<Rigidbody>().velocity.y > 0)
@@ -344,15 +354,30 @@ public class CharacterController : MonoBehaviour
                 ki.SetActive(false);
                 playerAnim.ResetTrigger("chargekilast");
             }
-            if (!ki.activeInHierarchy)
+            if (!ki.activeInHierarchy && !skillTwo.activeInHierarchy)
             {
-                Skill();
+                if (Input.GetKeyDown(KeyCode.P))
+                {
+                    playerAnim.SetTrigger("chargeki");
+                    playerAnim.SetTrigger("chargekimidle");
+                }
                 Movement();
                 ComboAttacks();
+                Skill();
             }
-            else if (ki.activeInHierarchy)
+            if (Input.GetKeyUp(KeyCode.P))
+            {
+                playerAnim.SetTrigger("chargekilast");
+            }
+            if (ki.activeInHierarchy)
             {
                 ApplyIncreaseEnergy(10f);
+            }
+            if (skillTwo.activeInHierarchy)
+            {
+                betweenHands = (RightArmAttackPoint.transform.position + LeftArmAttackPoint.transform.position) / 2;
+                CheckChildParticleLifetimes(skillTwo.transform);
+                skillTwo.transform.position = betweenHands;
             }
             if (kiFull.activeInHierarchy || ki.activeInHierarchy)
             {
@@ -414,7 +439,7 @@ public class CharacterController : MonoBehaviour
             }
             ActivateFireball(10f);
         }
-        else if (Input.GetKeyDown(KeyCode.N) && LayerMask.LayerToName(gameObject.layer) == "Enemy")
+        else if (Input.GetKeyDown(KeyCode.J) && LayerMask.LayerToName(gameObject.layer) == "Enemy")
         {
             if (isPooling)
             {
@@ -430,10 +455,43 @@ public class CharacterController : MonoBehaviour
             }
             ActivateFireball(10f);
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2) && LayerMask.LayerToName(gameObject.layer) == "Player")
+        {
+            if (50f > energy) return;
+            ApplyReduceEnergy(50f);
+            skillTwo.SetActive(true);
+            playerAnim.SetTrigger("kame");
+        }
+        else if (Input.GetKeyDown(KeyCode.K) && LayerMask.LayerToName(gameObject.layer) == "Enemy")
+        {
+            if (50f > energy) return;
+            ApplyReduceEnergy(50f);
+            skillTwo.SetActive(true);
+            playerAnim.SetTrigger("kame");
+        }
     }
 
+    void CheckChildParticleLifetimes(Transform parent)
+    {
+        foreach (Transform child in parent)
+        {
+            ParticleSystem particleSystem = child.GetComponent<ParticleSystem>();
+            if (particleSystem != null)
+            {
+                ParticleSystem.MainModule mainModule = particleSystem.main;
+                float remainingLifetime = mainModule.duration - particleSystem.time;
+                if (remainingLifetime == 0 && child.name == "KameCore")
+                {
+                    skillTwo.SetActive(false);
+                }
+                //Debug.Log("Remaining Lifetime of Particle System: " + remainingLifetime + " seconds");
+            }
 
-    void SetLayerRecursively(GameObject obj, int layer)
+            CheckChildParticleLifetimes(child);
+        }
+    }
+    public void SetLayerRecursively(GameObject obj, int layer)
     {
         obj.layer = layer;
         foreach (Transform child in obj.transform)
@@ -472,7 +530,7 @@ public class CharacterController : MonoBehaviour
                 if (fireball.activeInHierarchy)
                 {
                     fireball.transform.Translate(Vector3.right * speedFireball * Time.deltaTime);
-                    fireball.transform.position = new Vector3(fireball.transform.position.x, fireball.transform.position.y, -10);
+                    fireball.transform.position = new Vector3(fireball.transform.position.x, fireball.transform.position.y, -10f);
                     CheckOffscreen(fireball);
                 }
             }
@@ -631,7 +689,13 @@ public class CharacterController : MonoBehaviour
             DeactivateTopmostParent(collision);
             ApplyDamage(10f, false);
         }
+        if (collision.gameObject.CompareTag("Kame"))
+        {
+            ApplyDamage(4f, true);
+        }
+        
     }
+
     void DeactivateTopmostParent(GameObject childObject)
     {
         Transform parent = childObject.transform.parent;

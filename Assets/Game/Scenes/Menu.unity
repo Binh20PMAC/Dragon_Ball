@@ -1779,7 +1779,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1202987405, guid: 103333a7451eb9145963f5506731f442, type: 3}
+  m_Sprite: {fileID: -1450051835, guid: 8e8983c6850280445ab9aa3cdf370baa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2371,7 +2371,6 @@ MonoBehaviour:
   - {fileID: 1797406256798808158, guid: 1bfc6f22b5b2f154d8afb13b252e3205, type: 3}
   characterSelection: {fileID: 1784394477}
   mapSelection: {fileID: 1152341869}
-  skyboxMaterial: {fileID: 2100000, guid: 3e5399bd195de7649b874f58c1b9f8a3, type: 2}
   selectedCharacter1: 0
   selectedCharacter2: 0
   selectedMap: 0
