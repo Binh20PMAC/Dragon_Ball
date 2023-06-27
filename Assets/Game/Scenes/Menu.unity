@@ -509,6 +509,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1657923560087163897, guid: ed1e1e6604477af46a838759bed3b07e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2000523336491353991, guid: ed1e1e6604477af46a838759bed3b07e, type: 3}
       propertyPath: m_Name
       value: CellPerfect
@@ -831,6 +835,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3053752519215069705, guid: 0f41866e86d744542a98d885a4348631, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3308917305340894997, guid: 0f41866e86d744542a98d885a4348631, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -1063,6 +1071,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2826137599960408040, guid: 081fb44af147ed74e98549cf434624ef, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3168595689317440627, guid: 081fb44af147ed74e98549cf434624ef, type: 3}
       propertyPath: m_Name
       value: Gohan
@@ -1124,6 +1136,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1191371205286960445, guid: ed1e1e6604477af46a838759bed3b07e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1657923560087163897, guid: ed1e1e6604477af46a838759bed3b07e, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2000523336491353991, guid: ed1e1e6604477af46a838759bed3b07e, type: 3}
@@ -1523,7 +1539,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8933887821895200232, guid: 52ff510a094a46940b02050e1d53b778, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8967004265297949314, guid: 52ff510a094a46940b02050e1d53b778, type: 3}
       propertyPath: m_RootOrder
@@ -1932,6 +1948,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Buu Kid
       objectReference: {fileID: 0}
+    - target: {fileID: 8933887821895200232, guid: 52ff510a094a46940b02050e1d53b778, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8967004265297949314, guid: 52ff510a094a46940b02050e1d53b778, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -2072,6 +2092,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2783350383891498415, guid: 0f41866e86d744542a98d885a4348631, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3053752519215069705, guid: 0f41866e86d744542a98d885a4348631, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3308917305340894997, guid: 0f41866e86d744542a98d885a4348631, type: 3}
@@ -2582,6 +2606,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2356170204543305417, guid: 081fb44af147ed74e98549cf434624ef, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2826137599960408040, guid: 081fb44af147ed74e98549cf434624ef, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3168595689317440627, guid: 081fb44af147ed74e98549cf434624ef, type: 3}

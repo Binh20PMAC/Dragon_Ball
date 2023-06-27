@@ -269,7 +269,7 @@ public class CharacterController : MonoBehaviour
                 ki.SetActive(false);
                 playerAnim.ResetTrigger("chargekilast");
             }
-            if (!ki.activeInHierarchy && !skillTwo.activeInHierarchy)
+            if (!ki.activeInHierarchy && !skillTwo.activeInHierarchy && !stateInfo.IsName("SpiritBoomMiddle") && !stateInfo.IsName("SpiritBoomFirst"))
             {
                 if (Input.GetKeyDown(KeyCode.R))
                 {
@@ -337,15 +337,6 @@ public class CharacterController : MonoBehaviour
         }
         if (LayerMask.LayerToName(gameObject.layer) == "Enemy" && !isKnockDown)
         {
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                playerAnim.SetTrigger("chargeki");
-                playerAnim.SetTrigger("chargekimidle");
-            }
-            if (Input.GetKeyUp(KeyCode.P))
-            {
-                playerAnim.SetTrigger("chargekilast");
-            }
             if (stateInfo.IsName("chargekilast") || stateInfo.IsName("chargekimidle") || stateInfo.IsName("chargeki"))
             {
                 ki.SetActive(true);
@@ -355,7 +346,7 @@ public class CharacterController : MonoBehaviour
                 ki.SetActive(false);
                 playerAnim.ResetTrigger("chargekilast");
             }
-            if (!ki.activeInHierarchy && !skillTwo.activeInHierarchy)
+            if (!ki.activeInHierarchy && !skillTwo.activeInHierarchy && !stateInfo.IsName("SpiritBoomMiddle") && !stateInfo.IsName("SpiritBoomFirst"))
             {
                 if (Input.GetKeyDown(KeyCode.P))
                 {
@@ -366,6 +357,7 @@ public class CharacterController : MonoBehaviour
                 ComboAttacks();
                 Skill();
             }
+
             if (Input.GetKeyUp(KeyCode.P))
             {
                 playerAnim.SetTrigger("chargekilast");
@@ -471,14 +463,26 @@ public class CharacterController : MonoBehaviour
             skillTwo.SetActive(true);
             playerAnim.SetTrigger("kame");
         }
-        if (Input.GetKeyDown(KeyCode.L) && LayerMask.LayerToName(gameObject.layer) == "Enemy")
+        if (!skillThree.activeInHierarchy)
         {
-            if (80f > energy) return;
-            ApplyReduceEnergy(80f);
-            skillThree.transform.position = new Vector3(skillThree.transform.position.x, transform.position.y + 8f, skillThree.transform.position.z);
-            skillThree.SetActive(true);
-            playerAnim.SetTrigger("spiritboomfirst");
-            playerAnim.SetTrigger("spiritboommiddle");
+            if (Input.GetKeyDown(KeyCode.Alpha3) && LayerMask.LayerToName(gameObject.layer) == "Player")
+            {
+                if (80f > energy) return;
+                ApplyReduceEnergy(80f);
+                skillThree.transform.position = new Vector3(transform.position.x, transform.position.y + 7f, transform.position.z);
+                skillThree.SetActive(true);
+                playerAnim.SetTrigger("spiritboomfirst");
+                playerAnim.SetTrigger("spiritboommiddle");
+            }
+            else if (Input.GetKeyDown(KeyCode.L) && LayerMask.LayerToName(gameObject.layer) == "Enemy")
+            {
+                if (80f > energy) return;
+                ApplyReduceEnergy(80f);
+                skillThree.transform.position = new Vector3(transform.position.x, transform.position.y + 7f, transform.position.z);
+                skillThree.SetActive(true);
+                playerAnim.SetTrigger("spiritboomfirst");
+                playerAnim.SetTrigger("spiritboommiddle");
+            }
         }
     }
 
@@ -515,17 +519,22 @@ public class CharacterController : MonoBehaviour
                     float directionMultiplier = 1f;
                     if (transform.rotation.eulerAngles.y == 90f)
                     {
-                        directionMultiplier = 1f; 
+                        directionMultiplier = 1f;
                     }
                     else if (transform.rotation.eulerAngles.y == 270f)
                     {
-                        directionMultiplier = -1f; 
+                        directionMultiplier = -1f;
                     }
-                    skillThree.transform.position += Vector3.right * directionMultiplier * 4f * Time.deltaTime;
-                    skillThree.transform.position += (Vector3.down / 2f) * Time.deltaTime;
+                    skillThree.transform.position += Vector3.right * directionMultiplier * 8f * Time.deltaTime;
+                    skillThree.transform.position += Vector3.down * Time.deltaTime;
                     child.gameObject.SetActive(false);
                     playerAnim.SetTrigger("spiritboomlast");
                     CheckOffscreen(skillThree);
+                    if (!skillThree.activeInHierarchy)
+                    {
+                        child.gameObject.SetActive(true);
+                        playerAnim.ResetTrigger("spiritboomlast");
+                    }
                 }
             }
         }
@@ -586,10 +595,6 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    //protected GameObject GetHitEffect()
-    //{
-    //    return Resources.Load("HitEffect", typeof(GameObject)) as GameObject;
-    //}
     void ComboAttacks()
     {
         if (LayerMask.LayerToName(gameObject.layer) == "Player" && !isKnockDown)
@@ -732,7 +737,7 @@ public class CharacterController : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Kame"))
         {
-            ApplyDamage(6f, false);
+            ApplyDamage(6f, true);
         }
 
     }
