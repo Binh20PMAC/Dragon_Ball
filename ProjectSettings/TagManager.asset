@@ -13,6 +13,7 @@ TagManager:
   - RightLeg
   - FireBall
   - Kame
+  - SpiritBoom
   layers:
   - Default
   - TransparentFX

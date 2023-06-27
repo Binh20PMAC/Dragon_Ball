@@ -51,6 +51,7 @@ public class CharacterController : MonoBehaviour
     //Skill
     public GameObject skillOne;
     public GameObject skillTwo;
+    public GameObject skillThree;
     private bool isPooling = true;
     public List<GameObject> listSkillOne = new List<GameObject>();
     public int speedFireball = 15;
@@ -290,7 +291,7 @@ public class CharacterController : MonoBehaviour
             if (skillTwo.activeInHierarchy)
             {
                 betweenHands = (RightArmAttackPoint.transform.position + LeftArmAttackPoint.transform.position) / 2;
-                CheckChildParticleLifetimes(skillTwo.transform);
+                CheckChildParticleLifetimesKame(skillTwo.transform);
                 skillTwo.transform.position = betweenHands;
             }
 
@@ -376,7 +377,7 @@ public class CharacterController : MonoBehaviour
             if (skillTwo.activeInHierarchy)
             {
                 betweenHands = (RightArmAttackPoint.transform.position + LeftArmAttackPoint.transform.position) / 2;
-                CheckChildParticleLifetimes(skillTwo.transform);
+                CheckChildParticleLifetimesKame(skillTwo.transform);
                 skillTwo.transform.position = betweenHands;
             }
             if (kiFull.activeInHierarchy || ki.activeInHierarchy)
@@ -470,9 +471,18 @@ public class CharacterController : MonoBehaviour
             skillTwo.SetActive(true);
             playerAnim.SetTrigger("kame");
         }
+        if (Input.GetKeyDown(KeyCode.L) && LayerMask.LayerToName(gameObject.layer) == "Enemy")
+        {
+            if (80f > energy) return;
+            ApplyReduceEnergy(80f);
+            skillThree.transform.position = new Vector3(skillThree.transform.position.x, transform.position.y + 8f, skillThree.transform.position.z);
+            skillThree.SetActive(true);
+            playerAnim.SetTrigger("spiritboomfirst");
+            playerAnim.SetTrigger("spiritboommiddle");
+        }
     }
 
-    void CheckChildParticleLifetimes(Transform parent)
+    void CheckChildParticleLifetimesKame(Transform parent)
     {
         foreach (Transform child in parent)
         {
@@ -488,7 +498,36 @@ public class CharacterController : MonoBehaviour
                 //Debug.Log("Remaining Lifetime of Particle System: " + remainingLifetime + " seconds");
             }
 
-            CheckChildParticleLifetimes(child);
+            CheckChildParticleLifetimesKame(child);
+        }
+    }
+    public void ParticleLifetimesAndMoveSpiritBoom(Transform parent)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name == "SpiritBoom")
+            {
+                ParticleSystem particleSystem = child.GetComponent<ParticleSystem>();
+                ParticleSystem.MainModule mainModule = particleSystem.main;
+                float remainingLifetime = mainModule.duration - particleSystem.time;
+                if (remainingLifetime == 0)
+                {
+                    float directionMultiplier = 1f;
+                    if (transform.rotation.eulerAngles.y == 90f)
+                    {
+                        directionMultiplier = 1f; 
+                    }
+                    else if (transform.rotation.eulerAngles.y == 270f)
+                    {
+                        directionMultiplier = -1f; 
+                    }
+                    skillThree.transform.position += Vector3.right * directionMultiplier * 4f * Time.deltaTime;
+                    skillThree.transform.position += (Vector3.down / 2f) * Time.deltaTime;
+                    child.gameObject.SetActive(false);
+                    playerAnim.SetTrigger("spiritboomlast");
+                    CheckOffscreen(skillThree);
+                }
+            }
         }
     }
     public void SetLayerRecursively(GameObject obj, int layer)
@@ -536,12 +575,14 @@ public class CharacterController : MonoBehaviour
             }
         }
     }
-    private void CheckOffscreen(GameObject fireball)
+    private void CheckOffscreen(GameObject skill)
     {
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(fireball.transform.position);
-        if (screenPos.x < 0 || screenPos.x > Screen.width)
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(skill.transform.position);
+        float screenWidth = Screen.width;
+        float expandWidth = screenWidth * 0.2f;
+        if (screenPos.x < -expandWidth || screenPos.x > screenWidth + expandWidth)
         {
-            fireball.SetActive(false);
+            skill.SetActive(false);
         }
     }
 
@@ -691,9 +732,9 @@ public class CharacterController : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Kame"))
         {
-            ApplyDamage(4f, true);
+            ApplyDamage(6f, false);
         }
-        
+
     }
 
     void DeactivateTopmostParent(GameObject childObject)

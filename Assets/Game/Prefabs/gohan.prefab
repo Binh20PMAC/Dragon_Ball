@@ -75761,7 +75761,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7205140814603460995, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 2.4
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7205140814603460995, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
       propertyPath: CollisionModule.collidesWith.m_Bits

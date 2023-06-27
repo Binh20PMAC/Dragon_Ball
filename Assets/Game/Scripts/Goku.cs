@@ -24,10 +24,12 @@ public class Goku : CharacterController
             enemyHealthUI = GameObject.Find("UICode").GetComponent<UIManager>();
             collisionLayer = LayerMask.GetMask("Player");
             enemyHealthUI.DisplayHealth(health, false);
-            targetEnemy = GameObject.Find("Player").transform;
+            //targetEnemy = GameObject.Find("Player").transform;
             skillTwo.layer = gameObject.layer;
             SetLayerRecursively(skillTwo, skillTwo.layer);
             collisionModule.collidesWith = LayerMask.GetMask("Player");
+            skillThree.layer = gameObject.layer;
+            SetLayerRecursively(skillThree, skillThree.layer);
         }
     }
 
@@ -43,6 +45,15 @@ public class Goku : CharacterController
         if (skillTwo.activeInHierarchy)
         {
             transform.position = new Vector3(transform.position.x, 2.2f, transform.position.z);
+            kiFull.transform.position = new Vector3(kiFull.transform.position.x, -0.0001f, kiFull.transform.position.z);
+        }
+        else if (!skillTwo.activeInHierarchy)
+        {
+            kiFull.transform.position = transform.position;
+        }
+        if(skillThree.activeInHierarchy)
+        {
+            ParticleLifetimesAndMoveSpiritBoom(skillThree.transform);
         }
     }
 }
