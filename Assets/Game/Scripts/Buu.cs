@@ -7,18 +7,18 @@ public class Buu : CharacterController
     public void Start()
     {
         InitializeHealth(health);
-        health_UI = GameObject.Find("UICode").GetComponent<UIManager>();
+        uiManager = GameObject.Find("UICode").GetComponent<UIManager>();
         isLayer = LayerMask.LayerToName(gameObject.layer);
         if (isLayer == isPlayer)
         {
             collisionLayer = LayerMask.GetMask(isEnemy);
-            health_UI.DisplayHealth(health, true);
+            uiManager.DisplayHealth(health, true);
             targetEnemy = GameObject.Find(isEnemy).transform;
         }
         else if (isLayer == isEnemy)
         {
             collisionLayer = LayerMask.GetMask(isPlayer);
-            health_UI.DisplayHealth(health, false);
+            uiManager.DisplayHealth(health, false);
             targetEnemy = GameObject.Find(isPlayer).transform;
         }
     }

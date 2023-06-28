@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Goku : CharacterController
 {
-    private UIManager uiManager;
     public ParticleSystem colliderWith;
     public void Start()
     {
@@ -13,13 +12,13 @@ public class Goku : CharacterController
         spiritboom.name = "SpiritBoomOfGoku";
         skillThree = spiritboom;
         ParticleSystem.CollisionModule collisionModule = colliderWith.collision;
-        health_UI = GameObject.Find("UICode").GetComponent<UIManager>();
+        base.uiManager = GameObject.Find("UICode").GetComponent<UIManager>();
         InitializeHealth(health);
         isLayer = LayerMask.LayerToName(gameObject.layer);
         if (isLayer == isPlayer)
         {
             collisionLayer = LayerMask.GetMask(isEnemy);
-            health_UI.DisplayHealth(health, true);
+            base.uiManager.DisplayHealth(health, true);
             targetEnemy = GameObject.Find(isEnemy).transform;
             skillTwo.layer = gameObject.layer;
             SetLayerRecursively(skillTwo, skillTwo.layer);
@@ -28,7 +27,7 @@ public class Goku : CharacterController
         else if (isLayer == isEnemy)
         {
             collisionLayer = LayerMask.GetMask(isPlayer);
-            health_UI.DisplayHealth(health, false);
+            base.uiManager.DisplayHealth(health, false);
             targetEnemy = GameObject.Find(isPlayer).transform;
             skillTwo.layer = gameObject.layer;
             SetLayerRecursively(skillTwo, skillTwo.layer);

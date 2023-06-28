@@ -74254,7 +74254,7 @@ GameObject:
   - component: {fileID: 2826137599960408046}
   - component: {fileID: 2826137599960408041}
   - component: {fileID: 2826137599960408040}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: gohan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74362,7 +74362,6 @@ MonoBehaviour:
   jumpForce: 1000
   isOnGround: 1
   isFlipped: 0
-  isKnockDown: 0
   collisionLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -74375,9 +74374,8 @@ MonoBehaviour:
   LeftLegAttackPoint: {fileID: 2826137598784352895}
   RightForeArmAttackPoint: {fileID: 2826137599049260882}
   health: 100
-  energy: 15
-  health_UI: {fileID: 0}
-  enemyHealthUI: {fileID: 0}
+  energy: 5000
+  uiManager: {fileID: 0}
   skillOne: {fileID: 5060414078489493075, guid: e6b75b88617b129468d40f70f04615bd, type: 3}
   skillTwo: {fileID: 5551751021321386092}
   skillThree: {fileID: 5551751021321386092}

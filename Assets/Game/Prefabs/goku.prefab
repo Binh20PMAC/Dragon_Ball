@@ -1146,7 +1146,7 @@ GameObject:
   - component: {fileID: 3053752519215069704}
   - component: {fileID: 3053752519215069711}
   - component: {fileID: 3053752519215069705}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: goku
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1258,7 +1258,6 @@ MonoBehaviour:
   jumpForce: 1000
   isOnGround: 1
   isFlipped: 0
-  isKnockDown: 0
   collisionLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -1271,9 +1270,8 @@ MonoBehaviour:
   LeftLegAttackPoint: {fileID: 3053752519553701295}
   RightForeArmAttackPoint: {fileID: 3053752519749177728}
   health: 100
-  energy: 15
-  health_UI: {fileID: 0}
-  enemyHealthUI: {fileID: 0}
+  energy: 500
+  uiManager: {fileID: 0}
   skillOne: {fileID: 5060414078489493075, guid: e6b75b88617b129468d40f70f04615bd, type: 3}
   skillTwo: {fileID: 5304350690874169901}
   skillThree: {fileID: 6395357013047131376, guid: 244ad744f7717be4895d3f1c80c6801f, type: 3}

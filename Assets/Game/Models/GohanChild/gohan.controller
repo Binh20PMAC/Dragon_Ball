@@ -940,7 +940,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: gohan_kame
+  m_Name: kame
   m_Speed: 0.4
   m_CycleOffset: 0
   m_Transitions:
@@ -1622,7 +1622,7 @@ AnimatorStateMachine:
     m_Position: {x: -120, y: -350, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4299445870205271541}
-    m_Position: {x: -660, y: -320, z: 0}
+    m_Position: {x: -650, y: -240, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5678253133457388781}
     m_Position: {x: -190, y: -150, z: 0}
