@@ -13,54 +13,41 @@ public class Goku : CharacterController
         spiritboom.name = "SpiritBoomOfGoku";
         skillThree = spiritboom;
         ParticleSystem.CollisionModule collisionModule = colliderWith.collision;
-        uiManager = GameObject.Find("UICode").GetComponent<UIManager>();
-        if (LayerMask.LayerToName(gameObject.layer) == "Player")
+        health_UI = GameObject.Find("UICode").GetComponent<UIManager>();
+        InitializeHealth(health);
+        isLayer = LayerMask.LayerToName(gameObject.layer);
+        if (isLayer == isPlayer)
         {
-            health_UI = GameObject.Find("UICode").GetComponent<UIManager>();
-            collisionLayer = LayerMask.GetMask("Enemy");
+            collisionLayer = LayerMask.GetMask(isEnemy);
             health_UI.DisplayHealth(health, true);
-            targetEnemy = GameObject.Find("Enemy").transform;
+            targetEnemy = GameObject.Find(isEnemy).transform;
             skillTwo.layer = gameObject.layer;
             SetLayerRecursively(skillTwo, skillTwo.layer);
-            collisionModule.collidesWith = LayerMask.GetMask("Enemy");
+            collisionModule.collidesWith = LayerMask.GetMask(isEnemy);
         }
-        else if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
+        else if (isLayer == isEnemy)
         {
-            enemyHealthUI = GameObject.Find("UICode").GetComponent<UIManager>();
-            collisionLayer = LayerMask.GetMask("Player");
-            enemyHealthUI.DisplayHealth(health, false);
-            targetEnemy = GameObject.Find("Player").transform;
+            collisionLayer = LayerMask.GetMask(isPlayer);
+            health_UI.DisplayHealth(health, false);
+            targetEnemy = GameObject.Find(isPlayer).transform;
             skillTwo.layer = gameObject.layer;
             SetLayerRecursively(skillTwo, skillTwo.layer);
-            collisionModule.collidesWith = LayerMask.GetMask("Player");
+            collisionModule.collidesWith = LayerMask.GetMask(isPlayer);
             skillThree.layer = gameObject.layer;
             SetLayerRecursively(skillThree, skillThree.layer);
         }
-        InitializeHealth(health);
+
     }
 
     // Update is called once per frame
     void Update()
     {
         stateInfo = playerAnim.GetCurrentAnimatorStateInfo(0);
-        Rotation(); 
-        MoveFireball();
-        skillOne.SetActive(false);
-        if (!uiManager.isCountdownFinished)
-            return;
-
-        if (UIManager.playerWins == 1 || UIManager.enemyWins == 1)
-        {
-            if (!uiManager.shouldRestartCountdown)
-            {
-                uiManager.shouldRestartCountdown = true;
-                uiManager.RestartCountdown();
-            }
-        }
-        Ki();
+        Rotation();
+        BO3();
         ResetComboState();
-        AttackPoint();
-       
+        MoveFireball();
+        Ki();
         if (skillTwo.activeInHierarchy)
         {
             transform.position = new Vector3(transform.position.x, 2.2f, transform.position.z);
@@ -70,7 +57,7 @@ public class Goku : CharacterController
         {
             kiFull.transform.position = transform.position;
         }
-        if(skillThree.activeInHierarchy)
+        if (skillThree.activeInHierarchy)
         {
             ParticleLifetimesAndMoveSpiritBoom(skillThree.transform);
         }

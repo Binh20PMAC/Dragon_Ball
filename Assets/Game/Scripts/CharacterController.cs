@@ -26,13 +26,17 @@ public class CharacterController : MonoBehaviour
     public bool isOnGround = true;
     private bool isJump = false;
     public bool isFlipped = false;
-    public bool isKnockDown = false;
 
     // Collider
     public LayerMask collisionLayer;
     public float radius = 1f;
     public float damage = 10f;
     public GameObject hit_FX;
+
+    // Layer
+    protected string isLayer;
+    protected const string isPlayer = "Player";
+    protected const string isEnemy = "Enemy";
 
     // Attack Point
     public GameObject RightArmAttackPoint;
@@ -43,11 +47,13 @@ public class CharacterController : MonoBehaviour
 
     // Apply Dame
     public float health = 100f;
+    private float initialHealth;
     public float energy = 15f;
     private bool characterDied;
+    private bool healing = false;
     public UIManager health_UI;
-    public UIManager enemyHealthUI;
-    private float initialHealth;
+
+
     //Skill
     public GameObject skillOne;
     public GameObject skillTwo;
@@ -81,11 +87,19 @@ public class CharacterController : MonoBehaviour
             }
         }
     }
+    protected bool RestrictAction()
+    {
+        if (!ki.activeInHierarchy && !skillTwo.activeInHierarchy && !stateInfo.IsName("SpiritBoomMiddle") && !stateInfo.IsName("SpiritBoomFirst") && !stateInfo.IsName("knockup") && !stateInfo.IsName("knockdown") && !stateInfo.IsName("knockend") && !stateInfo.IsName("standup"))
+        {
+            return false;
+        }
+        return true;
+    }
     void Movement()
     {
-        if (LayerMask.LayerToName(gameObject.layer) == "Player" && !isKnockDown)
+        if (isLayer == isPlayer)
         {
-            if (Input.GetKey(KeyCode.D) && !isJump)
+            if (Input.GetKey(KeyCode.D) && !isJump && health_UI.isCountdownFinished)
             {
                 transform.Translate(w_speed * Time.deltaTime, 0, 0, 0);
 
@@ -101,7 +115,7 @@ public class CharacterController : MonoBehaviour
                 }
                 playerAnim.ResetTrigger("idle");
             }
-            else if (Input.GetKey(KeyCode.A) && !isJump)
+            else if (Input.GetKey(KeyCode.A) && !isJump && health_UI.isCountdownFinished)
             {
                 transform.Translate(-w_speed * Time.deltaTime, 0, 0, 0);
 
@@ -115,7 +129,7 @@ public class CharacterController : MonoBehaviour
                 }
                 playerAnim.ResetTrigger("idle");
             }
-            else if (!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A) && !isJump)
+            else if (!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A) && !isJump && health_UI.isCountdownFinished)
             {
                 if (isFlipped)
                 {
@@ -130,7 +144,7 @@ public class CharacterController : MonoBehaviour
                 playerAnim.SetTrigger("idle");
             }
 
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift) && health_UI.isCountdownFinished)
             {
                 if (Input.GetKey(KeyCode.D) && !isJump)
                 {
@@ -159,7 +173,7 @@ public class CharacterController : MonoBehaviour
                 isWalking = false;
             }
 
-            if (Input.GetKeyDown(KeyCode.W) && isOnGround)
+            if (Input.GetKeyDown(KeyCode.W) && isOnGround && health_UI.isCountdownFinished)
             {
                 playerAnim.SetTrigger("jumping");
                 playerAnim.SetTrigger("falling");
@@ -170,9 +184,9 @@ public class CharacterController : MonoBehaviour
                 playerRb.AddForce(transform.up * jumpForce);
             }
         }
-        if (LayerMask.LayerToName(gameObject.layer) == "Enemy" && !isKnockDown)
+        if (isLayer == isEnemy)
         {
-            if (Input.GetKey(KeyCode.RightArrow) && !isJump)
+            if (Input.GetKey(KeyCode.RightArrow) && !isJump && health_UI.isCountdownFinished)
             {
                 transform.Translate(w_speed * Time.deltaTime, 0, 0, 0);
 
@@ -188,7 +202,7 @@ public class CharacterController : MonoBehaviour
                 }
                 playerAnim.ResetTrigger("idle");
             }
-            else if (Input.GetKey(KeyCode.LeftArrow) && !isJump)
+            else if (Input.GetKey(KeyCode.LeftArrow) && !isJump && health_UI.isCountdownFinished)
             {
                 transform.Translate(-w_speed * Time.deltaTime, 0, 0, 0);
 
@@ -202,7 +216,7 @@ public class CharacterController : MonoBehaviour
                 }
                 playerAnim.ResetTrigger("idle");
             }
-            else if (!Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow) && !isJump)
+            else if (!Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow) && !isJump && health_UI.isCountdownFinished)
             {
                 if (isFlipped)
                 {
@@ -217,7 +231,7 @@ public class CharacterController : MonoBehaviour
                 playerAnim.SetTrigger("idle");
             }
 
-            if (Input.GetKey(KeyCode.RightShift))
+            if (Input.GetKey(KeyCode.RightShift) && health_UI.isCountdownFinished)
             {
                 if (Input.GetKey(KeyCode.RightArrow) && !isJump)
                 {
@@ -246,7 +260,7 @@ public class CharacterController : MonoBehaviour
                 isWalking = false;
             }
 
-            if (Input.GetKeyDown(KeyCode.UpArrow) && isOnGround)
+            if (Input.GetKeyDown(KeyCode.UpArrow) && isOnGround && health_UI.isCountdownFinished)
             {
                 playerAnim.SetTrigger("jumping");
                 playerAnim.SetTrigger("falling");
@@ -261,7 +275,7 @@ public class CharacterController : MonoBehaviour
 
     protected void Ki()
     {
-        if (LayerMask.LayerToName(gameObject.layer) == "Player" && !isKnockDown)
+        if (isLayer == isPlayer)
         {
             if (stateInfo.IsName("chargekilast") || stateInfo.IsName("chargekimidle") || stateInfo.IsName("chargeki"))
             {
@@ -272,7 +286,7 @@ public class CharacterController : MonoBehaviour
                 ki.SetActive(false);
                 playerAnim.ResetTrigger("chargekilast");
             }
-            if (!ki.activeInHierarchy && !skillTwo.activeInHierarchy && !stateInfo.IsName("SpiritBoomMiddle") && !stateInfo.IsName("SpiritBoomFirst"))
+            if (!RestrictAction() && health_UI.isCountdownFinished)
             {
                 if (Input.GetKeyDown(KeyCode.R))
                 {
@@ -283,7 +297,7 @@ public class CharacterController : MonoBehaviour
                 ComboAttacks();
                 Skill();
             }
-            if (Input.GetKeyUp(KeyCode.R))
+            if (Input.GetKeyUp(KeyCode.R) && health_UI.isCountdownFinished)
             {
                 playerAnim.SetTrigger("chargekilast");
             }
@@ -338,7 +352,7 @@ public class CharacterController : MonoBehaviour
                 }
             }
         }
-        if (LayerMask.LayerToName(gameObject.layer) == "Enemy" && !isKnockDown)
+        if (isLayer == isEnemy)
         {
             if (stateInfo.IsName("chargekilast") || stateInfo.IsName("chargekimidle") || stateInfo.IsName("chargeki"))
             {
@@ -349,9 +363,9 @@ public class CharacterController : MonoBehaviour
                 ki.SetActive(false);
                 playerAnim.ResetTrigger("chargekilast");
             }
-            if (!ki.activeInHierarchy && !skillTwo.activeInHierarchy && !stateInfo.IsName("SpiritBoomMiddle") && !stateInfo.IsName("SpiritBoomFirst"))
+            if (!RestrictAction())
             {
-                if (Input.GetKeyDown(KeyCode.P))
+                if (Input.GetKeyDown(KeyCode.P) && health_UI.isCountdownFinished)
                 {
                     playerAnim.SetTrigger("chargeki");
                     playerAnim.SetTrigger("chargekimidle");
@@ -361,7 +375,7 @@ public class CharacterController : MonoBehaviour
                 Skill();
             }
 
-            if (Input.GetKeyUp(KeyCode.P))
+            if (Input.GetKeyUp(KeyCode.P) && health_UI.isCountdownFinished)
             {
                 playerAnim.SetTrigger("chargekilast");
             }
@@ -419,14 +433,14 @@ public class CharacterController : MonoBehaviour
 
     protected void Skill()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1) && LayerMask.LayerToName(gameObject.layer) == "Player")
+        if (Input.GetKeyDown(KeyCode.Alpha1) && isLayer == isPlayer && health_UI.isCountdownFinished)
         {
             if (isPooling)
             {
                 for (int i = 0; i < 5; i++)
                 {
                     GameObject fireball = Instantiate(skillOne, transform.position, Quaternion.identity);
-                    fireball.layer = LayerMask.NameToLayer(LayerMask.LayerToName(gameObject.layer));
+                    fireball.layer = LayerMask.NameToLayer(isLayer);
                     SetLayerRecursively(fireball, fireball.layer);
                     fireball.SetActive(false);
                     listSkillOne.Add(fireball);
@@ -435,14 +449,14 @@ public class CharacterController : MonoBehaviour
             }
             ActivateFireball(10f);
         }
-        else if (Input.GetKeyDown(KeyCode.J) && LayerMask.LayerToName(gameObject.layer) == "Enemy")
+        else if (Input.GetKeyDown(KeyCode.J) && isLayer == isEnemy && health_UI.isCountdownFinished)
         {
             if (isPooling)
             {
                 for (int i = 0; i < 5; i++)
                 {
                     GameObject fireball = Instantiate(skillOne, transform.position, Quaternion.identity);
-                    fireball.layer = LayerMask.NameToLayer(LayerMask.LayerToName(gameObject.layer));
+                    fireball.layer = LayerMask.NameToLayer(isLayer);
                     SetLayerRecursively(fireball, fireball.layer);
                     fireball.SetActive(false);
                     listSkillOne.Add(fireball);
@@ -452,14 +466,14 @@ public class CharacterController : MonoBehaviour
             ActivateFireball(10f);
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2) && LayerMask.LayerToName(gameObject.layer) == "Player")
+        if (Input.GetKeyDown(KeyCode.Alpha2) && isLayer == isPlayer && health_UI.isCountdownFinished)
         {
             if (50f > energy) return;
             ApplyReduceEnergy(50f);
             skillTwo.SetActive(true);
             playerAnim.SetTrigger("kame");
         }
-        else if (Input.GetKeyDown(KeyCode.K) && LayerMask.LayerToName(gameObject.layer) == "Enemy")
+        else if (Input.GetKeyDown(KeyCode.K) && isLayer == isEnemy && health_UI.isCountdownFinished)
         {
             if (50f > energy) return;
             ApplyReduceEnergy(50f);
@@ -468,7 +482,7 @@ public class CharacterController : MonoBehaviour
         }
         if (!skillThree.activeInHierarchy)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha3) && LayerMask.LayerToName(gameObject.layer) == "Player")
+            if (Input.GetKeyDown(KeyCode.Alpha3) && isLayer == isPlayer && health_UI.isCountdownFinished)
             {
                 if (80f > energy) return;
                 ApplyReduceEnergy(80f);
@@ -477,7 +491,7 @@ public class CharacterController : MonoBehaviour
                 playerAnim.SetTrigger("spiritboomfirst");
                 playerAnim.SetTrigger("spiritboommiddle");
             }
-            else if (Input.GetKeyDown(KeyCode.L) && LayerMask.LayerToName(gameObject.layer) == "Enemy")
+            else if (Input.GetKeyDown(KeyCode.L) && isLayer == isEnemy && health_UI.isCountdownFinished)
             {
                 if (80f > energy) return;
                 ApplyReduceEnergy(80f);
@@ -587,6 +601,19 @@ public class CharacterController : MonoBehaviour
             }
         }
     }
+    public void TurnOffFireball()
+    {
+        if (!isPooling)
+        {
+            foreach (GameObject fireball in listSkillOne)
+            {
+                if (fireball.activeInHierarchy)
+                {
+                    fireball.SetActive(false);
+                }
+            }
+        }
+    }
     private void CheckOffscreen(GameObject skill)
     {
         Vector3 screenPos = Camera.main.WorldToScreenPoint(skill.transform.position);
@@ -600,9 +627,9 @@ public class CharacterController : MonoBehaviour
 
     void ComboAttacks()
     {
-        if (LayerMask.LayerToName(gameObject.layer) == "Player" && !isKnockDown)
+        if (isLayer == isPlayer)
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) && health_UI.isCountdownFinished)
             {
                 if (current_combo_state == ComboState.attack3 ||
                     current_combo_state == ComboState.attack4 ||
@@ -625,7 +652,7 @@ public class CharacterController : MonoBehaviour
                     playerAnim.SetTrigger("attack3");
                 }
             }
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.Q) && health_UI.isCountdownFinished)
             {
                 if (current_combo_state == ComboState.attack5 ||
                     current_combo_state == ComboState.attack3)
@@ -652,9 +679,9 @@ public class CharacterController : MonoBehaviour
                 }
             }
         }
-        if (LayerMask.LayerToName(gameObject.layer) == "Enemy" && !isKnockDown)
+        if (isLayer == isEnemy)
         {
-            if (Input.GetKeyDown(KeyCode.O))
+            if (Input.GetKeyDown(KeyCode.O) && health_UI.isCountdownFinished)
             {
                 if (current_combo_state == ComboState.attack3 ||
                     current_combo_state == ComboState.attack4 ||
@@ -677,7 +704,7 @@ public class CharacterController : MonoBehaviour
                     playerAnim.SetTrigger("attack3");
                 }
             }
-            if (Input.GetKeyDown(KeyCode.I))
+            if (Input.GetKeyDown(KeyCode.I) && health_UI.isCountdownFinished)
             {
                 if (current_combo_state == ComboState.attack5 ||
                     current_combo_state == ComboState.attack3)
@@ -764,7 +791,7 @@ public class CharacterController : MonoBehaviour
         {
             //print("Hit the " + hit[0].gameObject.name);
             //cho player
-            if (LayerMask.LayerToName(gameObject.layer) == "Player")
+            if (isLayer == isPlayer)
             {
                 Instantiate(hit_FX, RightArmAttackPoint.transform.position, Quaternion.identity);
 
@@ -778,7 +805,7 @@ public class CharacterController : MonoBehaviour
                 }
             }
             //cho enemy
-            else if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
+            else if (isLayer == isEnemy)
             {
                 //Vector3 hitFX_Pos = hit[0].transform.position;
                 //hitFX_Pos.y += 1.3f;
@@ -811,7 +838,7 @@ public class CharacterController : MonoBehaviour
         {
             //print("Hit the " + hit[0].gameObject.name);
             //cho player
-            if (LayerMask.LayerToName(gameObject.layer) == "Player")
+            if (isLayer == isPlayer)
             {
                 //Vector3 hitFX_Pos = hit[0].transform.position;
                 //hitFX_Pos.y += 1.3f;
@@ -834,7 +861,7 @@ public class CharacterController : MonoBehaviour
                 }
             }
             //cho enemy
-            else if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
+            else if (isLayer == isEnemy)
             {
                 //Vector3 hitFX_Pos = hit[0].transform.position;
                 //hitFX_Pos.y += 1.3f;
@@ -867,7 +894,7 @@ public class CharacterController : MonoBehaviour
         {
             //print("Hit the " + hit[0].gameObject.name);
             //cho player
-            if (LayerMask.LayerToName(gameObject.layer) == "Player")
+            if (isLayer == isPlayer)
             {
                 //Vector3 hitFX_Pos = hit[0].transform.position;
                 //hitFX_Pos.y += 1.3f;
@@ -890,7 +917,7 @@ public class CharacterController : MonoBehaviour
                 }
             }
             //cho enemy
-            else if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
+            else if (isLayer == isEnemy)
             {
                 //Vector3 hitFX_Pos = hit[0].transform.position;
                 //hitFX_Pos.y += 1.3f;
@@ -923,7 +950,7 @@ public class CharacterController : MonoBehaviour
         {
             //print("Hit the " + hit[0].gameObject.name);
             //cho player
-            if (LayerMask.LayerToName(gameObject.layer) == "Player")
+            if (isLayer == isPlayer)
             {
                 //Vector3 hitFX_Pos = hit[0].transform.position;
                 //hitFX_Pos.y += 1.3f;
@@ -946,7 +973,7 @@ public class CharacterController : MonoBehaviour
                 }
             }
             //cho enemy
-            else if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
+            else if (isLayer == isEnemy)
             {
                 //Vector3 hitFX_Pos = hit[0].transform.position;
                 //hitFX_Pos.y += 1.3f;
@@ -979,7 +1006,7 @@ public class CharacterController : MonoBehaviour
         {
             //print("Hit the " + hit[0].gameObject.name);
             //cho player
-            if (LayerMask.LayerToName(gameObject.layer) == "Player")
+            if (isLayer == isPlayer)
             {
                 //Vector3 hitFX_Pos = hit[0].transform.position;
                 //hitFX_Pos.y += 1.3f;
@@ -1002,7 +1029,7 @@ public class CharacterController : MonoBehaviour
                 }
             }
             //cho enemy
-            else if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
+            else if (isLayer == isEnemy)
             {
                 //Vector3 hitFX_Pos = hit[0].transform.position;
                 //hitFX_Pos.y += 1.3f;
@@ -1100,7 +1127,6 @@ public class CharacterController : MonoBehaviour
     }
     void StandUp()
     {
-        isKnockDown = false;
         StartCoroutine(StandUpAfterTime());
 
     }
@@ -1109,60 +1135,88 @@ public class CharacterController : MonoBehaviour
         playerAnim.SetTrigger("standup");
         yield return new WaitForSeconds(2f);
     }
+    protected void BO3()
+    {
+        if (health_UI.enemyWins == 1 && isLayer == isPlayer)
+        {
+            if (health <= 0)
+            {
+                health_UI.RestartCountdown();
+                health_UI.DisplayBO3();
+            }
+            if (!health_UI.isCountdownFinished && !healing)
+            {
+                IncreaseHealth();
+            }
+        }
+        if (health_UI.playerWins == 1 && isLayer == isEnemy)
+        {
+            if (health <= 0)
+            {
+                health_UI.RestartCountdown();
+                health_UI.DisplayBO3();
+            }
+            if (!health_UI.isCountdownFinished && !healing)
+            {
+                IncreaseHealth();
+            }
+        }
+        if (!health_UI.isCountdownFinished)
+        {
+            TurnOffFireball();
+        }
 
+    }
     public void ApplyDamage(float damage, bool knockDown)
     {
+        if (health_UI.playerWins >= 2)
+        {
+            Debug.Log("Player thang roiiiiiiiiiiii");
+            health_UI.DisplayBO3();
+            playerAnim.SetTrigger("died");
+        }
+        if (health_UI.enemyWins >= 2)
+        {
+            Debug.Log("Enemy thang roiiiiiiiiiiii");
+            health_UI.DisplayBO3();
+            playerAnim.SetTrigger("died");
+        }
         if (characterDied)
             return;
 
         health -= damage;
 
-        if (LayerMask.LayerToName(gameObject.layer) == "Player")
+        if (isLayer == isPlayer)
         {
             health_UI.DisplayHealth(health, true);
-        }
-        else if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
-        {
-            enemyHealthUI.DisplayHealth(health, false);
-        }
 
-        if (health <= 0f)
+            if (health <= 0f)
+            {
+                playerAnim.SetTrigger("died");
+                characterDied = true;
+                health_UI.enemyWins++;
+                if (health_UI.enemyWins == 1)
+                {
+                    characterDied = false;
+                    playerAnim.SetTrigger("standup");
+                }
+            }
+        }
+        else if (isLayer == isEnemy)
         {
-            playerAnim.SetTrigger("died");
-            characterDied = true;
-            if (LayerMask.LayerToName(gameObject.layer) == "Player")
+            health_UI.DisplayHealth(health, false);
+
+            if (health <= 0f)
             {
-                UIManager.enemyWins++;
-            }
-            else if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
-            {
-                UIManager.playerWins++;
-            }
-            if (UIManager.playerWins >= 2)
-            {
-                Debug.Log("Player thang roiiiiiiiiiiii");
-            }
-            else if (UIManager.enemyWins >= 2)
-            {
-                Debug.Log("Enemy thang roiiiiiiiiiiii");
-            }
-            else
-            {
-                health = initialHealth;
-                if (LayerMask.LayerToName(gameObject.layer) == "Player")
+                playerAnim.SetTrigger("died");
+                characterDied = true;
+                health_UI.playerWins++;
+                if (health_UI.playerWins == 1)
                 {
-                    health_UI.DisplayHealth(health, true);
                     characterDied = false;
-                    StandUp2();
-                }
-                else if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
-                {
-                    enemyHealthUI.DisplayHealth(health, false);
-                    characterDied = false;
-                    StandUp2();
+                    playerAnim.SetTrigger("standup");
                 }
             }
-            return;
         }
 
         if (knockDown)
@@ -1170,7 +1224,6 @@ public class CharacterController : MonoBehaviour
             if (Random.Range(0, 2) > 0)
             {
                 playerAnim.SetTrigger("knockdown");
-                isKnockDown = true;
             }
         }
         else
@@ -1181,22 +1234,41 @@ public class CharacterController : MonoBehaviour
             }
         }
     }
-
-    private void StandUp2()
+    protected void IncreaseHealth()
     {
-        playerAnim.SetTrigger("standup");
+        if (health <= initialHealth)
+        {
+            health += (initialHealth / 2f) * Time.deltaTime;
+            if (health >= initialHealth)
+            {
+                health = initialHealth;
+                if (health == initialHealth)
+                {
+                    healing = true;
+                }
+            }
+            if (isLayer == isPlayer)
+            {
+                health_UI.DisplayHealth(health, true);
+            }
+            else if (isLayer == isEnemy)
+            {
+                health_UI.DisplayHealth(health, false);
+            }
+        }
+
     }
     public void ApplyIncreaseEnergy(float speed)
     {
         energy += speed * Time.deltaTime;
 
-        if (LayerMask.LayerToName(gameObject.layer) == "Player")
+        if (isLayer == isPlayer)
         {
             health_UI.DisplayEnergy(energy, true);
         }
-        else if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
+        else if (isLayer == isEnemy)
         {
-            enemyHealthUI.DisplayEnergy(energy, false);
+            health_UI.DisplayEnergy(energy, false);
         }
 
         if (energy > 100f)
@@ -1205,36 +1277,18 @@ public class CharacterController : MonoBehaviour
             kiFull.SetActive(true);
         }
     }
-
     public void ApplyReduceEnergy(float charge)
     {
         energy -= charge;
-        if (LayerMask.LayerToName(gameObject.layer) == "Player")
+        if (isLayer == isPlayer)
         {
             health_UI.DisplayEnergy(energy, true);
         }
-        else if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
+        else if (isLayer == isEnemy)
         {
-            enemyHealthUI.DisplayEnergy(energy, false);
+            health_UI.DisplayEnergy(energy, false);
         }
     }
-
-    //IEnumerator WaitForSecondTouchGround()
-    //{
-    //    yield return new WaitForSeconds(0f);
-
-    //}
-    //IEnumerator WaitForSecondReadyJump()
-    //{
-    //    //playerAnim.SetTrigger("jumping");
-    //    //playerAnim.SetTrigger("falling");
-    //    //playerAnim.ResetTrigger("idle");
-    //    //isOnGround = false;
-    //    //isJump = true;
-    //    yield return new WaitForSeconds(0.5f);
-    //    ////playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); 
-    //    //playerRb.AddForce(transform.up * jumpForce);
-    //}
     protected void AttackPoint()
     {
         if (RightArmAttackPoint.activeInHierarchy)
@@ -1257,8 +1311,5 @@ public class CharacterController : MonoBehaviour
         {
             DetectCollisionRightLeg();
         }
-
-
     }
-
 }

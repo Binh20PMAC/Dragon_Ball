@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.41233262, g: 0.48925185, b: 0.60332024, a: 1}
+  m_IndirectSpecularColor: {r: 0.4123333, g: 0.4892531, b: 0.6033202, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1465,13 +1465,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2826137599960408040, guid: 081fb44af147ed74e98549cf434624ef, type: 3}
+      propertyPath: energy
+      value: 5000
+      objectReference: {fileID: 0}
     - target: {fileID: 3168595689317440627, guid: 081fb44af147ed74e98549cf434624ef, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 3168595689317440627, guid: 081fb44af147ed74e98549cf434624ef, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 081fb44af147ed74e98549cf434624ef, type: 3}
@@ -1787,7 +1791,6 @@ MonoBehaviour:
   P2W2: {fileID: 792572238}
   countdownText: {fileID: 112385812}
   isCountdownFinished: 0
-  shouldRestartCountdown: 0
 --- !u!1 &1311722778
 GameObject:
   m_ObjectHideFlags: 0
@@ -2479,7 +2482,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1797406256798808158, guid: 1bfc6f22b5b2f154d8afb13b252e3205, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1bfc6f22b5b2f154d8afb13b252e3205, type: 3}
@@ -2791,7 +2794,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2783350383891498415, guid: 0f41866e86d744542a98d885a4348631, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3053752519215069705, guid: 0f41866e86d744542a98d885a4348631, type: 3}
+      propertyPath: energy
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 3308917305340894997, guid: 0f41866e86d744542a98d885a4348631, type: 3}
       propertyPath: m_RootOrder

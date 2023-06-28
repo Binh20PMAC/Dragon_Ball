@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Gohan : CharacterController
@@ -8,54 +9,38 @@ public class Gohan : CharacterController
     public ParticleSystem colliderWith;
     public void Start()
     {
-        uiManager = GameObject.Find("UICode").GetComponent<UIManager>();
-        ParticleSystem.CollisionModule collisionModule = colliderWith.collision;
-        
-        if (LayerMask.LayerToName(gameObject.layer) == "Player")
-        {
-            health_UI = GameObject.Find("UICode").GetComponent<UIManager>();
-            collisionLayer = LayerMask.GetMask("Enemy");
-            health_UI.DisplayHealth(health, true);
-            targetEnemy = GameObject.Find("Enemy").transform;
-            skillTwo.layer = gameObject.layer;
-            SetLayerRecursively(skillTwo, skillTwo.layer);
-            collisionModule.collidesWith = LayerMask.GetMask("Enemy");
-        }
-        else if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
-        {
-            enemyHealthUI = GameObject.Find("UICode").GetComponent<UIManager>();
-            collisionLayer = LayerMask.GetMask("Player");
-            enemyHealthUI.DisplayHealth(health, false);
-            targetEnemy = GameObject.Find("Player").transform;
-            skillTwo.layer = gameObject.layer;
-            SetLayerRecursively(skillTwo, skillTwo.layer);
-            collisionModule.collidesWith = LayerMask.GetMask("Player");
-        }
+        health_UI = GameObject.Find("UICode").GetComponent<UIManager>();
         InitializeHealth(health);
+        ParticleSystem.CollisionModule collisionModule = colliderWith.collision;
+        isLayer = LayerMask.LayerToName(gameObject.layer);
+        if (isLayer == isPlayer)
+        {
+            collisionLayer = LayerMask.GetMask(isEnemy);
+            health_UI.DisplayHealth(health, true);
+            targetEnemy = GameObject.Find(isEnemy).transform;
+            skillTwo.layer = gameObject.layer;
+            SetLayerRecursively(skillTwo, skillTwo.layer);
+            collisionModule.collidesWith = LayerMask.GetMask(isEnemy);
+        }
+        else if (isLayer == isEnemy)
+        {
+            collisionLayer = LayerMask.GetMask(isPlayer);
+            health_UI.DisplayHealth(health, false);
+            targetEnemy = GameObject.Find(isPlayer).transform;
+            skillTwo.layer = gameObject.layer;
+            SetLayerRecursively(skillTwo, skillTwo.layer);
+            collisionModule.collidesWith = LayerMask.GetMask(isPlayer);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         stateInfo = playerAnim.GetCurrentAnimatorStateInfo(0);
-        Rotation();  
-        MoveFireball();
-        skillOne.SetActive(false);
-        if (!uiManager.isCountdownFinished)
-            return;
-
-        if (UIManager.playerWins == 1|| UIManager.enemyWins == 1)
-        {
-            if (!uiManager.shouldRestartCountdown)
-            {
-                uiManager.shouldRestartCountdown = true;
-                uiManager.RestartCountdown();
-            }
-        }
-        Ki();
+        Rotation();
+        BO3();
         ResetComboState();
-        AttackPoint();
-      
+        MoveFireball();
+        Ki();
     }
-
 }
