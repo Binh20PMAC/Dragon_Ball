@@ -18,11 +18,18 @@ public class CharacterSelection : MonoBehaviour
     public Text characterNameTextP1;
     public Text characterNameTextP2;
     public Text mapName;
+    public Sprite[] characterSprites1;
+    public Sprite[] characterSprites2;
+    public Image characterPanel1;
+    public Image characterPanel2;
+
     private void Start()
     {
         characterNameTextP1.text = characters1[selectedCharacter1].name;
         characterNameTextP2.text = characters1[selectedCharacter2].name;
         mapName.text = map[selectedMap].name;
+        characterPanel1.sprite = characterSprites1[selectedCharacter1];
+        characterPanel2.sprite = characterSprites2[selectedCharacter2];
     }
     public void NextCharacter1()
     {
@@ -30,6 +37,7 @@ public class CharacterSelection : MonoBehaviour
         selectedCharacter1 = (selectedCharacter1 + 1) % characters1.Length;
         characters1[selectedCharacter1].SetActive(true);
         characterNameTextP1.text = characters1[selectedCharacter1].name;
+        characterPanel1.sprite = characterSprites1[selectedCharacter1];
     }
     public void PreviousCharacter1()
     {
@@ -41,7 +49,7 @@ public class CharacterSelection : MonoBehaviour
         }
         characters1[selectedCharacter1].SetActive(true);
         characterNameTextP1.text = characters1[selectedCharacter1].name;
-
+        characterPanel1.sprite = characterSprites1[selectedCharacter1];
     }
 
     public void NextCharacter2()
@@ -50,6 +58,7 @@ public class CharacterSelection : MonoBehaviour
         selectedCharacter2 = (selectedCharacter2 + 1) % characters2.Length;
         characters2[selectedCharacter2].SetActive(true);
         characterNameTextP2.text = characters2[selectedCharacter2].name;
+        characterPanel2.sprite = characterSprites1[selectedCharacter2];
     }
 
     public void PreviousCharacter2()
@@ -62,6 +71,7 @@ public class CharacterSelection : MonoBehaviour
         }
         characters2[selectedCharacter2].SetActive(true);
         characterNameTextP2.text = characters2[selectedCharacter2].name;
+        characterPanel2.sprite = characterSprites1[selectedCharacter2];
     }
 
     public void NextMap()

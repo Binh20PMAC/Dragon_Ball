@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Gohan : CharacterController
 {
+    private UIManager uiManager;
     public ParticleSystem colliderWith;
     public void Start()
     {
+        uiManager = GameObject.Find("UICode").GetComponent<UIManager>();
         ParticleSystem.CollisionModule collisionModule = colliderWith.collision;
         
         if (LayerMask.LayerToName(gameObject.layer) == "Player")
@@ -29,17 +31,31 @@ public class Gohan : CharacterController
             SetLayerRecursively(skillTwo, skillTwo.layer);
             collisionModule.collidesWith = LayerMask.GetMask("Player");
         }
+        InitializeHealth(health);
     }
 
     // Update is called once per frame
     void Update()
     {
         stateInfo = playerAnim.GetCurrentAnimatorStateInfo(0);
-        Rotation();
+        Rotation();  
+        MoveFireball();
+        skillOne.SetActive(false);
+        if (!uiManager.isCountdownFinished)
+            return;
+
+        if (UIManager.playerWins == 1|| UIManager.enemyWins == 1)
+        {
+            if (!uiManager.shouldRestartCountdown)
+            {
+                uiManager.shouldRestartCountdown = true;
+                uiManager.RestartCountdown();
+            }
+        }
         Ki();
         ResetComboState();
         AttackPoint();
-        MoveFireball();
+      
     }
 
 }

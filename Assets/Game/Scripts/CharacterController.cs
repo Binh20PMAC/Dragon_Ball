@@ -47,7 +47,7 @@ public class CharacterController : MonoBehaviour
     private bool characterDied;
     public UIManager health_UI;
     public UIManager enemyHealthUI;
-
+    private float initialHealth;
     //Skill
     public GameObject skillOne;
     public GameObject skillTwo;
@@ -56,7 +56,10 @@ public class CharacterController : MonoBehaviour
     public List<GameObject> listSkillOne = new List<GameObject>();
     public int speedFireball = 15;
     private Vector3 betweenHands;
-
+    public void InitializeHealth(float initialHealth)
+    {
+        this.initialHealth = initialHealth;
+    }
 
     protected void Rotation()
     {
@@ -1129,46 +1132,59 @@ public class CharacterController : MonoBehaviour
             characterDied = true;
             if (LayerMask.LayerToName(gameObject.layer) == "Player")
             {
-
+                UIManager.enemyWins++;
+            }
+            else if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
+            {
+                UIManager.playerWins++;
+            }
+            if (UIManager.playerWins >= 2)
+            {
+                Debug.Log("Player thang roiiiiiiiiiiii");
+            }
+            else if (UIManager.enemyWins >= 2)
+            {
+                Debug.Log("Enemy thang roiiiiiiiiiiii");
+            }
+            else
+            {
+                health = initialHealth;
+                if (LayerMask.LayerToName(gameObject.layer) == "Player")
+                {
+                    health_UI.DisplayHealth(health, true);
+                    characterDied = false;
+                    StandUp2();
+                }
+                else if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
+                {
+                    enemyHealthUI.DisplayHealth(health, false);
+                    characterDied = false;
+                    StandUp2();
+                }
             }
             return;
         }
-        if (LayerMask.LayerToName(gameObject.layer) == "Player")
+
+        if (knockDown)
         {
-            if (knockDown)
+            if (Random.Range(0, 2) > 0)
             {
-                if (Random.Range(0, 2) > 0)
-                {
-                    playerAnim.SetTrigger("knockdown");
-                    isKnockDown = true;
-                }
-            }
-            else
-            {
-                if (Random.Range(0, 3) > 1)
-                {
-                    playerAnim.SetTrigger("hit");
-                }
+                playerAnim.SetTrigger("knockdown");
+                isKnockDown = true;
             }
         }
-        if (LayerMask.LayerToName(gameObject.layer) == "Enemy")
+        else
         {
-            if (knockDown)
+            if (Random.Range(0, 3) > 1)
             {
-                if (Random.Range(0, 2) > 0)
-                {
-                    playerAnim.SetTrigger("knockdown");
-                    isKnockDown = true;
-                }
-            }
-            else
-            {
-                if (Random.Range(0, 3) > 1)
-                {
-                    playerAnim.SetTrigger("hit");
-                }
+                playerAnim.SetTrigger("hit");
             }
         }
+    }
+
+    private void StandUp2()
+    {
+        playerAnim.SetTrigger("standup");
     }
     public void ApplyIncreaseEnergy(float speed)
     {

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Goku : CharacterController
 {
+    private UIManager uiManager;
     public ParticleSystem colliderWith;
     public void Start()
     {
@@ -12,7 +13,7 @@ public class Goku : CharacterController
         spiritboom.name = "SpiritBoomOfGoku";
         skillThree = spiritboom;
         ParticleSystem.CollisionModule collisionModule = colliderWith.collision;
-
+        uiManager = GameObject.Find("UICode").GetComponent<UIManager>();
         if (LayerMask.LayerToName(gameObject.layer) == "Player")
         {
             health_UI = GameObject.Find("UICode").GetComponent<UIManager>();
@@ -35,17 +36,31 @@ public class Goku : CharacterController
             skillThree.layer = gameObject.layer;
             SetLayerRecursively(skillThree, skillThree.layer);
         }
+        InitializeHealth(health);
     }
 
     // Update is called once per frame
     void Update()
     {
         stateInfo = playerAnim.GetCurrentAnimatorStateInfo(0);
-        Rotation();
+        Rotation(); 
+        MoveFireball();
+        skillOne.SetActive(false);
+        if (!uiManager.isCountdownFinished)
+            return;
+
+        if (UIManager.playerWins == 1 || UIManager.enemyWins == 1)
+        {
+            if (!uiManager.shouldRestartCountdown)
+            {
+                uiManager.shouldRestartCountdown = true;
+                uiManager.RestartCountdown();
+            }
+        }
         Ki();
         ResetComboState();
         AttackPoint();
-        MoveFireball();
+       
         if (skillTwo.activeInHierarchy)
         {
             transform.position = new Vector3(transform.position.x, 2.2f, transform.position.z);

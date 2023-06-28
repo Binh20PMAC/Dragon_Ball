@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4123333, g: 0.4892531, b: 0.6033202, a: 1}
+  m_IndirectSpecularColor: {r: 0.41233262, g: 0.48925185, b: 0.60332024, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -667,14 +667,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2054,14 +2054,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2401,6 +2401,18 @@ MonoBehaviour:
   characterNameTextP1: {fileID: 1917505194}
   characterNameTextP2: {fileID: 1157938700}
   mapName: {fileID: 858095530}
+  characterSprites1:
+  - {fileID: 21300000, guid: ba6c53c29d2df934a86db83307894741, type: 3}
+  - {fileID: 21300000, guid: 569de97e3c738ad42a4485658a48ad54, type: 3}
+  - {fileID: 21300000, guid: fe0461d5b2291fd44bc62a2b8f80ef15, type: 3}
+  - {fileID: 21300000, guid: 8bd08d7af43dd154980963660c3614b5, type: 3}
+  characterSprites2:
+  - {fileID: 21300000, guid: ba6c53c29d2df934a86db83307894741, type: 3}
+  - {fileID: 21300000, guid: 569de97e3c738ad42a4485658a48ad54, type: 3}
+  - {fileID: 21300000, guid: fe0461d5b2291fd44bc62a2b8f80ef15, type: 3}
+  - {fileID: 21300000, guid: 8bd08d7af43dd154980963660c3614b5, type: 3}
+  characterPanel1: {fileID: 1321208341}
+  characterPanel2: {fileID: 308205065}
 --- !u!4 &1799018044
 Transform:
   m_ObjectHideFlags: 0

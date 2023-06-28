@@ -14,8 +14,16 @@ public class UIManager : MonoBehaviour
     private float enemy_energy = 15f;
     private float health = 0;
     private float health_enemy = 0;
-
+    public static int playerWins = 0;
+    public static int enemyWins = 0;
+    public GameObject P1W1;
+    public GameObject P1W2;
+    public GameObject P2W1;
+    public GameObject P2W2;
     public TMP_Text countdownText;
+    public  bool isCountdownFinished = false;
+    public bool shouldRestartCountdown = false;
+    public bool shouldRestartCountdown1 = false;
 
     private void Start()
     {
@@ -29,6 +37,25 @@ public class UIManager : MonoBehaviour
         enemy_energy_UI = GameObject.FindWithTag("EnemyEnergyUI").GetComponent<Image>();
         DisplayEnergy(player_energy, true);
         DisplayEnergy(enemy_energy, false);
+    }
+    void Update()
+    {
+        if (playerWins == 1)
+        {
+            P1W1.SetActive(true);
+        }
+        if (playerWins == 2)
+        {
+            P1W2.SetActive(true);
+        }
+        if (enemyWins == 1)
+        {
+            P2W1.SetActive(true);
+        }
+        if (enemyWins == 2)
+        {
+            P2W2.SetActive(true);
+        }
     }
     public void DisplayHealth(float value, bool isPlayer)
     {
@@ -55,6 +82,8 @@ public class UIManager : MonoBehaviour
         else if (!isPlayer && enemy_health_UI != null)
         {
             enemy_health_UI.fillAmount = value;
+            //Debug.Log(value);
+            //Debug.Log(enemy_health_UI.fillAmount);
         }
     }
     public void DisplayEnergy(float value, bool isPlayer)
@@ -74,8 +103,7 @@ public class UIManager : MonoBehaviour
             enemy_energy_UI.color = gradient.Evaluate(value);
         }
     }
-
-    private IEnumerator CountdownCoroutine()
+    public IEnumerator CountdownCoroutine()
     {
         int countdown = 3;
 
@@ -89,8 +117,16 @@ public class UIManager : MonoBehaviour
         countdownText.text = "Fight!";
         yield return new WaitForSeconds(1f);
 
-
         countdownText.gameObject.SetActive(false);
+        isCountdownFinished = true;
+    }
+    public void RestartCountdown()
+    {
+        countdownText.gameObject.SetActive(true);
+        shouldRestartCountdown = true;
+        isCountdownFinished = false;
+        StartCoroutine(CountdownCoroutine());
+        
     }
 }
 
