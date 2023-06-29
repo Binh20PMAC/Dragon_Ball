@@ -1146,7 +1146,7 @@ GameObject:
   - component: {fileID: 3053752519215069704}
   - component: {fileID: 3053752519215069711}
   - component: {fileID: 3053752519215069705}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: goku
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76142,7 +76142,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7205140814603460995, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
       propertyPath: CollisionModule.m_EnergyLossOnCollision.scalar
-      value: 0.01
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7205140814603461006, guid: 4c3cc205580fb5348bc5e88502580c9c, type: 3}
       propertyPath: m_TagString

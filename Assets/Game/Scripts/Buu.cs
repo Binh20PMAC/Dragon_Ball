@@ -30,6 +30,7 @@ public class Buu : CharacterController
         Rotation();
         BO3();
         ResetComboState();
+        AttackPoint();
         MoveFireball();
         Ki();
     }

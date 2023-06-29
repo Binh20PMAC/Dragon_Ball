@@ -30,6 +30,7 @@ public class Cell : CharacterController
         Rotation();
         BO3();
         ResetComboState();
+        AttackPoint();
         MoveFireball();
         Ki();
     }

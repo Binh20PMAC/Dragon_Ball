@@ -12,13 +12,13 @@ public class Goku : CharacterController
         spiritboom.name = "SpiritBoomOfGoku";
         skillThree = spiritboom;
         ParticleSystem.CollisionModule collisionModule = colliderWith.collision;
-        base.uiManager = GameObject.Find("UICode").GetComponent<UIManager>();
+        uiManager = GameObject.Find("UICode").GetComponent<UIManager>();
         InitializeHealth(health);
         isLayer = LayerMask.LayerToName(gameObject.layer);
         if (isLayer == isPlayer)
         {
             collisionLayer = LayerMask.GetMask(isEnemy);
-            base.uiManager.DisplayHealth(health, true);
+            uiManager.DisplayHealth(health, true);
             targetEnemy = GameObject.Find(isEnemy).transform;
             skillTwo.layer = gameObject.layer;
             SetLayerRecursively(skillTwo, skillTwo.layer);
@@ -27,7 +27,7 @@ public class Goku : CharacterController
         else if (isLayer == isEnemy)
         {
             collisionLayer = LayerMask.GetMask(isPlayer);
-            base.uiManager.DisplayHealth(health, false);
+            uiManager.DisplayHealth(health, false);
             targetEnemy = GameObject.Find(isPlayer).transform;
             skillTwo.layer = gameObject.layer;
             SetLayerRecursively(skillTwo, skillTwo.layer);
@@ -45,6 +45,7 @@ public class Goku : CharacterController
         Rotation();
         BO3();
         ResetComboState();
+        AttackPoint();
         MoveFireball();
         Ki();
         if (skillTwo.activeInHierarchy)

@@ -74254,7 +74254,7 @@ GameObject:
   - component: {fileID: 2826137599960408046}
   - component: {fileID: 2826137599960408041}
   - component: {fileID: 2826137599960408040}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: gohan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75538,6 +75538,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2356170204543305417}
     m_Modifications:
+    - target: {fileID: 8746353747056471604, guid: 201898ca3dae9aa40a9b039884f98f58, type: 3}
+      propertyPath: CollisionModule.m_EnergyLossOnCollision.scalar
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8746353748128651820, guid: 201898ca3dae9aa40a9b039884f98f58, type: 3}
       propertyPath: m_Name
       value: vfx_Kamehameha_tut(All)

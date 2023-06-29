@@ -59,6 +59,7 @@ public class CharacterController : MonoBehaviour
     public GameObject skillTwo;
     public GameObject skillThree;
     private bool isPooling = true;
+    private bool isKame = false;
     public List<GameObject> listSkillOne = new List<GameObject>();
     public int speedFireball = 15;
     private Vector3 betweenHands;
@@ -755,7 +756,8 @@ public class CharacterController : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Kame"))
         {
-            ApplyDamage(6f, true);
+            ApplyDamage(40f, true);
+            isKame = true;
         }
 
     }
@@ -1135,11 +1137,6 @@ public class CharacterController : MonoBehaviour
             {
                 IncreaseHealth();
             }
-            if (uiManager.isCountdownFinished)
-            {
-                GetComponent<Rigidbody>().useGravity = true;
-                GetComponent<CapsuleCollider>().enabled = true;
-            }    
         }
         if (uiManager.playerWins == 1 && isLayer == isEnemy)
         {
@@ -1153,15 +1150,9 @@ public class CharacterController : MonoBehaviour
                 IncreaseHealth();
             }
         }
-        if (uiManager.isCountdownFinished)
-        {
-            GetComponent<Rigidbody>().useGravity = true;
-            GetComponent<CapsuleCollider>().enabled = true;
-        }
     }
     public void ApplyDamage(float damage, bool knockDown)
     {
-
         if (characterDied)
             return;
 
@@ -1172,16 +1163,15 @@ public class CharacterController : MonoBehaviour
 
             if (health <= 0f)
             {
-                GetComponent<Rigidbody>().useGravity = false; ;
-                GetComponent<CapsuleCollider>().enabled = false;
                 playerAnim.SetTrigger("died");
                 characterDied = true;
-                uiManager.enemyWins++;
+                ++uiManager.enemyWins;
                 uiManager.DisplayBO3();
                 if (uiManager.enemyWins == 1)
                 {
                     playerAnim.SetTrigger("standup");
                     characterDied = false;
+                    knockDown = false;
                 }
             }
         }
@@ -1191,16 +1181,15 @@ public class CharacterController : MonoBehaviour
 
             if (health <= 0f)
             {
-                GetComponent<Rigidbody>().useGravity = false;
-                GetComponent<CapsuleCollider>().enabled = false;
                 playerAnim.SetTrigger("died");
                 characterDied = true;
-                uiManager.playerWins++;
+                ++uiManager.playerWins;
                 uiManager.DisplayBO3();
                 if (uiManager.playerWins == 1)
                 {
                     playerAnim.SetTrigger("standup");
                     characterDied = false;
+                    knockDown = false;
                 }
             }
         }
@@ -1214,11 +1203,13 @@ public class CharacterController : MonoBehaviour
             Debug.Log("Enemy thang roiiiiiiiiiiii");
             playerAnim.SetTrigger("died");
         }
-        if (knockDown)
+
+        if (knockDown && !characterDied)
         {
             if (Random.Range(0, 2) > 0)
             {
                 playerAnim.SetTrigger("knockdown");
+                playerAnim.SetTrigger("standup");
             }
         }
         else if (!characterDied)
@@ -1227,6 +1218,12 @@ public class CharacterController : MonoBehaviour
             {
                 playerAnim.SetTrigger("hit");
             }
+        }
+        if (knockDown && isKame && !characterDied)
+        {
+            isKame = false;
+            playerAnim.SetTrigger("knockdown");
+            playerAnim.SetTrigger("standup");
         }
     }
     protected void IncreaseHealth()

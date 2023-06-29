@@ -8,14 +8,14 @@ public class Gohan : CharacterController
     public ParticleSystem colliderWith;
     public void Start()
     {
-        base.uiManager = GameObject.Find("UICode").GetComponent<UIManager>();
+        uiManager = GameObject.Find("UICode").GetComponent<UIManager>();
         InitializeHealth(health);
         ParticleSystem.CollisionModule collisionModule = colliderWith.collision;
         isLayer = LayerMask.LayerToName(gameObject.layer);
         if (isLayer == isPlayer)
         {
             collisionLayer = LayerMask.GetMask(isEnemy);
-            base.uiManager.DisplayHealth(health, true);
+            uiManager.DisplayHealth(health, true);
             targetEnemy = GameObject.Find(isEnemy).transform;
             skillTwo.layer = gameObject.layer;
             SetLayerRecursively(skillTwo, skillTwo.layer);
@@ -24,7 +24,7 @@ public class Gohan : CharacterController
         else if (isLayer == isEnemy)
         {
             collisionLayer = LayerMask.GetMask(isPlayer);
-            base.uiManager.DisplayHealth(health, false);
+            uiManager.DisplayHealth(health, false);
             targetEnemy = GameObject.Find(isPlayer).transform;
             skillTwo.layer = gameObject.layer;
             SetLayerRecursively(skillTwo, skillTwo.layer);
@@ -40,6 +40,7 @@ public class Gohan : CharacterController
         BO3();
         ResetComboState();
         MoveFireball();
+        AttackPoint();
         Ki();
     }
 }
