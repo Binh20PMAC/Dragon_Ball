@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
@@ -22,7 +23,8 @@ public class UIManager : MonoBehaviour
     public GameObject P2W2;
     public TMP_Text countdownText;
     public bool isCountdownFinished = false;
-
+    public TMP_Text winMessageText;
+    public GameObject winPanel;
     private void Start()
     {
         StartCoroutine(CountdownCoroutine());
@@ -120,6 +122,17 @@ public class UIManager : MonoBehaviour
     {
         countdownText.gameObject.SetActive(true);
         StartCoroutine(CountdownCoroutine());
+    }
+    public void DisplayWinMessage(string message)
+    {
+        winMessageText.text = message;
+        winPanel.SetActive(true);
+    }
+    public void BackToMainMenu()
+    {
+        SceneManager.LoadScene(0, LoadSceneMode.Single);
+        playerWins = 0;
+        enemyWins = 0;
     }
 }
 

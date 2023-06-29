@@ -74254,7 +74254,7 @@ GameObject:
   - component: {fileID: 2826137599960408046}
   - component: {fileID: 2826137599960408041}
   - component: {fileID: 2826137599960408040}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: gohan
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -99,180 +99,182 @@ public class CharacterController : MonoBehaviour
     }
     void Movement()
     {
-        if (isLayer == isPlayer)
-        {
-            if (Input.GetKey(KeyCode.D) && !isJump && uiManager.isCountdownFinished)
+        if (characterDied)
+            return;
+            if (isLayer == isPlayer)
             {
-                transform.Translate(w_speed * Time.deltaTime, 0, 0, 0);
+                if (Input.GetKey(KeyCode.D) && !isJump && uiManager.isCountdownFinished)
+                {
+                    transform.Translate(w_speed * Time.deltaTime, 0, 0, 0);
 
-                if (isFlipped)
-                {
-                    playerAnim.SetTrigger("walkback");
-                    isWalking = false;
+                    if (isFlipped)
+                    {
+                        playerAnim.SetTrigger("walkback");
+                        isWalking = false;
+                    }
+                    else
+                    {
+                        playerAnim.SetTrigger("walk");
+                        isWalking = true;
+                    }
+                    playerAnim.ResetTrigger("idle");
                 }
-                else
+                else if (Input.GetKey(KeyCode.A) && !isJump && uiManager.isCountdownFinished)
                 {
-                    playerAnim.SetTrigger("walk");
-                    isWalking = true;
-                }
-                playerAnim.ResetTrigger("idle");
-            }
-            else if (Input.GetKey(KeyCode.A) && !isJump && uiManager.isCountdownFinished)
-            {
-                transform.Translate(-w_speed * Time.deltaTime, 0, 0, 0);
+                    transform.Translate(-w_speed * Time.deltaTime, 0, 0, 0);
 
-                if (isFlipped)
-                {
-                    playerAnim.SetTrigger("walk");
+                    if (isFlipped)
+                    {
+                        playerAnim.SetTrigger("walk");
+                    }
+                    else
+                    {
+                        playerAnim.SetTrigger("walkback");
+                    }
+                    playerAnim.ResetTrigger("idle");
                 }
-                else
+                else if (!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A) && !isJump && uiManager.isCountdownFinished)
                 {
-                    playerAnim.SetTrigger("walkback");
+                    if (isFlipped)
+                    {
+                        playerAnim.ResetTrigger("walkback");
+                        isWalking = true;
+                    }
+                    else
+                    {
+                        playerAnim.ResetTrigger("walk");
+                        isWalking = false;
+                    }
+                    playerAnim.SetTrigger("idle");
                 }
-                playerAnim.ResetTrigger("idle");
-            }
-            else if (!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A) && !isJump && uiManager.isCountdownFinished)
-            {
-                if (isFlipped)
-                {
-                    playerAnim.ResetTrigger("walkback");
-                    isWalking = true;
-                }
-                else
-                {
-                    playerAnim.ResetTrigger("walk");
-                    isWalking = false;
-                }
-                playerAnim.SetTrigger("idle");
-            }
 
-            if (Input.GetKey(KeyCode.LeftShift) && uiManager.isCountdownFinished)
-            {
-                if (Input.GetKey(KeyCode.D) && !isJump)
+                if (Input.GetKey(KeyCode.LeftShift) && uiManager.isCountdownFinished)
                 {
-                    isRunning = true;
-                    w_speed = w_speed + rn_speed;
-                    playerAnim.SetTrigger("run");
-                    playerAnim.ResetTrigger("walk");
-                }
-                else
-                {
-                    isRunning = false;
-                }
-            }
-            else
-            {
-                isRunning = false;
-            }
-
-            if (!isRunning)
-            {
-                w_speed = 3f;
-            }
-
-            if (isJump)
-            {
-                isWalking = false;
-            }
-
-            if (Input.GetKeyDown(KeyCode.W) && isOnGround && uiManager.isCountdownFinished)
-            {
-                playerAnim.SetTrigger("jumping");
-                playerAnim.SetTrigger("falling");
-                playerAnim.ResetTrigger("idle");
-                isOnGround = false;
-                isJump = true;
-                //playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); 
-                playerRb.AddForce(transform.up * jumpForce);
-            }
-        }
-        if (isLayer == isEnemy)
-        {
-            if (Input.GetKey(KeyCode.RightArrow) && !isJump && uiManager.isCountdownFinished)
-            {
-                transform.Translate(w_speed * Time.deltaTime, 0, 0, 0);
-
-                if (isFlipped)
-                {
-                    playerAnim.SetTrigger("walkback");
-                    isWalking = false;
-                }
-                else
-                {
-                    playerAnim.SetTrigger("walk");
-                    isWalking = true;
-                }
-                playerAnim.ResetTrigger("idle");
-            }
-            else if (Input.GetKey(KeyCode.LeftArrow) && !isJump && uiManager.isCountdownFinished)
-            {
-                transform.Translate(-w_speed * Time.deltaTime, 0, 0, 0);
-
-                if (isFlipped)
-                {
-                    playerAnim.SetTrigger("walk");
-                }
-                else
-                {
-                    playerAnim.SetTrigger("walkback");
-                }
-                playerAnim.ResetTrigger("idle");
-            }
-            else if (!Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow) && !isJump && uiManager.isCountdownFinished)
-            {
-                if (isFlipped)
-                {
-                    playerAnim.ResetTrigger("walkback");
-                    isWalking = true;
-                }
-                else
-                {
-                    playerAnim.ResetTrigger("walk");
-                    isWalking = false;
-                }
-                playerAnim.SetTrigger("idle");
-            }
-
-            if (Input.GetKey(KeyCode.RightShift) && uiManager.isCountdownFinished)
-            {
-                if (Input.GetKey(KeyCode.RightArrow) && !isJump)
-                {
-                    isRunning = true;
-                    w_speed = w_speed + rn_speed;
-                    playerAnim.SetTrigger("run");
-                    playerAnim.ResetTrigger("walk");
+                    if (Input.GetKey(KeyCode.D) && !isJump)
+                    {
+                        isRunning = true;
+                        w_speed = w_speed + rn_speed;
+                        playerAnim.SetTrigger("run");
+                        playerAnim.ResetTrigger("walk");
+                    }
+                    else
+                    {
+                        isRunning = false;
+                    }
                 }
                 else
                 {
                     isRunning = false;
                 }
-            }
-            else
-            {
-                isRunning = false;
-            }
 
-            if (!isRunning)
-            {
-                w_speed = 3f;
-            }
+                if (!isRunning)
+                {
+                    w_speed = 3f;
+                }
 
-            if (isJump)
-            {
-                isWalking = false;
-            }
+                if (isJump)
+                {
+                    isWalking = false;
+                }
 
-            if (Input.GetKeyDown(KeyCode.UpArrow) && isOnGround && uiManager.isCountdownFinished)
-            {
-                playerAnim.SetTrigger("jumping");
-                playerAnim.SetTrigger("falling");
-                playerAnim.ResetTrigger("idle");
-                isOnGround = false;
-                isJump = true;
-                //playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); 
-                playerRb.AddForce(transform.up * jumpForce);
+                if (Input.GetKeyDown(KeyCode.W) && isOnGround && uiManager.isCountdownFinished)
+                {
+                    playerAnim.SetTrigger("jumping");
+                    playerAnim.SetTrigger("falling");
+                    playerAnim.ResetTrigger("idle");
+                    isOnGround = false;
+                    isJump = true;
+                    //playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); 
+                    playerRb.AddForce(transform.up * jumpForce);
+                }
             }
-        }
+            if (isLayer == isEnemy)
+            {
+                if (Input.GetKey(KeyCode.RightArrow) && !isJump && uiManager.isCountdownFinished)
+                {
+                    transform.Translate(w_speed * Time.deltaTime, 0, 0, 0);
+
+                    if (isFlipped)
+                    {
+                        playerAnim.SetTrigger("walkback");
+                        isWalking = false;
+                    }
+                    else
+                    {
+                        playerAnim.SetTrigger("walk");
+                        isWalking = true;
+                    }
+                    playerAnim.ResetTrigger("idle");
+                }
+                else if (Input.GetKey(KeyCode.LeftArrow) && !isJump && uiManager.isCountdownFinished)
+                {
+                    transform.Translate(-w_speed * Time.deltaTime, 0, 0, 0);
+
+                    if (isFlipped)
+                    {
+                        playerAnim.SetTrigger("walk");
+                    }
+                    else
+                    {
+                        playerAnim.SetTrigger("walkback");
+                    }
+                    playerAnim.ResetTrigger("idle");
+                }
+                else if (!Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow) && !isJump && uiManager.isCountdownFinished)
+                {
+                    if (isFlipped)
+                    {
+                        playerAnim.ResetTrigger("walkback");
+                        isWalking = true;
+                    }
+                    else
+                    {
+                        playerAnim.ResetTrigger("walk");
+                        isWalking = false;
+                    }
+                    playerAnim.SetTrigger("idle");
+                }
+
+                if (Input.GetKey(KeyCode.RightShift) && uiManager.isCountdownFinished)
+                {
+                    if (Input.GetKey(KeyCode.RightArrow) && !isJump)
+                    {
+                        isRunning = true;
+                        w_speed = 6f;
+                        playerAnim.SetTrigger("run");
+                        playerAnim.ResetTrigger("walk");
+                    }
+                    else
+                    {
+                        isRunning = false;
+                    }
+                }
+                else
+                {
+                    isRunning = false;
+                }
+
+                if (!isRunning)
+                {
+                    w_speed = 3f;
+                }
+
+                if (isJump)
+                {
+                    isWalking = false;
+                }
+
+                if (Input.GetKeyDown(KeyCode.UpArrow) && isOnGround && uiManager.isCountdownFinished)
+                {
+                    playerAnim.SetTrigger("jumping");
+                    playerAnim.SetTrigger("falling");
+                    playerAnim.ResetTrigger("idle");
+                    isOnGround = false;
+                    isJump = true;
+                    //playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); 
+                    playerRb.AddForce(transform.up * jumpForce);
+                }
+            }
     }
 
     protected void Ki()
@@ -1117,14 +1119,18 @@ public class CharacterController : MonoBehaviour
     }
     protected void BO3()
     {
-        //if(isLayer == isPlayer && health_UI.playerWins == 2)
-        //{
-        //    playerAnim.SetTrigger("attack5");
-        //}
-        //if (isLayer == isEnemy && health_UI.enemyWins == 2)
-        //{
-        //    playerAnim.SetTrigger("attack5");
-        //}
+        if (uiManager.enemyWins == 2 && uiManager.playerWins == 2)
+        {
+            StartCoroutine(ShowWinMessageCoroutine("DRAW!"));
+        }
+        else if (isLayer == isPlayer && uiManager.playerWins == 2)
+        {
+            StartCoroutine(ShowWinMessageCoroutine("P1 WIN!"));
+        }
+        else if (isLayer == isEnemy && uiManager.enemyWins == 2)
+        {
+            StartCoroutine(ShowWinMessageCoroutine("P2 WIN!"));
+        }
 
         if (uiManager.enemyWins == 1 && isLayer == isPlayer)
         {
@@ -1150,6 +1156,11 @@ public class CharacterController : MonoBehaviour
                 IncreaseHealth();
             }
         }
+    }
+    private IEnumerator ShowWinMessageCoroutine(string message)
+    {
+        yield return new WaitForSeconds(5f); // 
+        uiManager.DisplayWinMessage(message);
     }
     public void ApplyDamage(float damage, bool knockDown)
     {
