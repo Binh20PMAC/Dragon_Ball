@@ -1270,11 +1270,13 @@ MonoBehaviour:
   LeftLegAttackPoint: {fileID: 3053752519553701295}
   RightForeArmAttackPoint: {fileID: 3053752519749177728}
   health: 100
-  energy: 500
+  energy: 5000
+  characterDied: 0
   uiManager: {fileID: 0}
   skillOne: {fileID: 5060414078489493075, guid: e6b75b88617b129468d40f70f04615bd, type: 3}
   skillTwo: {fileID: 5304350690874169901}
   skillThree: {fileID: 6395357013047131376, guid: 244ad744f7717be4895d3f1c80c6801f, type: 3}
+  isSpiritRuning: 0
   listSkillOne: []
   speedFireball: 15
   colliderWith: {fileID: 5304350691946360373}

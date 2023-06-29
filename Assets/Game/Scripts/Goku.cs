@@ -48,18 +48,22 @@ public class Goku : CharacterController
         AttackPoint();
         MoveFireball();
         Ki();
-        if (skillTwo.activeInHierarchy)
+        if (stateInfo.IsName("kame"))
         {
             transform.position = new Vector3(transform.position.x, 2.2f, transform.position.z);
             kiFull.transform.position = new Vector3(kiFull.transform.position.x, -0.0001f, kiFull.transform.position.z);
         }
-        else if (!skillTwo.activeInHierarchy)
+        else
         {
             kiFull.transform.position = transform.position;
         }
         if (skillThree.activeInHierarchy)
         {
             ParticleLifetimesAndMoveSpiritBoom(skillThree.transform);
+        }
+        else if (!skillThree.activeInHierarchy)
+        {
+            isSpiritRuning = false;
         }
     }
 }
