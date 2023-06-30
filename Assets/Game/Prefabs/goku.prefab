@@ -1146,7 +1146,7 @@ GameObject:
   - component: {fileID: 3053752519215069704}
   - component: {fileID: 3053752519215069711}
   - component: {fileID: 3053752519215069705}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: goku
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1279,7 +1279,7 @@ MonoBehaviour:
   isSpiritRuning: 0
   listSkillOne: []
   speedFireball: 15
-  colliderWith: {fileID: 5304350691946360373}
+  colliderWithKame: {fileID: 5304350691946360373}
 --- !u!1 &2917833136011786936
 GameObject:
   m_ObjectHideFlags: 0

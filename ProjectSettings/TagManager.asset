@@ -14,6 +14,7 @@ TagManager:
   - FireBall
   - Kame
   - SpiritBoom
+  - SuperKame
   layers:
   - Default
   - TransparentFX
@@ -26,7 +27,7 @@ TagManager:
   - 
   - Player
   - Enemy
-  - 
+  - Fireball
   - 
   - 
   - 

@@ -5,12 +5,15 @@ using UnityEngine;
 
 public class Gohan : CharacterController
 {
-    public ParticleSystem colliderWith;
+    public ParticleSystem colliderWithKame;
+    public ParticleSystem colliderWithSuperKame;
+    private Vector3 betweenHandsKame;
     public void Start()
     {
         uiManager = GameObject.Find("UICode").GetComponent<UIManager>();
         InitializeHealth(health);
-        ParticleSystem.CollisionModule collisionModule = colliderWith.collision;
+        ParticleSystem.CollisionModule collisionModuleKame = colliderWithKame.collision;
+        ParticleSystem.CollisionModule collisionModuleSuperKame = colliderWithSuperKame.collision;
         isLayer = LayerMask.LayerToName(gameObject.layer);
         if (isLayer == isPlayer)
         {
@@ -18,8 +21,11 @@ public class Gohan : CharacterController
             uiManager.DisplayHealth(health, true);
             targetEnemy = GameObject.Find(isEnemy).transform;
             skillTwo.layer = gameObject.layer;
+            skillThree.layer = gameObject.layer;
             SetLayerRecursively(skillTwo, skillTwo.layer);
-            collisionModule.collidesWith = LayerMask.GetMask(isEnemy);
+            SetLayerRecursively(skillThree, skillThree.layer);
+            collisionModuleKame.collidesWith = LayerMask.GetMask(isEnemy);
+            collisionModuleSuperKame.collidesWith = LayerMask.GetMask(isEnemy);
         }
         else if (isLayer == isEnemy)
         {
@@ -27,8 +33,11 @@ public class Gohan : CharacterController
             uiManager.DisplayHealth(health, false);
             targetEnemy = GameObject.Find(isPlayer).transform;
             skillTwo.layer = gameObject.layer;
+            skillThree.layer = gameObject.layer;
             SetLayerRecursively(skillTwo, skillTwo.layer);
-            collisionModule.collidesWith = LayerMask.GetMask(isPlayer);
+            SetLayerRecursively(skillThree, skillThree.layer);
+            collisionModuleKame.collidesWith = LayerMask.GetMask(isPlayer);
+            collisionModuleSuperKame.collidesWith = LayerMask.GetMask(isPlayer);
         }
     }
 
@@ -42,5 +51,28 @@ public class Gohan : CharacterController
         MoveFireball();
         AttackPoint();
         Ki();
+        if (skillThree.activeInHierarchy)
+        {
+            betweenHandsKame = (RightArmAttackPoint.transform.position + LeftArmAttackPoint.transform.position) / 2;
+            CheckChildParticleLifetimesKame(skillThree.transform);
+            skillThree.transform.position = betweenHandsKame;
+        }
+        if (!skillThree.activeInHierarchy)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha3) && isLayer == isPlayer && uiManager.isCountdownFinished)
+            {
+                if (80f > energy) return;
+                ApplyReduceEnergy(80f);
+                skillThree.SetActive(true);
+                playerAnim.SetTrigger("superkame");
+            }
+            else if (Input.GetKeyDown(KeyCode.L) && isLayer == isEnemy && uiManager.isCountdownFinished)
+            {
+                if (80f > energy) return;
+                ApplyReduceEnergy(80f);
+                skillThree.SetActive(true);
+                playerAnim.SetTrigger("superkame");
+            }
+        }
     }
 }

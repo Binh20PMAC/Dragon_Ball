@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Goku : CharacterController
 {
-    public ParticleSystem colliderWith;
+    public ParticleSystem colliderWithKame;
     public void Start()
     {
         GameObject spiritboom = Instantiate(skillThree);
         spiritboom.SetActive(false);
         spiritboom.name = "SpiritBoomOfGoku";
         skillThree = spiritboom;
-        ParticleSystem.CollisionModule collisionModule = colliderWith.collision;
+        ParticleSystem.CollisionModule collisionModuleKame = colliderWithKame.collision;
         uiManager = GameObject.Find("UICode").GetComponent<UIManager>();
         InitializeHealth(health);
         isLayer = LayerMask.LayerToName(gameObject.layer);
@@ -22,7 +22,9 @@ public class Goku : CharacterController
             targetEnemy = GameObject.Find(isEnemy).transform;
             skillTwo.layer = gameObject.layer;
             SetLayerRecursively(skillTwo, skillTwo.layer);
-            collisionModule.collidesWith = LayerMask.GetMask(isEnemy);
+            collisionModuleKame.collidesWith = LayerMask.GetMask(isEnemy);
+            skillThree.layer = gameObject.layer;
+            SetLayerRecursively(skillThree, skillThree.layer);
         }
         else if (isLayer == isEnemy)
         {
@@ -31,7 +33,7 @@ public class Goku : CharacterController
             targetEnemy = GameObject.Find(isPlayer).transform;
             skillTwo.layer = gameObject.layer;
             SetLayerRecursively(skillTwo, skillTwo.layer);
-            collisionModule.collidesWith = LayerMask.GetMask(isPlayer);
+            collisionModuleKame.collidesWith = LayerMask.GetMask(isPlayer);
             skillThree.layer = gameObject.layer;
             SetLayerRecursively(skillThree, skillThree.layer);
         }
@@ -64,6 +66,22 @@ public class Goku : CharacterController
         else if (!skillThree.activeInHierarchy)
         {
             isSpiritRuning = false;
+            if (Input.GetKeyDown(KeyCode.Alpha3) && isLayer == isPlayer && uiManager.isCountdownFinished)
+            {
+                if (80f > energy) return;
+                ApplyReduceEnergy(80f);
+                skillThree.SetActive(true);
+                playerAnim.SetTrigger("spiritboomfirst");
+                playerAnim.SetTrigger("spiritboommiddle");
+            }
+            else if (Input.GetKeyDown(KeyCode.L) && isLayer == isEnemy && uiManager.isCountdownFinished)
+            {
+                if (80f > energy) return;
+                ApplyReduceEnergy(80f);
+                skillThree.SetActive(true);
+                playerAnim.SetTrigger("spiritboomfirst");
+                playerAnim.SetTrigger("spiritboommiddle");
+            }
         }
     }
 }

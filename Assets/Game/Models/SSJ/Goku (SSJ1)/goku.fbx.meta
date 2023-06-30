@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6af3d5970c3555d44899bab39a1b4637
+guid: 9140165400fb1144f89dadc9a22e68e8
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -7,7 +7,7 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: GOK_01_hair.001
+      name: GOK_01_hair
     second: {fileID: 2100000, guid: cd61b47976598e34e9df2c4fb4410223, type: 2}
   - first:
       type: UnityEngine:Material

@@ -94,7 +94,7 @@ public class CharacterController : MonoBehaviour
     }
     protected bool RestrictAction()
     {
-        if (!ki.activeInHierarchy && !skillTwo.activeInHierarchy && !stateInfo.IsName("SpiritBoomMiddle") && !stateInfo.IsName("SpiritBoomFirst") && !stateInfo.IsName("knockup") && !stateInfo.IsName("knockdown") && !stateInfo.IsName("knockend") && !stateInfo.IsName("standup"))
+        if (!ki.activeInHierarchy && !skillTwo.activeInHierarchy && !stateInfo.IsName("superkame") && !stateInfo.IsName("SpiritBoomMiddle") && !stateInfo.IsName("SpiritBoomFirst") && !stateInfo.IsName("knockup") && !stateInfo.IsName("knockdown") && !stateInfo.IsName("knockend") && !stateInfo.IsName("standup"))
         {
             return false;
         }
@@ -487,30 +487,9 @@ public class CharacterController : MonoBehaviour
             skillTwo.SetActive(true);
             playerAnim.SetTrigger("kame");
         }
-        if (!skillThree.activeInHierarchy)
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha3) && isLayer == isPlayer && uiManager.isCountdownFinished)
-            {
-                if (80f > energy) return;
-                ApplyReduceEnergy(80f);
-                skillThree.transform.position = new Vector3(transform.position.x, transform.position.y + 9f, transform.position.z);
-                skillThree.SetActive(true);
-                playerAnim.SetTrigger("spiritboomfirst");
-                playerAnim.SetTrigger("spiritboommiddle");
-            }
-            else if (Input.GetKeyDown(KeyCode.L) && isLayer == isEnemy && uiManager.isCountdownFinished)
-            {
-                if (80f > energy) return;
-                ApplyReduceEnergy(80f);
-                skillThree.transform.position = new Vector3(transform.position.x, transform.position.y + 9f, transform.position.z);
-                skillThree.SetActive(true);
-                playerAnim.SetTrigger("spiritboomfirst");
-                playerAnim.SetTrigger("spiritboommiddle");
-            }
-        }
     }
 
-    void CheckChildParticleLifetimesKame(Transform parent)
+    public void CheckChildParticleLifetimesKame(Transform parent)
     {
         foreach (Transform child in parent)
         {
@@ -519,9 +498,11 @@ public class CharacterController : MonoBehaviour
             {
                 ParticleSystem.MainModule mainModule = particleSystem.main;
                 float remainingLifetime = mainModule.duration - particleSystem.time;
+
                 if (remainingLifetime == 0 && child.name == "KameCore")
                 {
                     skillTwo.SetActive(false);
+                    skillThree.SetActive(false);
                 }
                 //Debug.Log("Remaining Lifetime of Particle System: " + remainingLifetime + " seconds");
             }
@@ -800,18 +781,22 @@ public class CharacterController : MonoBehaviour
     {
         if (collision.gameObject.layer != gameObject.layer && collision.gameObject.CompareTag("FireBall"))
         {
-            DeactivateTopmostParent(collision);
             ApplyDamage(10f, false);
+            DeactivateTopmostParent(collision);
         }
         if (collision.gameObject.CompareTag("Kame"))
         {
             ApplyDamage(40f, true);
             isKame = true;
         }
-        if (collision.gameObject.CompareTag("SpiritBoom"))
+        if (collision.gameObject.CompareTag("SuperKame"))
         {
             ApplyDamage(70f, true);
-            collision.gameObject.SetActive(false);
+        }
+        if (collision.gameObject.layer != gameObject.layer && collision.gameObject.CompareTag("SpiritBoom"))
+        {
+            ApplyDamage(70f, true);
+            collision.SetActive(false);
         }
 
     }

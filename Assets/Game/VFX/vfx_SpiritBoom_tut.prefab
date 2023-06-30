@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 567448406}
   - component: {fileID: 567448408}
   - component: {fileID: 567448407}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: SpiritBoomPerfectCollider
   m_TagString: SpiritBoom
   m_Icon: {fileID: 0}
@@ -3601,7 +3601,7 @@ ParticleSystem:
     m_EnergyLossOnCollision:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -3656,7 +3656,7 @@ ParticleSystem:
     radiusScale: 0.8
     collidesWith:
       serializedVersion: 2
-      m_Bits: 512
+      m_Bits: 1536
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -9515,7 +9515,7 @@ GameObject:
   - component: {fileID: 1512399079532269358}
   - component: {fileID: 1512399079532269356}
   - component: {fileID: 1512399079532269357}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: SpiritBoomPerfect
   m_TagString: SpiritBoom
   m_Icon: {fileID: 0}
@@ -23839,7 +23839,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6395357013047353552}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: vfx_SpiritBoom_tut
   m_TagString: SpiritBoom
   m_Icon: {fileID: 0}
@@ -23875,7 +23875,7 @@ GameObject:
   - component: {fileID: 6395357013047353554}
   - component: {fileID: 6395357013061510546}
   - component: {fileID: 6395357013061409842}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: SpiritBoom
   m_TagString: SpiritBoom
   m_Icon: {fileID: 0}
@@ -28561,7 +28561,7 @@ GameObject:
   - component: {fileID: 6395357013047353558}
   - component: {fileID: 6395357013053764050}
   - component: {fileID: 6395357014074689213}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Point light
   m_TagString: SpiritBoom
   m_Icon: {fileID: 0}
