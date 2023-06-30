@@ -51,15 +51,6 @@ public class Goku : CharacterController
         AttackPoint();
         MoveFireball();
         Ki();
-        if (stateInfo.IsName("kame"))
-        {
-            transform.position = new Vector3(transform.position.x, 2.2f, transform.position.z);
-            kiFull.transform.position = new Vector3(kiFull.transform.position.x, -0.0001f, kiFull.transform.position.z);
-        }
-        else
-        {
-            kiFull.transform.position = transform.position;
-        }
         if (skillThree.activeInHierarchy)
         {
             ParticleLifetimesAndMoveSpiritBoom(skillThree.transform);

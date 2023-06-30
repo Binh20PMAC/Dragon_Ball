@@ -4,22 +4,30 @@ using UnityEngine;
 
 public class Buu : CharacterController
 {
+    public ParticleSystem colliderWithKame;
     public void Start()
     {
         InitializeHealth(health);
         uiManager = GameObject.Find("UICode").GetComponent<UIManager>();
+        ParticleSystem.CollisionModule collisionModuleKame = colliderWithKame.collision;
         isLayer = LayerMask.LayerToName(gameObject.layer);
         if (isLayer == isPlayer)
         {
             collisionLayer = LayerMask.GetMask(isEnemy);
             uiManager.DisplayHealth(health, true);
             targetEnemy = GameObject.Find(isEnemy).transform;
+            skillTwo.layer = gameObject.layer;
+            SetLayerRecursively(skillTwo, skillTwo.layer);
+            collisionModuleKame.collidesWith = LayerMask.GetMask(isEnemy);
         }
         else if (isLayer == isEnemy)
         {
             collisionLayer = LayerMask.GetMask(isPlayer);
             uiManager.DisplayHealth(health, false);
             targetEnemy = GameObject.Find(isPlayer).transform;
+            skillTwo.layer = gameObject.layer;
+            SetLayerRecursively(skillTwo, skillTwo.layer);
+            collisionModuleKame.collidesWith = LayerMask.GetMask(isPlayer);
         }
     }
 
