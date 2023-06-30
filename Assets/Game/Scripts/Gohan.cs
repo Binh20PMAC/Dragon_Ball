@@ -10,6 +10,7 @@ public class Gohan : CharacterController
     private Vector3 betweenHandsKame;
     public void Start()
     {
+        initialCameraPosition = cameraSkill.transform.localPosition;
         uiManager = GameObject.Find("UICode").GetComponent<UIManager>();
         InitializeHealth(health);
         ParticleSystem.CollisionModule collisionModuleKame = colliderWithKame.collision;
@@ -51,11 +52,15 @@ public class Gohan : CharacterController
         MoveFireball();
         AttackPoint();
         Ki();
+        
         if (skillThree.activeInHierarchy)
         {
             betweenHandsKame = (RightArmAttackPoint.transform.position + LeftArmAttackPoint.transform.position) / 2;
             CheckChildParticleLifetimesKame(skillThree.transform);
             skillThree.transform.position = betweenHandsKame;
+            CameraSmooth(cameraSkill, Vector3.left);
+            cameraSkill.enabled = true;
+            CheckCameraCoreGohan(skillThree.transform);
         }
         if (!skillThree.activeInHierarchy)
         {

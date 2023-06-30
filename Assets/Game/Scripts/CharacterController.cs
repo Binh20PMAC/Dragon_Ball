@@ -67,6 +67,10 @@ public class CharacterController : MonoBehaviour
     public int speedFireball = 15;
     private Vector3 betweenHands;
 
+    // Camera 
+    public Camera cameraSkill;
+    protected Vector3 initialCameraPosition;
+
     public void InitializeHealth(float initialHealth)
     {
         this.initialHealth = initialHealth;
@@ -510,6 +514,50 @@ public class CharacterController : MonoBehaviour
             CheckChildParticleLifetimesKame(child);
         }
     }
+    protected void CheckCameraCoreGohan(Transform parent)
+    {
+        foreach (Transform child in parent)
+        {
+            ParticleSystem particleSystem = child.GetComponent<ParticleSystem>();
+            if (particleSystem != null)
+            {
+                ParticleSystem.MainModule mainModule = particleSystem.main;
+                float remainingLifetime = mainModule.duration - particleSystem.time;
+
+                if (remainingLifetime <= 1f && child.name == "Core")
+                {
+                    cameraSkill.enabled = false;
+                }
+            }
+        }
+    }
+    protected void CheckCameraCoreGoku(Transform parent)
+    {
+        foreach (Transform child in parent)
+        {
+            ParticleSystem particleSystem = child.GetComponent<ParticleSystem>();
+            if (particleSystem != null)
+            {
+                ParticleSystem.MainModule mainModule = particleSystem.main;
+                float remainingLifetime = mainModule.duration - particleSystem.time;
+
+                if (remainingLifetime <= 1f && child.name == "SpiritBoom")
+                {
+                    cameraSkill.enabled = false;
+                }
+            }
+        }
+    }
+    protected void CameraSmooth(Camera camera, Vector3 dir)
+    {
+        Vector3 newPosition = camera.transform.position + (dir * Time.deltaTime);
+        camera.transform.position = newPosition;
+        if (!camera.enabled)
+        {
+            cameraSkill.transform.localPosition = initialCameraPosition;
+        }
+    }
+
     public void ParticleLifetimesAndMoveSpiritBoom(Transform parent)
     {
         if ((!uiManager.isCountdownFinished || characterDied) && !isSpiritRuning)

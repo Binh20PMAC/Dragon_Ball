@@ -7,6 +7,7 @@ public class Goku : CharacterController
     public ParticleSystem colliderWithKame;
     public void Start()
     {
+        initialCameraPosition = cameraSkill.transform.localPosition;
         GameObject spiritboom = Instantiate(skillThree);
         spiritboom.SetActive(false);
         spiritboom.name = "SpiritBoomOfGoku";
@@ -62,6 +63,9 @@ public class Goku : CharacterController
         if (skillThree.activeInHierarchy)
         {
             ParticleLifetimesAndMoveSpiritBoom(skillThree.transform);
+            CameraSmooth(cameraSkill, Vector3.up);
+            cameraSkill.enabled = true;
+            CheckCameraCoreGoku(skillThree.transform);
         }
         else if (!skillThree.activeInHierarchy)
         {
