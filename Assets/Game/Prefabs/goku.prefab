@@ -1270,7 +1270,7 @@ MonoBehaviour:
   LeftLegAttackPoint: {fileID: 3053752519553701295}
   RightForeArmAttackPoint: {fileID: 3053752519749177728}
   health: 100
-  energy: 5000
+  energy: 15
   characterDied: 0
   uiManager: {fileID: 0}
   skillOne: {fileID: 5060414078489493075, guid: e6b75b88617b129468d40f70f04615bd, type: 3}
