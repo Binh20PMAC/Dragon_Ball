@@ -14,6 +14,7 @@ public class Vegeta : CharacterController
         {
             collisionLayer = LayerMask.GetMask(isEnemy);
             uiManager.DisplayHealth(health, true);
+            uiManager.DisplayRage(rage, true);
             targetEnemy = GameObject.Find(isEnemy).transform;
             skillTwo.layer = gameObject.layer;
             SetLayerRecursively(skillTwo, skillTwo.layer);
@@ -22,6 +23,7 @@ public class Vegeta : CharacterController
         {
             collisionLayer = LayerMask.GetMask(isPlayer);
             uiManager.DisplayHealth(health, false);
+            uiManager.DisplayRage(rage, false);
             targetEnemy = GameObject.Find(isPlayer).transform;
             skillTwo.layer = gameObject.layer;
             SetLayerRecursively(skillTwo, skillTwo.layer);
@@ -38,5 +40,6 @@ public class Vegeta : CharacterController
         AttackPoint();
         MoveFireball();
         Ki();
+        IncreaseRage();
     }
 }

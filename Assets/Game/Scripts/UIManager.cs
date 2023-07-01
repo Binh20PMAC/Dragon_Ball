@@ -8,13 +8,17 @@ public class UIManager : MonoBehaviour
 {
     public Image player_health_UI;
     public Image player_energy_UI;
+    public Image player_rage_UI;
     public Image enemy_health_UI;
     public Image enemy_energy_UI;
+    public Image enemy_rage_UI;
     public Gradient gradient;
     private float player_energy = 15f;
     private float enemy_energy = 15f;
     private float health = 0;
     private float health_enemy = 0;
+    private float player_rage = 0f;
+    private float enemy_rage = 0f;
     public int playerWins = 0;
     public int enemyWins = 0;
     public GameObject P1W1;
@@ -35,8 +39,12 @@ public class UIManager : MonoBehaviour
         enemy_health_UI = GameObject.FindWithTag("EnemyHealthUI").GetComponent<Image>();
         player_energy_UI = GameObject.FindWithTag("EnergyUI").GetComponent<Image>();
         enemy_energy_UI = GameObject.FindWithTag("EnemyEnergyUI").GetComponent<Image>();
+        player_rage_UI= GameObject.FindWithTag("RageUI").GetComponent<Image>();
+        enemy_rage_UI= GameObject.FindWithTag("EnemyRageUI").GetComponent<Image>();
         DisplayEnergy(player_energy, true);
         DisplayEnergy(enemy_energy, false);
+        DisplayEnergy(player_rage, true);
+        DisplayEnergy(enemy_rage, false);
     }
     public void DisplayBO3()
     {
@@ -99,6 +107,23 @@ public class UIManager : MonoBehaviour
         {
             enemy_energy_UI.fillAmount = value;
             enemy_energy_UI.color = gradient.Evaluate(value);
+        }
+    }
+    public void DisplayRage(float value, bool isPlayer)
+    {
+        value /= 100f;
+        if (value < 0f)
+            value = 0f;
+
+        if (isPlayer && player_rage_UI != null)
+        {
+            player_rage_UI.fillAmount = value;
+            //player_rage_UI.color = gradient.Evaluate(value);
+        }
+        else if (!isPlayer && enemy_rage_UI != null)
+        {
+            enemy_rage_UI.fillAmount = value;
+            //enemy_rage_UI.color = gradient.Evaluate(value);
         }
     }
     public IEnumerator CountdownCoroutine()

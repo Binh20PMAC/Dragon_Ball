@@ -20,6 +20,7 @@ public class Gohan : CharacterController
         {
             collisionLayer = LayerMask.GetMask(isEnemy);
             uiManager.DisplayHealth(health, true);
+            uiManager.DisplayRage(rage, true);
             targetEnemy = GameObject.Find(isEnemy).transform;
             skillTwo.layer = gameObject.layer;
             skillThree.layer = gameObject.layer;
@@ -32,6 +33,7 @@ public class Gohan : CharacterController
         {
             collisionLayer = LayerMask.GetMask(isPlayer);
             uiManager.DisplayHealth(health, false);
+            uiManager.DisplayRage(rage, false);
             targetEnemy = GameObject.Find(isPlayer).transform;
             skillTwo.layer = gameObject.layer;
             skillThree.layer = gameObject.layer;
@@ -52,7 +54,7 @@ public class Gohan : CharacterController
         MoveFireball();
         AttackPoint();
         Ki();
-        
+        IncreaseRage();
         if (skillThree.activeInHierarchy)
         {
             betweenHandsKame = (RightArmAttackPoint.transform.position + LeftArmAttackPoint.transform.position) / 2;

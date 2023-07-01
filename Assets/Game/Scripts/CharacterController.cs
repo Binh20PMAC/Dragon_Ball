@@ -28,6 +28,7 @@ public class CharacterController : MonoBehaviour
     public bool isOnGround = true;
     private bool isJump = false;
     public bool isFlipped = false;
+    public bool isBlock = false;
 
     // Collider
     public LayerMask collisionLayer;
@@ -70,6 +71,12 @@ public class CharacterController : MonoBehaviour
     // Camera 
     public Camera cameraSkill;
     protected Vector3 initialCameraPosition;
+    //Rage
+    private float rageIncreaseSpeed = 1f; 
+    public float rage = 0f; 
+    private float targetRage = 100f;
+    private float timeElapsed = 0f;
+    private bool isUsingRage=false;
 
     public void InitializeHealth(float initialHealth)
     {
@@ -110,7 +117,16 @@ public class CharacterController : MonoBehaviour
             return;
         if (isLayer == isPlayer)
         {
-            if (Input.GetKey(KeyCode.D) && !isJump && uiManager.isCountdownFinished)
+            if (Input.GetKey(KeyCode.S) && isOnGround && uiManager.isCountdownFinished)
+            {
+                if (!isBlock)
+                {
+                    isBlock = true;
+                    playerAnim.SetTrigger("block");
+                    playerAnim.ResetTrigger("idle");
+                }
+            }
+            if (Input.GetKey(KeyCode.D) && !isJump && uiManager.isCountdownFinished && !isBlock)
             {
                 transform.Translate(w_speed * Time.deltaTime, 0, 0, 0);
 
@@ -126,7 +142,7 @@ public class CharacterController : MonoBehaviour
                 }
                 playerAnim.ResetTrigger("idle");
             }
-            else if (Input.GetKey(KeyCode.A) && !isJump && uiManager.isCountdownFinished)
+            else if (Input.GetKey(KeyCode.A) && !isJump && uiManager.isCountdownFinished && !isBlock)
             {
                 transform.Translate(-w_speed * Time.deltaTime, 0, 0, 0);
 
@@ -140,7 +156,7 @@ public class CharacterController : MonoBehaviour
                 }
                 playerAnim.ResetTrigger("idle");
             }
-            else if (!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A) && !isJump && uiManager.isCountdownFinished)
+            else if (!Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.S) && !isJump && uiManager.isCountdownFinished)
             {
                 if (isFlipped)
                 {
@@ -152,12 +168,14 @@ public class CharacterController : MonoBehaviour
                     playerAnim.ResetTrigger("walk");
                     isWalking = false;
                 }
+                playerAnim.ResetTrigger("block");
+                isBlock = false;
                 playerAnim.SetTrigger("idle");
             }
 
             if (Input.GetKey(KeyCode.LeftShift) && uiManager.isCountdownFinished)
             {
-                if (Input.GetKey(KeyCode.D) && !isFlipped|| Input.GetKey(KeyCode.A) &&isFlipped)//!isJump
+                if (Input.GetKey(KeyCode.D) && !isFlipped || Input.GetKey(KeyCode.A) && isFlipped)//!isJump
                 {
                     isRunning = true;
                     w_speed = 6f;
@@ -197,7 +215,16 @@ public class CharacterController : MonoBehaviour
         }
         if (isLayer == isEnemy)
         {
-            if (Input.GetKey(KeyCode.RightArrow) && !isJump && uiManager.isCountdownFinished)
+            if (Input.GetKey(KeyCode.DownArrow) && isOnGround && uiManager.isCountdownFinished)
+            {
+                if (!isBlock)
+                {
+                    isBlock = true;
+                    playerAnim.SetTrigger("block");
+                    playerAnim.ResetTrigger("idle");
+                }
+            }
+            if (Input.GetKey(KeyCode.RightArrow) && !isJump && uiManager.isCountdownFinished&& !isBlock)
             {
                 transform.Translate(w_speed * Time.deltaTime, 0, 0, 0);
 
@@ -213,7 +240,7 @@ public class CharacterController : MonoBehaviour
                 }
                 playerAnim.ResetTrigger("idle");
             }
-            else if (Input.GetKey(KeyCode.LeftArrow) && !isJump && uiManager.isCountdownFinished)
+            else if (Input.GetKey(KeyCode.LeftArrow) && !isJump && uiManager.isCountdownFinished&& !isBlock)
             {
                 transform.Translate(-w_speed * Time.deltaTime, 0, 0, 0);
 
@@ -229,7 +256,7 @@ public class CharacterController : MonoBehaviour
                 }
                 playerAnim.ResetTrigger("idle");
             }
-            else if (!Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow) && !isJump && uiManager.isCountdownFinished)
+            else if (!Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.DownArrow)&&!isJump && uiManager.isCountdownFinished)
             {
                 if (isFlipped)
                 {
@@ -241,6 +268,8 @@ public class CharacterController : MonoBehaviour
                     playerAnim.ResetTrigger("walk");
                     isWalking = false;
                 }
+                playerAnim.ResetTrigger("block");
+                isBlock = false;
                 playerAnim.SetTrigger("idle");
             }
 
@@ -312,6 +341,7 @@ public class CharacterController : MonoBehaviour
                 Movement();
                 ComboAttacks();
                 Skill();
+                Rage();
             }
             if (Input.GetKeyUp(KeyCode.R) && uiManager.isCountdownFinished)
             {
@@ -389,6 +419,7 @@ public class CharacterController : MonoBehaviour
                 Movement();
                 ComboAttacks();
                 Skill();
+                Rage();
             }
 
             if (Input.GetKeyUp(KeyCode.P) && uiManager.isCountdownFinished)
@@ -1256,7 +1287,10 @@ public class CharacterController : MonoBehaviour
         if (characterDied)
             return;
 
-        health -= damage;
+        if (!isBlock)
+        {
+            health -= damage;
+        }
         if (isLayer == isPlayer)
         {
             uiManager.DisplayHealth(health, true);
@@ -1305,7 +1339,7 @@ public class CharacterController : MonoBehaviour
         }
         if (skillTwo.activeInHierarchy || skillThree.activeInHierarchy) return;
 
-        if (knockDown && !characterDied)
+        if (knockDown && !characterDied && !isBlock)
         {
             if (Random.Range(0, 2) > 0)
             {
@@ -1313,7 +1347,7 @@ public class CharacterController : MonoBehaviour
                 playerAnim.SetTrigger("standup");
             }
         }
-        else if (!characterDied)
+        else if (!characterDied && !isBlock)
         {
             if (Random.Range(0, 3) > 1)
             {
@@ -1384,6 +1418,88 @@ public class CharacterController : MonoBehaviour
         else if (isLayer == isEnemy)
         {
             uiManager.DisplayEnergy(energy, false);
+        }
+    }
+    public void IncreaseRage()
+    {
+        if (rage < targetRage)
+        {
+            timeElapsed += Time.deltaTime;
+
+            if (timeElapsed >= 1f / rageIncreaseSpeed)
+            {
+                rage += 1f; 
+                timeElapsed = 0f;
+                if (isLayer==isPlayer)
+                {
+                    uiManager.DisplayRage(rage, true);
+                }
+                else if (isLayer == isEnemy)
+                {
+                    uiManager.DisplayRage(rage, false);
+                }
+            }
+        }
+    }
+    protected void Rage()
+    {
+        if (isLayer == isPlayer)
+        {
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                UseRage();
+            }
+
+            if (isUsingRage)
+            {
+                DecreaseRage();
+            }
+        }
+        if(isLayer == isEnemy)
+        {
+            if (Input.GetKeyDown(KeyCode.U))
+            {
+                UseRage();
+            }
+
+            if (isUsingRage)
+            {
+                DecreaseRage();
+            }
+        }
+    }
+     void UseRage()
+    {
+        if (!isUsingRage && rage >= 10f) 
+        {
+            isUsingRage = true;
+            //tac dung ??????
+        }
+    }
+
+    void DecreaseRage()
+    {
+        if (rage > 0f)
+        {
+            timeElapsed += Time.deltaTime;
+
+            if (timeElapsed >= 1f / 5f) 
+            {
+                rage -= 1f;
+                timeElapsed = 0f;
+                if (isLayer == isPlayer)
+                {
+                    uiManager.DisplayRage(rage, true);
+                }
+                else if (isLayer == isEnemy)
+                {
+                    uiManager.DisplayRage(rage, false);
+                }
+            }
+        }
+        else
+        {
+            isUsingRage = false; 
         }
     }
     protected void AttackPoint()

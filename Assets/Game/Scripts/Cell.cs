@@ -14,7 +14,8 @@ public class Cell : CharacterController
         if (isLayer == isPlayer)
         {
             collisionLayer = LayerMask.GetMask(isEnemy);
-            base.uiManager.DisplayHealth(health, true);
+            uiManager.DisplayHealth(health, true);
+            uiManager.DisplayRage(rage, true);
             targetEnemy = GameObject.Find(isEnemy).transform;
             skillTwo.layer = gameObject.layer;
             SetLayerRecursively(skillTwo, skillTwo.layer);
@@ -23,7 +24,8 @@ public class Cell : CharacterController
         else if (isLayer == isEnemy)
         {
             collisionLayer = LayerMask.GetMask(isPlayer);
-            base.uiManager.DisplayHealth(health, false);
+            uiManager.DisplayHealth(health, false);
+            uiManager.DisplayRage(rage, false);
             targetEnemy = GameObject.Find(isPlayer).transform;
             skillTwo.layer = gameObject.layer;
             SetLayerRecursively(skillTwo, skillTwo.layer);
@@ -41,6 +43,7 @@ public class Cell : CharacterController
         AttackPoint();
         MoveFireball();
         Ki();
+        IncreaseRage();
     }
 
 }
