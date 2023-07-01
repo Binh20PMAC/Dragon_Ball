@@ -8,72 +8,72 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: bootsA.005
-    second: {fileID: 2100000, guid: b5d081aa4f3640f479411a66277168b1, type: 2}
+    second: {fileID: 2100000, guid: 903d05c52378d904e83567e30e9b4f91, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: bust_spatC.005
-    second: {fileID: 2100000, guid: 51cc885125f22cc40bac481a8c5ed6a1, type: 2}
+    second: {fileID: 2100000, guid: ca4c0f9636a43fa4aa0659770158dff1, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: eye_L.005
-    second: {fileID: 2100000, guid: 19eba245bcbe2b549b80d9056845a60c, type: 2}
+    second: {fileID: 2100000, guid: efbddae9a0882524c84ad14ca99f77d3, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: eye_R.005
-    second: {fileID: 2100000, guid: 38520fc6d6fa23447add0632d144d04e, type: 2}
+    second: {fileID: 2100000, guid: 698c4ca7d347f5644b6c2e593ca980a0, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: eyebrows.005
-    second: {fileID: 2100000, guid: b9d80ed824777a24e8e3229972bf02f0, type: 2}
+    second: {fileID: 2100000, guid: b990be6b055cd06419b80956e212bf3f, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: face.005
-    second: {fileID: 2100000, guid: 6b2aec3a01111e34590a52c7253bf5c6, type: 2}
+    second: {fileID: 2100000, guid: 2539115bb1ae86d489da58ccb54d5ad9, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: glove.005
-    second: {fileID: 2100000, guid: e7e3deb946906ec4f9c6c030771bc091, type: 2}
+    second: {fileID: 2100000, guid: b08413b627f96a540afd3459ac22359d, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: glove_Splinter.005
-    second: {fileID: 2100000, guid: fe20d7eb41d179d44a1271da43625e40, type: 2}
+    second: {fileID: 2100000, guid: 07d349a832667314aa7848f36e1b765a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: hair.005
-    second: {fileID: 2100000, guid: fcb0f1bebc065414b850e484877142de, type: 2}
+    second: {fileID: 2100000, guid: cfc94e93a1e828d448a2aa534a52930c, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: mouth.005
-    second: {fileID: 2100000, guid: 1ac98197e5742844394137d9b8d498ab, type: 2}
+    second: {fileID: 2100000, guid: eabf1a60b0485254ab8724ac30cff9f6, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: skin_bustB.005
-    second: {fileID: 2100000, guid: 0d639e85bfc9649488cf023e515d7251, type: 2}
+    second: {fileID: 2100000, guid: 67df1962229eee948b59c225181033ab, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: spat_legB.005
-    second: {fileID: 2100000, guid: e6824f7f41bcc6b4cabeff41cf7de829, type: 2}
+    second: {fileID: 2100000, guid: ac801d083cb281a46b67e1afb197ab0f, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: tongue.005
-    second: {fileID: 2100000, guid: c2b9e1829f8474b489548d8eb55d5e55, type: 2}
+    second: {fileID: 2100000, guid: c30cdc62d33345647902873418fc4791, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: tooth.005
-    second: {fileID: 2100000, guid: 1c35658f5409dc147909aeac2e8f5987, type: 2}
+    second: {fileID: 2100000, guid: 4dfc296e595e1ca4e8a11f5aa2b1f6c2, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

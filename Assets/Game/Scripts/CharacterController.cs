@@ -157,10 +157,10 @@ public class CharacterController : MonoBehaviour
 
             if (Input.GetKey(KeyCode.LeftShift) && uiManager.isCountdownFinished)
             {
-                if (Input.GetKey(KeyCode.D) && !isJump)
+                if (Input.GetKey(KeyCode.D) && !isFlipped|| Input.GetKey(KeyCode.A) &&isFlipped)//!isJump
                 {
                     isRunning = true;
-                    w_speed = w_speed + rn_speed;
+                    w_speed = 6f;
                     playerAnim.SetTrigger("run");
                     playerAnim.ResetTrigger("walk");
                 }
@@ -220,10 +220,12 @@ public class CharacterController : MonoBehaviour
                 if (isFlipped)
                 {
                     playerAnim.SetTrigger("walk");
+                    isWalking = true;
                 }
                 else
                 {
                     playerAnim.SetTrigger("walkback");
+                    isWalking = false;
                 }
                 playerAnim.ResetTrigger("idle");
             }
@@ -244,16 +246,19 @@ public class CharacterController : MonoBehaviour
 
             if (Input.GetKey(KeyCode.RightShift) && uiManager.isCountdownFinished)
             {
-                if (Input.GetKey(KeyCode.RightArrow) && !isJump)
+                if (Input.GetKey(KeyCode.RightShift) && !isJump && uiManager.isCountdownFinished)
                 {
-                    isRunning = true;
-                    w_speed = 6f;
-                    playerAnim.SetTrigger("run");
-                    playerAnim.ResetTrigger("walk");
-                }
-                else
-                {
-                    isRunning = false;
+                    if ((Input.GetKey(KeyCode.RightArrow) && !isFlipped) || (Input.GetKey(KeyCode.LeftArrow) && isFlipped))//!isJump
+                    {
+                        isRunning = true;
+                        w_speed = 6f;
+                        playerAnim.SetTrigger("run");
+                        playerAnim.ResetTrigger("walk");
+                    }
+                    else
+                    {
+                        isRunning = false;
+                    }
                 }
             }
             else
@@ -894,7 +899,7 @@ public class CharacterController : MonoBehaviour
                 //    hitFX_Pos.x -= 0.3f;
                 //}
                 Instantiate(hit_FX, RightArmAttackPoint.transform.position, Quaternion.identity);
-                if (gameObject.tag == "RightArm" || gameObject.tag == "RightLeg")
+                if (RightArmAttackPoint.gameObject.tag == "RightArm" || RightArmAttackPoint.gameObject.tag == "RightLeg")
                 {
                     hit[0].GetComponent<CharacterController>().ApplyDamage(damage, true);
                 }
