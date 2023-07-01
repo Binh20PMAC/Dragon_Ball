@@ -60,7 +60,9 @@ public class Gohan : CharacterController
             betweenHandsKame = (RightArmAttackPoint.transform.position + LeftArmAttackPoint.transform.position) / 2;
             CheckChildParticleLifetimesKame(skillThree.transform);
             skillThree.transform.position = betweenHandsKame;
-            CameraSmooth(cameraSkill, Vector3.left);
+            if (isLayer == isPlayer)
+                CameraSmooth(cameraSkill, Vector3.left);
+            else CameraSmooth(cameraSkill, Vector3.right);
             cameraSkill.enabled = true;
             CheckCameraCoreGohan(skillThree.transform);
         }
