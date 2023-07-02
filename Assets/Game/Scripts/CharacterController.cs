@@ -72,12 +72,12 @@ public class CharacterController : MonoBehaviour
     public Camera cameraSkill;
     protected Vector3 initialCameraPosition;
     //Rage
-    private float rageIncreaseSpeed = 1f; 
-    public float rage = 0f; 
+    private float rageIncreaseSpeed = 1f;
+    public float rage = 0f;
     private float targetRage = 100f;
     private float timeElapsed = 0f;
-    private bool isUsingRage=false;
-
+    private bool isUsingRage = false;
+    private float initialDamage;
     public void InitializeHealth(float initialHealth)
     {
         this.initialHealth = initialHealth;
@@ -212,6 +212,12 @@ public class CharacterController : MonoBehaviour
                 //playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); 
                 playerRb.AddForce(transform.up * jumpForce);
             }
+            if(Input.GetKeyDown(KeyCode.Z) && isOnGround && uiManager.isCountdownFinished)
+            {
+                if (20f > energy) return;
+                ApplyReduceEnergy(20f);
+                PerformInstantMoveSkill();
+            }
         }
         if (isLayer == isEnemy)
         {
@@ -224,7 +230,7 @@ public class CharacterController : MonoBehaviour
                     playerAnim.ResetTrigger("idle");
                 }
             }
-            if (Input.GetKey(KeyCode.RightArrow) && !isJump && uiManager.isCountdownFinished&& !isBlock)
+            if (Input.GetKey(KeyCode.RightArrow) && !isJump && uiManager.isCountdownFinished && !isBlock)
             {
                 transform.Translate(w_speed * Time.deltaTime, 0, 0, 0);
 
@@ -240,7 +246,7 @@ public class CharacterController : MonoBehaviour
                 }
                 playerAnim.ResetTrigger("idle");
             }
-            else if (Input.GetKey(KeyCode.LeftArrow) && !isJump && uiManager.isCountdownFinished&& !isBlock)
+            else if (Input.GetKey(KeyCode.LeftArrow) && !isJump && uiManager.isCountdownFinished && !isBlock)
             {
                 transform.Translate(-w_speed * Time.deltaTime, 0, 0, 0);
 
@@ -256,7 +262,7 @@ public class CharacterController : MonoBehaviour
                 }
                 playerAnim.ResetTrigger("idle");
             }
-            else if (!Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.DownArrow)&&!isJump && uiManager.isCountdownFinished)
+            else if (!Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.DownArrow) && !isJump && uiManager.isCountdownFinished)
             {
                 if (isFlipped)
                 {
@@ -314,6 +320,12 @@ public class CharacterController : MonoBehaviour
                 isJump = true;
                 //playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); 
                 playerRb.AddForce(transform.up * jumpForce);
+            }
+            if (Input.GetKeyDown(KeyCode.M) && isOnGround && uiManager.isCountdownFinished)
+            {
+                if (20f > energy) return;
+                ApplyReduceEnergy(20f);
+                PerformInstantMoveSkill();
             }
         }
     }
@@ -1428,9 +1440,9 @@ public class CharacterController : MonoBehaviour
 
             if (timeElapsed >= 1f / rageIncreaseSpeed)
             {
-                rage += 1f; 
+                rage += 1f;
                 timeElapsed = 0f;
-                if (isLayer==isPlayer)
+                if (isLayer == isPlayer)
                 {
                     uiManager.DisplayRage(rage, true);
                 }
@@ -1455,7 +1467,7 @@ public class CharacterController : MonoBehaviour
                 DecreaseRage();
             }
         }
-        if(isLayer == isEnemy)
+        if (isLayer == isEnemy)
         {
             if (Input.GetKeyDown(KeyCode.U))
             {
@@ -1468,12 +1480,12 @@ public class CharacterController : MonoBehaviour
             }
         }
     }
-     void UseRage()
+    void UseRage()
     {
-        if (!isUsingRage && rage >= 10f) 
+        if (!isUsingRage && rage >= 10f)
         {
             isUsingRage = true;
-            //tac dung ??????
+            initialDamage = damage;
         }
     }
 
@@ -1483,10 +1495,32 @@ public class CharacterController : MonoBehaviour
         {
             timeElapsed += Time.deltaTime;
 
-            if (timeElapsed >= 1f / 5f) 
+            if (timeElapsed >= 1f / 5f)
             {
                 rage -= 1f;
                 timeElapsed = 0f;
+                if (isUsingRage)
+                {
+                    damage += 0.1f;
+                    health += 1f;
+                    if (health < initialHealth)
+                    {
+                        health += 1f;
+                    }
+                    else
+                    {
+                        health = initialHealth;
+                    }
+                    if (isLayer == isPlayer)
+                    {
+                        uiManager.DisplayHealth(health, true);
+                    }
+                    else if (isLayer == isEnemy)
+                    {
+                        uiManager.DisplayHealth(health, false);
+                    }
+                }
+
                 if (isLayer == isPlayer)
                 {
                     uiManager.DisplayRage(rage, true);
@@ -1499,7 +1533,17 @@ public class CharacterController : MonoBehaviour
         }
         else
         {
-            isUsingRage = false; 
+            isUsingRage = false;
+            damage = initialDamage;
+        }
+    }
+    void PerformInstantMoveSkill()
+    {
+        if (targetEnemy != null)
+        {
+            Vector3 targetDirection = targetEnemy.position - transform.position;
+            Vector3 newPosition = targetEnemy.position + targetDirection.normalized * 2;
+            transform.position = newPosition;
         }
     }
     protected void AttackPoint()
