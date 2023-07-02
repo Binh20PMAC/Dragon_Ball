@@ -94,11 +94,22 @@ public class Gohan : CharacterController
                 TransformToSuperSaiyan();
             }
         }
-        else if(Input.GetKeyDown(KeyCode.Alpha7) && isLayer == isEnemy && uiManager.isCountdownFinished)
+        else if (Input.GetKeyDown(KeyCode.Alpha7) && isLayer == isEnemy && uiManager.isCountdownFinished)
         {
             if (!isSuperSaiyan)
             {
                 TransformToSuperSaiyan();
+            }
+        }
+        if (targetEnemy == null)
+        {
+            if (isLayer == isEnemy)
+            {
+                targetEnemy = GameObject.Find(isPlayer).transform;
+            }
+            else
+            {
+                targetEnemy = GameObject.Find(isEnemy).transform;
             }
         }
     }
@@ -112,6 +123,15 @@ public class Gohan : CharacterController
         gohanSuperSaiyanScript.health = health;
         gohanSuperSaiyanScript.damage = damage;
         gohanSuperSaiyan.layer = gameObject.layer;
+        if (isLayer == isEnemy)
+        {
+            gohanSuperSaiyan.name = "Enemy";
+        }
+        else
+        {
+            gohanSuperSaiyan.name = "Player";
+        }
+
         Destroy(gameObject);
     }
 }

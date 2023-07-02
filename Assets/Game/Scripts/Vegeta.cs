@@ -41,5 +41,16 @@ public class Vegeta : CharacterController
         MoveFireball();
         Ki();
         IncreaseRage();
+        if (targetEnemy == null)
+        {
+            if (isLayer == isEnemy)
+            {
+                targetEnemy = GameObject.Find(isPlayer).transform;
+            }
+            else
+            {
+                targetEnemy = GameObject.Find(isEnemy).transform;
+            }
+        }
     }
 }

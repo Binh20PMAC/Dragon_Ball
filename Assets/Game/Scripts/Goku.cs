@@ -99,6 +99,17 @@ public class Goku : CharacterController
                 TransformToSuperSaiyan();
             }
         }
+        if(targetEnemy == null)
+        {
+            if (isLayer == isEnemy)
+            {
+                targetEnemy = GameObject.Find(isPlayer).transform;
+            }
+            else
+            {
+                targetEnemy = GameObject.Find(isEnemy).transform;
+            }
+        }
     }
     private void TransformToSuperSaiyan()
     {
