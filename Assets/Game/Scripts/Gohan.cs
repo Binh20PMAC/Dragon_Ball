@@ -8,6 +8,9 @@ public class Gohan : CharacterController
     public ParticleSystem colliderWithKame;
     public ParticleSystem colliderWithSuperKame;
     private Vector3 betweenHandsKame;
+    private bool isSuperSaiyan = false;
+    private GameObject gohanSuperSaiyanPrefab;
+
     public void Start()
     {
         initialCameraPosition = cameraSkill.transform.localPosition;
@@ -42,6 +45,7 @@ public class Gohan : CharacterController
             collisionModuleKame.collidesWith = LayerMask.GetMask(isPlayer);
             collisionModuleSuperKame.collidesWith = LayerMask.GetMask(isPlayer);
         }
+        gohanSuperSaiyanPrefab = Resources.Load<GameObject>("GohanSS2");
     }
 
     // Update is called once per frame
@@ -83,5 +87,31 @@ public class Gohan : CharacterController
                 playerAnim.SetTrigger("superkame");
             }
         }
+        if (Input.GetKeyDown(KeyCode.Alpha4) && isLayer == isPlayer && uiManager.isCountdownFinished)
+        {
+            if (!isSuperSaiyan)
+            {
+                TransformToSuperSaiyan();
+            }
+        }
+        else if(Input.GetKeyDown(KeyCode.Alpha7) && isLayer == isEnemy && uiManager.isCountdownFinished)
+        {
+            if (!isSuperSaiyan)
+            {
+                TransformToSuperSaiyan();
+            }
+        }
+    }
+    private void TransformToSuperSaiyan()
+    {
+        isSuperSaiyan = true;
+        health *= 2;
+        damage *= 2;
+        GameObject gohanSuperSaiyan = Instantiate(gohanSuperSaiyanPrefab, transform.position, Quaternion.identity);
+        Gohan gohanSuperSaiyanScript = gohanSuperSaiyan.GetComponent<Gohan>();
+        gohanSuperSaiyanScript.health = health;
+        gohanSuperSaiyanScript.damage = damage;
+        gohanSuperSaiyan.layer = gameObject.layer;
+        Destroy(gameObject);
     }
 }

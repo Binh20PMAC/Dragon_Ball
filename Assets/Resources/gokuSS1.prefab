@@ -20917,6 +20917,7 @@ GameObject:
   - component: {fileID: 5386726134622112823}
   - component: {fileID: 8298590487967359818}
   - component: {fileID: 8812898691576813728}
+  - component: {fileID: 2489414826816434625}
   m_Layer: 0
   m_Name: gokuSS1
   m_TagString: Untagged
@@ -20997,6 +20998,57 @@ CapsuleCollider:
   m_Height: 160.99173
   m_Direction: 1
   m_Center: {x: 8.830046, y: 75.41404, z: 4.17225e-14}
+--- !u!114 &2489414826816434625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5246087949932733791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09d539794b4e13a458c7eca6a35bde48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ki: {fileID: 0}
+  kiFull: {fileID: 0}
+  kiGround: []
+  playerAnim: {fileID: 5386726134622112823}
+  playerRb: {fileID: 8298590487967359818}
+  targetEnemy: {fileID: 0}
+  w_speed: 3
+  wb_speed: 2
+  rn_speed: 0.5
+  isWalking: 0
+  isWalkingBack: 0
+  jumpForce: 1000
+  isOnGround: 1
+  isFlipped: 0
+  isBlock: 0
+  collisionLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  radius: 1
+  damage: 1
+  hit_FX: {fileID: 115594, guid: efd3011863918584d94591e177fa8d29, type: 3}
+  RightArmAttackPoint: {fileID: 2110649660621810680}
+  LeftArmAttackPoint: {fileID: 4361495397871062242}
+  RightLegAttackPoint: {fileID: 4768252105538779214}
+  LeftLegAttackPoint: {fileID: 8637319757597630860}
+  RightForeArmAttackPoint: {fileID: 6252553241175445376}
+  health: 100
+  energy: 15
+  characterDied: 0
+  uiManager: {fileID: 0}
+  skillOne: {fileID: 0}
+  skillTwo: {fileID: 0}
+  skillThree: {fileID: 0}
+  isSpiritRuning: 0
+  listSkillOne: []
+  speedFireball: 15
+  cameraSkill: {fileID: 0}
+  rage: 0
+  colliderWithKame: {fileID: 0}
 --- !u!1 &5360090710886822267
 GameObject:
   m_ObjectHideFlags: 0

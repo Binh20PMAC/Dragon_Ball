@@ -5,6 +5,9 @@ using UnityEngine;
 public class Goku : CharacterController
 {
     public ParticleSystem colliderWithKame;
+    private bool isSuperSaiyan = false;
+    private GameObject gokuSuperSaiyanPrefab;
+
     public void Start()
     {
         initialCameraPosition = cameraSkill.transform.localPosition;
@@ -40,6 +43,7 @@ public class Goku : CharacterController
             skillThree.layer = gameObject.layer;
             SetLayerRecursively(skillThree, skillThree.layer);
         }
+        gokuSuperSaiyanPrefab = Resources.Load<GameObject>("gokuSS1");
 
     }
 
@@ -81,5 +85,31 @@ public class Goku : CharacterController
                 playerAnim.SetTrigger("spiritboommiddle");
             }
         }
+        if (Input.GetKeyDown(KeyCode.Alpha4) && isLayer == isPlayer && uiManager.isCountdownFinished)
+        {
+            if (!isSuperSaiyan)
+            {
+                TransformToSuperSaiyan();
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha7) && isLayer == isEnemy && uiManager.isCountdownFinished)
+        {
+            if (!isSuperSaiyan)
+            {
+                TransformToSuperSaiyan();
+            }
+        }
+    }
+    private void TransformToSuperSaiyan()
+    {
+        isSuperSaiyan = true;
+        health *= 2;
+        damage *= 2;
+        GameObject gokuSuperSaiyan = Instantiate(gokuSuperSaiyanPrefab, transform.position, Quaternion.identity);
+        Goku gokuSuperSaiyanScript = gokuSuperSaiyan.GetComponent<Goku>();
+        gokuSuperSaiyanScript.health = health;
+        gokuSuperSaiyanScript.damage = damage;
+        gokuSuperSaiyan.layer = gameObject.layer;
+        Destroy(gameObject);
     }
 }

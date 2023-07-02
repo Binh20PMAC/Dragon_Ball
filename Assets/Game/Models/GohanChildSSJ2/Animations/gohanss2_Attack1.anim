@@ -35856,56 +35856,56 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.016666668
-    functionName: 
+    functionName: LeftTArmAttackOn
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.11666667
-    functionName: 
+    functionName: LeftArmAttackOff
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.15
-    functionName: 
+    functionName: RightArmAttackOn
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.25
-    functionName: 
+    functionName: RightArmAttackOff
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.35
-    functionName: 
+    functionName: LeftTArmAttackOn
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.43333334
-    functionName: 
+    functionName: LeftArmAttackOff
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.5
-    functionName: 
+    functionName: RightArmAttackOn
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.5833333
-    functionName: 
+    functionName: RightArmAttackOff
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
